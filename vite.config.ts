@@ -1,10 +1,10 @@
-/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/qazaqtrip1/', // репозиторий аты
   server: {
     port: 5173,
     host: true,
@@ -13,10 +13,5 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     chunkSizeWarningLimit: 900,
-  },
-  test: {
-    environment: 'jsdom',
-    include: ['src/**/*.test.{ts,tsx}'],
-    restoreMocks: true,
   },
 });
