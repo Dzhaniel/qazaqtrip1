@@ -1,0 +1,289 @@
+{
+  "app": {
+    "name": "QazaqTrip",
+    "slogan": "Discover Kazakhstan",
+    "tagline": "A travel guide in the Kazakh language"
+  },
+  "nav": {
+    "home": "Home",
+    "city": "Kyzylorda",
+    "guide": "AI Guide",
+    "about": "About",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "lang": {
+    "label": "Language",
+    "kk": "KZ",
+    "en": "EN",
+    "ru": "RU"
+  },
+  "hero": {
+    "kicker": "Kyzylorda Region · the Syr Darya bank",
+    "title": "Discover Kazakhstan",
+    "subtitle": "A travel guide in Kazakh for foreign visitors. Sights, hotels, Kazakh phrases and an AI guide — all in one place.",
+    "cta_city": "Explore Kyzylorda",
+    "cta_guide": "Ask the AI guide",
+    "badge_city": "Kyzylorda first",
+    "stat_attractions": "sights",
+    "stat_hotels": "hotels",
+    "stat_phrases": "Kazakh phrases"
+  },
+  "cities": {
+    "title": "Cities",
+    "subtitle": "Full details are available for Kyzylorda right now. The rest are on the way.",
+    "choose": "Choose a city",
+    "active": "Available",
+    "soon": "Coming soon",
+    "open": "Open",
+    "soon_note": "Coming soon"
+  },
+  "why": {
+    "title": "Why Kazakhstan?",
+    "subtitle": "A country at the heart of Asia — steppe, culture and hospitality.",
+    "items": {
+      "steppe": {
+        "title": "Steppe and mountains",
+        "text": "From the Syr Darya valley to the glaciers of Tian Shan — the landscape changes with every region."
+      },
+      "language": {
+        "title": "The Kazakh language",
+        "text": "A native language of more than 15 million people. A few well-spoken words win the hearts of locals."
+      },
+      "hospitality": {
+        "title": "Hospitality",
+        "text": "“A guest is a gift from God.” From beshbarmak to kumis — you are received like family."
+      },
+      "history": {
+        "title": "Historic routes",
+        "text": "The Silk Road, the great steppe empires, the legacy of Korkyt Ata — a thousand years of history."
+      }
+    }
+  },
+  "homePhrases": {
+    "title": "Try learning Kazakh",
+    "subtitle": "Listen to a phrase and try it out — press the 🔊 button.",
+    "listen": "Play",
+    "stop": "Stop",
+    "view_all": "See all phrases"
+  },
+  "city": {
+    "heroRegion": "Region",
+    "gettingThere": "How to get there",
+    "gettingThere_note": "Details may not be official",
+    "air": "By air",
+    "train": "By train",
+    "bus": "By bus",
+    "center": "to the city center",
+    "sections": {
+      "sights": "Sights",
+      "hotels": "Hotels",
+      "map": "Map",
+      "phrases": "Kazakh phrases",
+      "guide": "AI Guide"
+    },
+    "sights": {
+      "title": "Sights",
+      "subtitle": "Filter by category and by your interests.",
+      "filter_category": "Category",
+      "filter_interests": "Interests",
+      "all": "All",
+      "results_one": "result",
+      "results_few": "results",
+      "results_many": "results",
+      "reset": "Reset filters",
+      "empty": "No places match this filter",
+      "empty_hint": "Try another category or interest",
+      "address": "Address",
+      "hours": "Opening hours",
+      "ticket": "Ticket",
+      "visit": "Visit time",
+      "min": "min",
+      "free": "Free",
+      "from": "from",
+      "per_night": "per night",
+      "show_on_map": "Show on map",
+      "directions": "Get directions",
+      "day_trip": "Outside the city",
+      "outside_list_title": "Outside the city",
+      "outside_list_subtitle": "These places are far from the city — they are listed separately instead of zooming the map out. Distance and travel notes are in each card.",
+      "permit_title": "Permit required!",
+      "permit_badge": "Restricted area",
+      "etiquette": "Etiquette",
+      "details": "More",
+      "hide_details": "Less",
+      "source": "Source",
+      "cat_history": "History",
+      "cat_monument": "Monument",
+      "cat_nature": "Nature",
+      "cat_theatre": "Theatre",
+      "cat_museum": "Museum",
+      "cat_religious": "Religious site",
+      "cat_market": "Market",
+      "cat_park": "Park",
+      "cat_space": "Space"
+    },
+    "hotels": {
+      "title": "Hotels",
+      "subtitle": "Prices are per night, from public sources. Always check before booking.",
+      "filter_price": "Price range",
+      "sort": "Sort",
+      "price_any": "Any price",
+      "price_0_12": "Up to 12 000 ₸",
+      "price_12_20": "12 000 – 20 000 ₸",
+      "price_20_plus": "Over 20 000 ₸",
+      "sort_price_asc": "Price: low to high",
+      "sort_price_desc": "Price: high to low",
+      "sort_rating": "Rating: best first",
+      "stars": "stars",
+      "breakfast": "Breakfast included",
+      "rating": "Rating",
+      "reviews": "reviews",
+      "price_note": "About the price",
+      "address": "Address",
+      "district": "District",
+      "results_one": "hotel",
+      "results_few": "hotels",
+      "results_many": "hotels",
+      "empty": "No hotels in this price range",
+      "empty_hint": "Try widening the range"
+    },
+    "map": {
+      "title": "Map",
+      "subtitle": "Sights and hotels. Tap a pin for the name, price and directions.",
+      "legend_sights": "Sights",
+      "legend_hotels": "Hotels",
+      "list_sights": "Sights",
+      "list_hotels": "Hotels",
+      "approx": "approx.",
+      "approx_hint": "Coordinates are approximate — directions use the place name instead",
+      "no_pin": "Not shown on the map (no coordinates)",
+      "day_trip_note": "Places outside the city are listed separately",
+      "center_approx": "City center (approx.)"
+    },
+    "phrases": {
+      "title": "Kazakh phrases",
+      "subtitle": "Useful phrases for your trip. 🔊 reads them aloud in your browser (kk-KZ).",
+      "translit": "translit",
+      "listen": "Play",
+      "voice_unavailable": "No Kazakh voice was found in this browser — a system voice was used instead.",
+      "voice_unsupported": "This browser does not support speech. Please read the transliteration.",
+      "food_title": "What to taste",
+      "food_note": "No specific venues verified — these are just traditional dishes."
+    }
+  },
+  "guide": {
+    "title": "AI Guide",
+    "subtitle": "Plan your trip in Kyzylorda. The guide relies only on the provided data: where a price is not specified, it never guesses.",
+    "form_title": "About your trip",
+    "arrival": "Arrival date",
+    "departure": "Departure date",
+    "travelers": "Number of travelers",
+    "budget": "Budget level",
+    "budget_level": {
+      "economy": "budget",
+      "medium": "medium",
+      "high": "premium"
+    },
+    "interests": "Your interests",
+    "language": "Answer language",
+    "lang_kk": "Kazakh",
+    "lang_en": "English",
+    "lang_ru": "Russian",
+    "submit": "Build my itinerary",
+    "planning": "Building your itinerary…",
+    "chat_placeholder": "Type a question… e.g. “I like theatres and cultural places”",
+    "send": "Send",
+    "clear": "Clear",
+    "demo_mode": "Demo mode",
+    "demo_mode_hint": "Running without an API key: the itinerary is built locally from the JSON data.",
+    "ai_mode": "AI guide (OpenAI)",
+    "error_title": "Something went wrong",
+    "error_retry": "Retry",
+    "suggestions_title": "For example, ask:",
+    "suggestions": [
+      "I will be in Kyzylorda from October 17 to 20; I like theatres and cultural places.",
+      "How can I see the museums and historic sites in 2 days?",
+      "What do I need to do to visit Baikonur?",
+      "Build me a 3-day itinerary on a budget"
+    ],
+    "plan_ready": "Your itinerary is ready",
+    "itinerary": {
+      "days": "Day-by-day plan",
+      "day": "Day",
+      "budget": "Budget summary",
+      "hotel": "Hotel",
+      "ticket": "Tickets",
+      "tour": "Tour",
+      "other": "Other",
+      "known": "known",
+      "unknown": "not specified",
+      "per_person": "per person",
+      "per_night": "per night",
+      "total_known": "Total of known costs",
+      "rub_separate": "Extra, listed in RUB",
+      "unknown_items": "Items with unknown prices",
+      "notes": "Important notes",
+      "free_time": "Free time",
+      "on_map": "On the map",
+      "warning": "Warning",
+      "phrases": "Useful phrases for the road"
+    },
+    "form_summary": {
+      "dates": "Dates",
+      "travelers": "travelers",
+      "interests": "Interests"
+    }
+  },
+  "about": {
+    "title": "About QazaqTrip",
+    "subtitle": "An IT product that uses the Kazakh language: a guide for foreign tourists, in Kazakh.",
+    "goal_title": "Goal",
+    "goal_text": "QazaqTrip was made for the regional contest “IT products for using the Kazakh language”. The goal: bring the Kazakh language and culture closer to foreign tourists — so that a guest can say hello in Kazakh, ask about prices and find their way around a museum. The MVP fully covers one city — Kyzylorda; the other cities are “coming soon” cards.",
+    "tech_title": "Technologies",
+    "tech": [
+      { "name": "React + Vite + TypeScript", "desc": "Structured, fast interface; types catch errors before they ship." },
+      { "name": "Tailwind CSS", "desc": "Mobile-first design: verified down to a 360px screen." },
+      { "name": "react-router + react-i18next", "desc": "Pages and KZ/EN/RU language switching." },
+      { "name": "Leaflet + OpenStreetMap", "desc": "Open map with no API key: pins for sights and hotels." },
+      { "name": "Serverless API (Vercel / Netlify)", "desc": "The /api/guide function — the API key lives on the server only, never in the browser." },
+      { "name": "OpenAI (gpt-4o-mini) + demo mode", "desc": "Without a key, the guide builds the itinerary locally from the JSON — the app never goes down." }
+    ],
+    "ai_title": "How the AI works",
+    "ai_text": "When you send a request, the server sends the FULL kyzylorda.json file into the system prompt of /api/guide. The rules: only the places, prices and hours from the file; a null value is reported as “not specified”, never guessed; opening hours are respected (the museum is closed on Mondays, lunch break); the Baikonur permit warning is mandatory; the answer is in Kazakh or your chosen language, with 1–2 Kazakh phrases and translations; it ends with a day-by-day timeline and a budget summary.",
+    "data_title": "Data sources",
+    "data_checked": "Data last checked",
+    "data_rules_title": "Data rules",
+    "null_rule_title": "null value",
+    "approx_rule_title": "coords_approx = true",
+    "editorial_rule_title": "visit_min and interests",
+    "footer_note": "Prices and hours come from public sources and may change."
+  },
+  "footer": {
+    "about": "A travel guide in Kazakh for foreign tourists. A project for the “IT products for using the Kazakh language” contest.",
+    "sections": "Sections",
+    "data": "Data",
+    "data_source": "Data source: kyzylorda.json",
+    "checked": "last checked",
+    "rights": "QazaqTrip. Made as a contest project.",
+    "made_with": "Made with love for the Kazakh language"
+  },
+  "common": {
+    "price_unknown": "Price not specified",
+    "hours_unknown": "Hours not specified",
+    "verify": "please verify",
+    "verify_hint": "This detail was not fully confirmed by an official source — check before visiting.",
+    "approx": "approx.",
+    "open_external": "Opens in a new tab",
+    "loading": "Loading…",
+    "back_home": "Back to home",
+    "not_found_title": "Page not found",
+    "not_found_text": "The page you are looking for does not exist or has moved. Go back home.",
+    "km": "km",
+    "and": "and",
+    "from_to": "–"
+  },
+  "guideFab": {
+    "label": "AI Guide"
+  }
+}

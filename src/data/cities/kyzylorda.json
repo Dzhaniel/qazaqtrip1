@@ -1,0 +1,552 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "last_checked": "2026-10-17",
+    "currency": "KZT",
+    "language_primary": "kk",
+    "sources": [
+      "welcome.kz (Куда сходить в Кызылорде, Коркыт-ата)",
+      "museum-kyzylorda.kz (режим работы музея)",
+      "qorda.kz (адрес, телефон, цены музея)",
+      "apartamenty.kz (цены отелей)",
+      "101hotels.com, booking.com, 2gis.kz (отели)",
+      "zakon.kz, inform.kz, kursiv.media, mir24.tv (Байконур, июнь 2026)",
+      "travelbelka.ru, adventure-guide.ru (Байконур, цены и пропуска)",
+      "wikivoyage, wildticketasia.com (транспорт, координаты Коркыт-ата)"
+    ],
+    "disclaimer": {
+      "kk": "Бағалар мен жұмыс уақыты өзгеруі мүмкін. Баруға дейін ресми дереккөзден тексеріңіз.",
+      "en": "Prices and opening hours may change. Please verify with official sources before visiting.",
+      "ru": "Цены и часы работы могут меняться. Проверяйте на официальных источниках перед посещением."
+    },
+    "data_rules": {
+      "null_means": "Дерек табылмады. UI мен чат-бот бұл жерде 'баға нақтыланбаған' деп көрсетуі тиіс, ешқашан ойдан сан шығармауы тиіс.",
+      "coords_approx_true_means": "Координата шамамен берілген. Картада 'шамамен' деп белгілеп, бағыт үшін map_query қолдану.",
+      "duration_min_and_interests": "visit_min және interests өрістері редакторлық бағалау, ресми дерек емес."
+    }
+  },
+
+  "city": {
+    "id": "kyzylorda",
+    "name": { "kk": "Қызылорда", "en": "Kyzylorda", "ru": "Кызылорда" },
+    "region": { "kk": "Қызылорда облысы", "en": "Kyzylorda Region", "ru": "Кызылординская область" },
+    "center": { "lat": 44.8528, "lng": 65.5092, "approx": true },
+    "description": {
+      "kk": "Қызылорда — Сырдарияның жағасындағы қала. 1820 жылы Қоқан хандығының бекінісі ретінде негізі қаланған, кейін Қазақ АКСР-інің алғашқы астанасы болған. Бұл жер Қорқыт ата күйінің, қобыз өнерінің отаны саналады.",
+      "en": "Kyzylorda stands on the Syr Darya river. Founded in 1820 as a fortress of the Kokand Khanate, it later became the first capital of the Kazakh ASSR. The land is considered the homeland of Korkyt Ata and the kobyz tradition.",
+      "ru": "Кызылорда стоит на берегу Сырдарьи. Основан в 1820 году как крепость Кокандского ханства, позже был первой столицей Казахской АССР. Эта земля считается родиной Коркыт-ата и традиции кобыза."
+    },
+    "getting_there": [
+      {
+        "type": "air",
+        "name": { "kk": "Қорқыт ата әуежайы (KZO)", "en": "Korkyt Ata Airport (KZO)", "ru": "Аэропорт Коркыт Ата (KZO)" },
+        "distance_to_center_km": "16-23 (дереккөздер әртүрлі)",
+        "hours": "08:00-20:00 (бір дереккөз)",
+        "note": { "kk": "Алматыдан тікелей рейстер бар. Такси әуежай залынан тапсырыс беріледі.", "en": "Direct flights from Almaty exist. Taxi can be ordered in the arrivals hall.", "ru": "Есть прямые рейсы из Алматы. Такси можно заказать в зале прилёта." },
+        "verified": false
+      },
+      {
+        "type": "train",
+        "name": { "kk": "Қызылорда вокзалы", "en": "Kyzylorda railway station", "ru": "Железнодорожный вокзал Кызылорды" },
+        "distance_to_center_km": 1.2,
+        "note": { "kk": "Орталыққа жақын; көп қонақүйге жаяу немесе такси арқылы 5-10 минутта жетуге болады. Вокзал ғимараты 1905 жылы салынған.", "en": "Close to the center; most hotels are 5-10 minutes by taxi or on foot. The station building dates from 1905.", "ru": "Рядом с центром; до большинства отелей 5-10 минут на такси или пешком. Здание вокзала построено в 1905 году." },
+        "verified": false
+      },
+      {
+        "type": "bus",
+        "name": { "kk": "Қызылорда автовокзалы", "en": "Kyzylorda bus station", "ru": "Автовокзал Кызылорда" },
+        "address": "мкр. Левый Берег, 188 (Абылай хан көшесінің соңы)",
+        "hours": "08:00-17:00 (Wikivoyage)",
+        "verified": false
+      }
+    ]
+  },
+
+  "attractions": [
+    {
+      "id": "korkyt-ata-memorial",
+      "type": "day_trip",
+      "category": "history",
+      "name": { "kk": "Қорқыт ата мемориалдық кешені", "en": "Korkyt Ata Memorial Complex", "ru": "Мемориальный комплекс Коркыт-ата" },
+      "short": {
+        "kk": "Қобыздың жаратушысы, жырау әрі күйші Қорқыт атаға арналған кешен. Сырдария аңғарындағы даланың ортасында тұр, кешенде мұражай жұмыс істейді.",
+        "en": "A memorial to Korkyt Ata, the legendary creator of the kobyz, set in the steppe of the Syr Darya valley. A museum operates at the complex.",
+        "ru": "Мемориал Коркыт-ата, легендарному создателю кобыза, посреди степи в долине Сырдарьи. При комплексе работает музей."
+      },
+      "address": "Қармақшы ауданы, Жосалы кентінен шамамен 18 км",
+      "map_query": "Korkyt Ata Memorial Complex Karmakshy district Kyzylorda",
+      "lat": 45.6034, "lng": 63.9347, "coords_approx": false,
+      "distance_from_center_km": "170-185",
+      "travel_note": {
+        "kk": "Қызылордадан көлікпен 2 сағаттан астам (R-69 немесе E38 жолдары). Байқоңырдан шамамен 66 км, ~1 сағат.",
+        "en": "More than 2 hours by car from Kyzylorda (roads R-69 or E38). About 66 km (~1 hour) from Baikonur.",
+        "ru": "Более 2 часов на машине из Кызылорды (трассы R-69 или E38). От Байконура около 66 км (~1 час)."
+      },
+      "hours": null,
+      "ticket": { "adult_kzt": null, "note": "Баға нақтыланбаған" },
+      "visit_min": 90,
+      "interests": ["history", "culture", "music", "photo"],
+      "notes": {
+        "kk": "Құрылыс 1980 жылы басталған, мұражай 2000 жылы ашылған; қорында шамамен 700 экспонат бар.",
+        "en": "Construction began in 1980; the museum opened in 2000 and holds about 700 exhibits.",
+        "ru": "Строительство началось в 1980 году, музей открыт в 2000 году, в фонде около 700 экспонатов."
+      },
+      "verified": false,
+      "source": "welcome.kz, wildticketasia.com, archaeology.kz"
+    },
+    {
+      "id": "baikonur",
+      "type": "day_trip",
+      "category": "space",
+      "restricted": true,
+      "name": { "kk": "Байқоңыр кешені (қала, ғарыш айлағы, мұражай)", "en": "Baikonur complex (city, cosmodrome, museum)", "ru": "Комплекс Байконур (город, космодром, музей)" },
+      "short": {
+        "kk": "Әлемдегі ең көне ғарыш айлағы. Қала мен ғарыш айлағы режимдік аймақ болғандықтан, барар алдында рұқсат (пропуск) алу міндетті.",
+        "en": "The world's oldest cosmodrome. The city and cosmodrome are restricted zones, so a permit must be obtained in advance.",
+        "ru": "Старейший космодром мира. Город и космодром являются режимными зонами, поэтому пропуск нужно оформлять заранее."
+      },
+      "address": "Байқоңыр қаласы",
+      "map_query": "Baikonur city museum of cosmodrome history",
+      "lat": 45.62, "lng": 63.31, "coords_approx": true,
+      "distance_from_center_km": null,
+      "hours": null,
+      "permit": {
+        "required": true,
+        "kk": "Шетелдік туристерге рұқсат алу мерзімі 2026 жылдың маусымында жарияланған мәлімет бойынша 10 күнге дейін қысқартылды (бұрын шамамен 1,5-2 ай). Қала мен ғарыш айлағына екі бөлек пропуск қажет. Ғарыш айлағына тек ұйымдастырылған топтармен барады. Өтінімді қабылдаушы тарап (қаладағы тұрғын немесе ұйым) береді.",
+        "en": "For foreign tourists, the permit processing time was cut to up to 10 days according to a June 2026 government statement (previously about 1.5-2 months). Two separate passes are needed: one for the city and one for the cosmodrome. The cosmodrome is visited only with organized groups. The application is filed by the host side (a resident or organization registered in Baikonur).",
+        "ru": "Для иностранных туристов срок оформления разрешения сокращён до 10 дней по заявлению правительства от июня 2026 (раньше около 1,5-2 месяцев). Нужны два отдельных пропуска: в город и на космодром. На космодром возят только организованными группами. Заявку подаёт принимающая сторона (житель города или организация, зарегистрированная в Байконуре).",
+        "official_museum_site": "museum-baikonur.ru",
+        "recommendation": "Туроператор арқылы ресімдеу; кем дегенде 10 күн бұрын, ал жоспарланған ұшыру күндері үшін одан ертерек.",
+        "verified": false
+      },
+      "ticket": {
+        "currency": "RUB",
+        "museum_audio_guide_rub": 400,
+        "cosmodrome_group_tour_rub": 7000,
+        "note": "Музей экскурсиясы аудиогидпен 400 RUB; ғарыш айлағына топтық экскурсия (25 адамға дейін, 4 сағат) 7000 RUB, пропускты тапсырыс беруші ресімдейді. 2026 жылғы қыркүйектегі дерек, KZT-ге аударылмаған."
+      },
+      "visit_min": 480,
+      "interests": ["space", "history"],
+      "warnings": {
+        "kk": "Рұқсатсыз бару мүмкін емес. Сайт пен чат-бот Байқоңырды жай маршрутқа қоспай, алдымен рұқсат туралы ескертуі тиіс.",
+        "en": "Visiting without a permit is not possible. The site and chatbot must mention the permit before adding Baikonur to any route.",
+        "ru": "Попасть без разрешения нельзя. Сайт и чат-бот должны сначала предупредить о пропуске, и только потом добавлять Байконур в маршрут."
+      },
+      "verified": false,
+      "source": "zakon.kz, inform.kz, kursiv.media (09.06.2026); travelbelka.ru (сент. 2026); adventure-guide.ru"
+    },
+    {
+      "id": "korkyt-ata-park",
+      "type": "city",
+      "category": "monument",
+      "name": { "kk": "Қорқыт ата саябағы мен ескерткіші", "en": "Korkyt Ata Park and Monument", "ru": "Парк и памятник Коркыт-ата" },
+      "short": {
+        "kk": "Қала орталығында Қорқыт ата түйеге мінген, қолында қобыз ұстаған кескінде бейнеленген. Ескі базардың қарсысында орналасқан.",
+        "en": "In the city center, Korkyt Ata is shown riding a camel with a kobyz in his hands. Located across the road from the Old Bazaar.",
+        "ru": "В центре города Коркыт-ата изображён верхом на верблюде с кобызом в руках. Находится через дорогу от Старого базара."
+      },
+      "address": "Қызылорда орталығы, Ескі базардың қарсысында",
+      "map_query": "Парк Коркыт-ата Кызылорда",
+      "lat": 44.8490, "lng": 65.5075, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": 0, "note": "Саябаққа кіру ақысы туралы дерек жоқ, ашық жер ретінде қарастырылады" },
+      "visit_min": 40,
+      "interests": ["culture", "music", "photo", "history"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "syr-ana-monument",
+      "type": "city",
+      "category": "monument",
+      "name": { "kk": "«Сыр-ана» монументі", "en": "Syr-Ana Monument", "ru": "Монумент «Сыр-ана»" },
+      "short": {
+        "kk": "Сырдарияның жағасындағы 40 метрлік стела: ұлттық киімдегі әйел бейнесі, аналық қамқорлық пен өңір халықтарының бірлігін білдіреді.",
+        "en": "A 40-meter stele on the bank of the Syr Darya depicting a woman in national dress, symbolizing motherly care and the unity of the region's peoples.",
+        "ru": "40-метровая стела на берегу Сырдарьи в виде женщины в национальном костюме, символ материнской заботы и единства народов региона."
+      },
+      "address": "Сырдария жағасы",
+      "map_query": "Монумент Сыр-ана Кызылорда",
+      "lat": 44.8480, "lng": 65.4980, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": 0, "note": "Ашық монумент" },
+      "visit_min": 30,
+      "interests": ["culture", "photo", "nature"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "first-president-park-embankment",
+      "type": "city",
+      "category": "nature",
+      "name": { "kk": "Тұңғыш Президент саябағы және Сырдария жағалауы", "en": "First President Park and Syr Darya Embankment", "ru": "Парк Первого Президента и набережная Сырдарьи" },
+      "short": {
+        "kk": "Сырдарияның жағалауындағы жасыл аллеялар, кіреберістегі колоннада; жанында Мемлекеттік рәміздер алаңы бар. Серуендеуге ыңғайлы.",
+        "en": "Green alleys along the Syr Darya with a colonnade at the entrance; the State Symbols Square is nearby. Good for a relaxed walk.",
+        "ru": "Зелёные аллеи вдоль Сырдарьи, колоннада у входа; рядом площадь государственных символов. Удобно для неспешной прогулки."
+      },
+      "address": "Сырдария жағалауы",
+      "map_query": "Парк Первого Президента Кызылорда",
+      "lat": 44.8505, "lng": 65.5005, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": 0, "note": "Ашық саябақ" },
+      "visit_min": 60,
+      "interests": ["nature", "photo", "culture"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "central-square-drama-theatre",
+      "type": "city",
+      "category": "theatre",
+      "name": { "kk": "Нартай Бекежанов атындағы қазақ музыкалық драма театры және Орталық алаң", "en": "Nartai Bekezhanov Kazakh Music and Drama Theatre and Central Square", "ru": "Казахский музыкальный драматический театр имени Нартая Бекежанова и Центральная площадь" },
+      "short": {
+        "kk": "Орталық алаң 2024 жылы жаңартылған. Алаңда Роза Бағланова ескерткіші бар, ал театр ұлттық нақыштағы кеш кеңестік конструктивизм ғимаратында орналасқан.",
+        "en": "The Central Square was renovated in 2024 and holds a monument to Roza Baglanova. The theatre is housed in a late-Soviet constructivist building with national motifs.",
+        "ru": "Центральная площадь обновлена в 2024 году, здесь памятник Розе Баглановой. Театр расположен в здании позднесоветского конструктивизма с национальными мотивами."
+      },
+      "address": "Айтеке би көшесі, 44а",
+      "map_query": "Казахский музыкальный драматический театр Бекежанова Кызылорда Айтеке би 44а",
+      "lat": 44.8512, "lng": 65.5104, "coords_approx": true,
+      "hours": null,
+      "ticket": { "adult_kzt": null, "note": "Билет бағасы мен репертуар театрдың ресми көзінен нақтыланады" },
+      "visit_min": 150,
+      "interests": ["theatre", "culture", "music"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "regional-history-museum",
+      "type": "city",
+      "category": "museum",
+      "name": { "kk": "Қызылорда облыстық тарихи-өлкетану мұражайы", "en": "Kyzylorda Regional History and Local Lore Museum", "ru": "Кызылординский областной историко-краеведческий музей" },
+      "short": {
+        "kk": "1939 жылы бұрынғы православ шіркеуінің ғимаратында ашылған. Сақ жауынгерінің, Сығанақ ханшайымының киімі мен дала сақтаған жәдігерлер бар.",
+        "en": "Opened in 1939 in a former Orthodox church building. Exhibits include a recreated Saka warrior and the costume of the Syganak princess.",
+        "ru": "Открыт в 1939 году в здании бывшей православной церкви. Среди экспонатов воссозданный сакский воин и наряд сыганакской принцессы."
+      },
+      "address": "М. Әуезов көшесі, 2а (кейбір дереккөздерде 20)",
+      "map_query": "Кызылординский областной историко-краеведческий музей Ауэзова",
+      "lat": 44.8470, "lng": 65.5120, "coords_approx": true,
+      "phone": "+7 (7242) 26-32-52",
+      "hours": { "kk": "Сейсенбі-жексенбі 09:00-19:00, үзіліс 13:00-15:00; дүйсенбі демалыс; айдың соңғы жұмасы санитарлық күн", "en": "Tue-Sun 09:00-19:00, break 13:00-15:00; closed Monday; last Friday of the month is a sanitary day", "ru": "Вт-Вс 09:00-19:00, перерыв 13:00-15:00; понедельник выходной; последняя пятница месяца санитарный день" },
+      "ticket": { "adult_kzt": 300, "student_kzt": 200, "child_kzt": 100, "note": "Баға қала порталынан (qorda.kz), күні белгісіз; баруға дейін тексеру керек", "verified": false },
+      "visit_min": 90,
+      "interests": ["museum", "history", "culture"],
+      "verified": false,
+      "source": "museum-kyzylorda.kz (hours), qorda.kz (phone, prices), welcome.kz"
+    },
+    {
+      "id": "akmeshit-museum",
+      "type": "city",
+      "category": "museum",
+      "name": { "kk": "«Ақмешіт» мұражайы (вокзал алаңында)", "en": "Akmeshit Museum (at the railway station square)", "ru": "Музей «Акмешит» (на привокзальной площади)" },
+      "short": {
+        "kk": "1905 жылғы тарихи ғимаратта орналасқан. Қала Ақмешіт аталған кезеңнің тұрмыстық заттары, құжаттары мен жәдігерлері қойылған.",
+        "en": "Housed in a historic 1905 building. Displays everyday items, documents and artifacts from the time the city was called Ak-Mechet.",
+        "ru": "Расположен в историческом здании 1905 года. Бытовые предметы, документы и артефакты времени, когда город назывался Ак-Мечеть."
+      },
+      "address": "Қызылорда вокзалының алдындағы алаң",
+      "map_query": "Музей Акмешит Кызылорда вокзал",
+      "lat": 44.8420, "lng": 65.5230, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": null, "note": "Баға нақтыланбаған" },
+      "visit_min": 45,
+      "interests": ["museum", "history"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "aitbayev-art-gallery",
+      "type": "city",
+      "category": "museum",
+      "name": { "kk": "С. Айтбаев атындағы көркемсурет галереясы", "en": "S. Aitbayev Art Gallery", "ru": "Художественная галерея имени С. Айтбаева" },
+      "short": {
+        "kk": "Қорқыт ата саябағының жанында, Арал өңірі суретшілерінің туындылары қойылған. Қызылорда қазақ кәсіби кескіндеме өнерінің бесігі болған.",
+        "en": "Next to Korkyt Ata Park, with works by artists of the Aral region. Kyzylorda was a cradle of professional Kazakh painting.",
+        "ru": "Рядом с парком Коркыт-ата, работы художников Приаралья. Кызылорда была колыбелью профессиональной живописи в Казахстане."
+      },
+      "address": "Ы. Тоқтыбаев көшесі, 2/1",
+      "map_query": "Художественная галерея Айтбаева Кызылорда Исы Токтыбаева",
+      "lat": 44.8492, "lng": 65.5085, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": null, "note": "Баға нақтыланбаған" },
+      "visit_min": 45,
+      "interests": ["culture", "museum"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "philharmonic-palace-of-arts",
+      "type": "city",
+      "category": "theatre",
+      "name": { "kk": "Облыстық филармония (Өнер сарайы)", "en": "Regional Philharmonic (Palace of Arts)", "ru": "Областная филармония (Дворец искусств)" },
+      "short": {
+        "kk": "Қазақ және әлем музыкасының концерттері: домбыра да, рояль да, тірі дауыс та. Жақында жаңа Өнер сарайына көшкен.",
+        "en": "Concerts of Kazakh and world music, from dombra to piano and live voice. Recently moved to the new Palace of Arts.",
+        "ru": "Концерты казахской и мировой музыки: домбра, рояль, живой голос. Недавно переехала в новый Дворец искусств."
+      },
+      "address": "Сұлтан Бейбарыс көшесі, 10а",
+      "map_query": "Дворец искусств Кызылорда Султана Бейбарса 10а",
+      "lat": 44.8545, "lng": 65.5140, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": null, "note": "Концерт афишасы мен баға нақтыланады" },
+      "visit_min": 120,
+      "interests": ["music", "culture", "theatre"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "akmeshit-syrdarya-mosque",
+      "type": "city",
+      "category": "religious",
+      "name": { "kk": "«Ақмешіт-Сырдария» орталық мешіті", "en": "Akmeshit-Syrdarya Central Mosque", "ru": "Центральная мечеть «Акмешит-Сырдарья»" },
+      "short": {
+        "kk": "Облыстың басты мешіті: төрт мұнара, көгілдір күмбез, ақ түсті ғимарат. Кешке жарықтандыру қосылғанда ерекше әдемі көрінеді.",
+        "en": "The main mosque of the region: four minarets, a turquoise dome and a white facade. Especially striking at night when the lighting is on.",
+        "ru": "Главная мечеть области: четыре минарета, бирюзовый купол, белоснежное здание. Особенно красива вечером с подсветкой."
+      },
+      "address": "Сұлтан Бейбарыс көшесі, 14",
+      "map_query": "Мечеть Акмешит-Сырдарья Кызылорда Султана Бейбарса 14",
+      "lat": 44.8550, "lng": 65.5130, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": 0, "note": "Кіру ақысы туралы дерек жоқ" },
+      "visit_min": 40,
+      "interests": ["religion", "photo", "culture"],
+      "etiquette": { "kk": "Ішке кіргенде ұстамды киіну ұсынылады (редакторлық кеңес).", "en": "Modest dress is recommended when entering (editorial tip).", "ru": "При входе рекомендуется скромная одежда (совет редакции)." },
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "aitbay-mosque",
+      "type": "city",
+      "category": "religious",
+      "name": { "kk": "Айтбай мешіті", "en": "Aitbay Mosque", "ru": "Мечеть Айтбая" },
+      "short": {
+        "kk": "Қызылордадағы ең көне мешіт, 1878 жылы қала тұрғындарының қайырымдылығымен және бұхаралық көпес Айтбай Балтабаевтың қатысуымен салынған. Мұнарасы 1980 жылдардың соңында қосылған.",
+        "en": "The oldest mosque in Kyzylorda, built in 1878 with donations from townspeople and the Bukharan merchant Aitbay Baltabayev. The minaret was added in the late 1980s.",
+        "ru": "Старейшая мечеть Кызылорды, построена в 1878 году на пожертвования горожан и при участии бухарского купца Айтбая Балтабаева. Минарет пристроен в конце 1980-х."
+      },
+      "address": "Сәтбаев көшесі, 14/1",
+      "map_query": "Мечеть Айтбая Кызылорда Сатпаева 14/1",
+      "lat": 44.8495, "lng": 65.5060, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": 0, "note": "Кіру ақысы туралы дерек жоқ" },
+      "visit_min": 30,
+      "interests": ["religion", "history", "photo"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "kazan-church",
+      "type": "city",
+      "category": "religious",
+      "name": { "kk": "Қасиетті Қазан шіркеуі", "en": "Holy Kazan Church", "ru": "Свято-Казанский храм" },
+      "short": {
+        "kk": "Қаладағы жалғыз православ храмы, XIX ғасырдың соңында византиялық стильде салынған. Қызылордада мәдениеттер мен діндердің тоғысқанының белгісі.",
+        "en": "The city's only Orthodox church, built in the Byzantine style in the late 19th century, a sign that cultures and faiths have always met in Kyzylorda.",
+        "ru": "Единственный православный храм города, возведён в византийском стиле в конце XIX века. Напоминание о том, что в Кызылорде всегда пересекались культуры и религии."
+      },
+      "address": "Ы. Тоқтыбаев көшесі, 1а/1",
+      "map_query": "Свято-Казанский храм Кызылорда",
+      "lat": 44.8488, "lng": 65.5095, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": 0, "note": "Кіру ақысы туралы дерек жоқ" },
+      "visit_min": 30,
+      "interests": ["religion", "history", "photo"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "old-bazaar-sybaga",
+      "type": "city",
+      "category": "market",
+      "name": { "kk": "Сыбаға базары (Ескі базар)", "en": "Sybaga Market (Old Bazaar)", "ru": "Рынок Сыбага (Старый базар)" },
+      "short": {
+        "kk": "Қорқыт ата саябағы мен Қазан шіркеуінің аралығындағы жабық павильондар: киім, тоқыма, ыдыс-аяқ, дәмдеуіштер және ыстық самса.",
+        "en": "Covered pavilions between Korkyt Ata Park and the Kazan Church: clothing, textiles, dishes, spices and hot samsa.",
+        "ru": "Крытые павильоны между парком Коркыт-ата и Казанским храмом: одежда, текстиль, посуда, специи и горячая самса."
+      },
+      "address": "Қорқыт ата саябағы мен Қазан шіркеуінің арасы",
+      "map_query": "Рынок Сыбага Кызылорда Старый базар",
+      "lat": 44.8489, "lng": 65.5085, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": 0, "note": "Кіру тегін" },
+      "visit_min": 60,
+      "interests": ["food", "shopping", "culture"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "victory-park-obelisk",
+      "type": "city",
+      "category": "history",
+      "name": { "kk": "Жеңіс саябағы (Тағзым алаңы) және Мәңгілік даңқ обелиегі", "en": "Victory Park (Tagzym Square) and the Eternal Glory Obelisk", "ru": "Парк Победы (площадь Тагзым) и Обелиск Вечной Славы" },
+      "short": {
+        "kk": "Ұлы Отан соғысында қаза тапқандарға арналған титаннан жасалған обелиск. Титан парақтары Байқоңыр ғарыш айлағынан әкелінген. Маңында басқа да еске алу ескерткіштері бар.",
+        "en": "A titanium obelisk for those who died in the Great Patriotic War; the titanium sheets were brought from the Baikonur cosmodrome. Other memorials stand nearby.",
+        "ru": "Титановый обелиск погибшим в Великой Отечественной войне; титановые листы доставили с космодрома Байконур. Рядом другие мемориалы."
+      },
+      "address": "Қалалық мәдениет және демалыс саябағының жанында",
+      "map_query": "Парк Победы площадь Тагзым Кызылорда",
+      "lat": 44.8520, "lng": 65.5150, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": 0, "note": "Ашық аймақ" },
+      "visit_min": 30,
+      "interests": ["history", "space", "photo"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "city-culture-park",
+      "type": "city",
+      "category": "park",
+      "name": { "kk": "Қалалық мәдениет және демалыс саябағы", "en": "City Park of Culture and Recreation", "ru": "Городской парк культуры и отдыха" },
+      "short": {
+        "kk": "Кіреберісте Сыр бойы батырларына арналған монумент, ішінде шолу дөңгелегі, скейт-парк және аттракциондар бар. Отбасымен демалуға ыңғайлы.",
+        "en": "A monument to the batyrs of the Syr land stands at the entrance; inside are a Ferris wheel, a skate park and rides. Good for families.",
+        "ru": "У входа монумент батырам земли Сыра, внутри колесо обозрения, скейтпарк и аттракционы. Подходит для отдыха с семьёй."
+      },
+      "address": "Қонаев, Иван Журба және Қазыбек би көшелерінің қиылысы",
+      "map_query": "Городской парк культуры и отдыха Кызылорда Кунаева Журба Казыбек би",
+      "lat": 44.8530, "lng": 65.5160, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": null, "note": "Аттракцион бағасы нақтыланбаған" },
+      "visit_min": 90,
+      "interests": ["nature", "culture"],
+      "verified": false,
+      "source": "welcome.kz"
+    },
+    {
+      "id": "shukenov-park",
+      "type": "city",
+      "category": "park",
+      "name": { "kk": "Батырхан Шүкенов саябағы", "en": "Batyrkhan Shukenov Park", "ru": "Парк имени Батырхана Шукенова" },
+      "short": {
+        "kk": "Қызылорданың атақты ұлы, «А-Студио» тобының бұрынғы солисіне арналған. Мектеп оқушылар сарайының алдында саксофон ұстаған ескерткіш тұр.",
+        "en": "Dedicated to Kyzylorda's famous son, former A'Studio soloist. A statue with a saxophone stands in front of the Palace of Schoolchildren.",
+        "ru": "Посвящён известному уроженцу Кызылорды, экс-солисту A'Studio. Перед Дворцом школьников стоит памятник с саксофоном."
+      },
+      "address": "Мектеп оқушылар сарайының алды",
+      "map_query": "Парк Батырхана Шукенова Кызылорда",
+      "lat": 44.8540, "lng": 65.5070, "coords_approx": true,
+      "hours": null, "ticket": { "adult_kzt": 0, "note": "Ашық саябақ" },
+      "visit_min": 30,
+      "interests": ["music", "culture", "photo"],
+      "verified": false,
+      "source": "welcome.kz"
+    }
+  ],
+
+  "hotels": [
+    {
+      "id": "hotel-syrdarya",
+      "name": { "kk": "«Сырдария» қонақүйі", "en": "Sirdaria Hotel", "ru": "Отель «Сырдарья»" },
+      "stars": null,
+      "price_from_kzt": 12000,
+      "price_to_kzt": 17000,
+      "price_note": "Стандарт 12 000 ₸, балконмен 14 000 ₸, люкс 15 000-17 000 ₸ (apartamenty.kz)",
+      "rating": { "score": 8.5, "scale": 10, "reviews": 196, "source": "101hotels.com" },
+      "breakfast_included": true,
+      "address": "Цай Ден Хак көшесі, 11",
+      "district": { "kk": "Орталық ауданы", "en": "Central district", "ru": "Район центра" },
+      "map_query": "Отель Сырдарья Кызылорда Цай Ден Хак 11",
+      "lat": 44.8500, "lng": 65.5100, "coords_approx": true,
+      "verified": false,
+      "source": "apartamenty.kz, 101hotels.com"
+    },
+    {
+      "id": "hotel-kyzylorda",
+      "name": { "kk": "«Қызылорда» қонақүйі", "en": "Qyzylorda Hotel", "ru": "Гостиница «Кызылорда»" },
+      "stars": 3,
+      "price_from_kzt": 13000,
+      "price_to_kzt": 27500,
+      "price_note": "apartamenty.kz бойынша 13 000-27 500 ₸; 2ГИС пен Booking-та жоғары баға көрсетілген (2ГИС: бастап 40 000 ₸; Booking: бастап шамамен 129 USD). Брондаудан бұрын тексеру керек.",
+      "rating": { "score": 8.7, "scale": 10, "reviews": 43, "source": "booking.com" },
+      "breakfast_included": null,
+      "address": "Ә. Тоқмағамбетов көшесі, 19",
+      "district": { "kk": "Орталыққа жақын (шамамен 700 м)", "en": "Near the center (about 700 m)", "ru": "Рядом с центром (около 700 м)" },
+      "map_query": "Гостиница Кызылорда Токмагамбетова 19 Кызылорда",
+      "lat": 44.8515, "lng": 65.5085, "coords_approx": true,
+      "phone": null,
+      "verified": false,
+      "source": "apartamenty.kz, pogostite.ru, 2gis.kz, booking.com"
+    },
+    {
+      "id": "hotel-syr-arna",
+      "name": { "kk": "«Syr Arna» қонақүй кешені", "en": "Syr Arna Hotel Complex", "ru": "Гостиничный комплекс «Syr Arna»" },
+      "stars": null,
+      "price_from_kzt": 9000,
+      "price_to_kzt": 16000,
+      "price_note": "Стандарт 9 000 ₸, жартылай люкс 12 000 ₸, люкс 16 000 ₸ (apartamenty.kz)",
+      "rating": null,
+      "breakfast_included": null,
+      "address": "Бекшора көшесі, 22",
+      "district": null,
+      "map_query": "Гостиничный комплекс Syr Arna Кызылорда Бекшора 22",
+      "lat": 44.8560, "lng": 65.5000, "coords_approx": true,
+      "verified": false,
+      "source": "apartamenty.kz"
+    },
+    {
+      "id": "hotel-sapar-de-lux",
+      "name": { "kk": "Sapar De Lux Hotel", "en": "Sapar De Lux Hotel", "ru": "Sapar De Lux Hotel" },
+      "stars": null,
+      "price_from_kzt": 22000,
+      "price_to_kzt": null,
+      "price_note": "2ГИС бойынша бастап 22 000 ₸",
+      "rating": null,
+      "breakfast_included": null,
+      "address": "Бекшораұлы көшесі, 18",
+      "district": null,
+      "map_query": "Sapar De Lux Hotel Кызылорда Бекшораулы 18",
+      "lat": 44.8558, "lng": 65.5005, "coords_approx": true,
+      "verified": false,
+      "source": "2gis.kz"
+    },
+    {
+      "id": "hostel-meruert",
+      "name": { "kk": "Meruert Hostel", "en": "Meruert Hostel", "ru": "Хостел Meruert" },
+      "stars": null,
+      "price_from_kzt": null,
+      "price_to_kzt": null,
+      "price_usd_from": 26,
+      "price_note": "Expedia бойынша түнгі бағасы шамамен 26 USD (2 адамға), KZT-ге аударылмаған. Бюджеттік нұсқа.",
+      "rating": null,
+      "breakfast_included": null,
+      "address": "Гибрат көшесі, 1 (Expedia жазуы бойынша)",
+      "district": null,
+      "map_query": "Meruert Hostel Кызылорда Гибрат 1",
+      "lat": null, "lng": null, "coords_approx": true,
+      "verified": false,
+      "source": "expedia.com"
+    }
+  ],
+
+  "local_food": {
+    "note": "Нақты мекеме атаулары жоқ: ресторандар тексерілмеген. Чат-бот нақты кафе ойдан шығармауы тиіс.",
+    "items": [
+      { "kk": "Бесбармақ", "en": "Beshbarmak", "ru": "Бешбармак" },
+      { "kk": "Сорпа", "en": "Sorpa (meat broth)", "ru": "Сорпа" },
+      { "kk": "Баурсақ", "en": "Baursak (fried dough)", "ru": "Баурсаки" },
+      { "kk": "Самса (Сыбаға базарында)", "en": "Samsa (at Sybaga Market)", "ru": "Самса (на рынке Сыбага)" },
+      { "kk": "Қымыз, шұбат", "en": "Kumis, shubat (fermented milk drinks)", "ru": "Кумыс, шубат" }
+    ],
+    "verified": false
+  },
+
+  "kazakh_phrases": [
+    { "id": "p1", "kk": "Сәлеметсіз бе!", "translit": "Sälemetsiz be!", "en": "Hello! (formal)", "ru": "Здравствуйте!", "context": "general" },
+    { "id": "p2", "kk": "Қош келдіңіз!", "translit": "Qosh keldiңiz!", "en": "Welcome!", "ru": "Добро пожаловать!", "context": "hotel" },
+    { "id": "p3", "kk": "Рақмет!", "translit": "Raqmet!", "en": "Thank you!", "ru": "Спасибо!", "context": "general" },
+    { "id": "p4", "kk": "Бұл қанша тұрады?", "translit": "Bul qansha turady?", "en": "How much is this?", "ru": "Сколько это стоит?", "context": "market" },
+    { "id": "p5", "kk": "Билет қанша тұрады?", "translit": "Bilet qansha turady?", "en": "How much is a ticket?", "ru": "Сколько стоит билет?", "context": "museum" },
+    { "id": "p6", "kk": "Мұражай қайда?", "translit": "Murazhai qayda?", "en": "Where is the museum?", "ru": "Где музей?", "context": "directions" },
+    { "id": "p7", "kk": "Өте әдемі!", "translit": "Öte ädemi!", "en": "Very beautiful!", "ru": "Очень красиво!", "context": "sights" },
+    { "id": "p8", "kk": "Көмектесіңізші.", "translit": "Kömektesiңizshi.", "en": "Please help me.", "ru": "Помогите, пожалуйста.", "context": "general" },
+    { "id": "p9", "kk": "Шай беріңізші.", "translit": "Shai beriңizshi.", "en": "Tea, please.", "ru": "Чай, пожалуйста.", "context": "food" },
+    { "id": "p10", "kk": "Сау болыңыз!", "translit": "Sau boluңyz!", "en": "Goodbye!", "ru": "До свидания!", "context": "general" }
+  ],
+
+  "interest_options": [
+    { "id": "history", "kk": "Тарих", "en": "History", "ru": "История" },
+    { "id": "culture", "kk": "Мәдениет", "en": "Culture", "ru": "Культура" },
+    { "id": "museum", "kk": "Мұражайлар", "en": "Museums", "ru": "Музеи" },
+    { "id": "theatre", "kk": "Театр", "en": "Theatre", "ru": "Театр" },
+    { "id": "music", "kk": "Музыка", "en": "Music", "ru": "Музыка" },
+    { "id": "space", "kk": "Ғарыш", "en": "Space", "ru": "Космос" },
+    { "id": "religion", "kk": "Діни орындар", "en": "Religious sites", "ru": "Религиозные места" },
+    { "id": "nature", "kk": "Табиғат", "en": "Nature", "ru": "Природа" },
+    { "id": "food", "kk": "Ұлттық тағам", "en": "Local food", "ru": "Местная кухня" },
+    { "id": "shopping", "kk": "Базар, сауда", "en": "Markets & shopping", "ru": "Рынки и шопинг" },
+    { "id": "photo", "kk": "Фото", "en": "Photography", "ru": "Фото" }
+  ]
+}
