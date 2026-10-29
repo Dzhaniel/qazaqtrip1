@@ -17,14 +17,14 @@ function Logo() {
   const { t } = useTranslation();
   return (
     <Link to="/" className="group flex items-center gap-2.5" aria-label={t('app.name')}>
-      <span className="grid h-10 w-10 place-items-center rounded-xl bg-navy-800 text-gold-400 shadow-card transition-transform duration-300 group-hover:-rotate-6">
+      <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-600 text-gold-300 shadow-card transition-transform duration-300 group-hover:-rotate-6">
         <OrnamentMark className="h-5 w-9" />
       </span>
       <span className="leading-tight">
         <span className="block font-display text-lg font-bold tracking-tight text-navy-800">
           {t('app.name')}
         </span>
-        <span className="hidden text-[11px] font-semibold text-teal-700 sm:block">
+        <span className="hidden text-[11px] font-bold text-teal-700 sm:block">
           {t('app.slogan')}
         </span>
       </span>
@@ -32,12 +32,13 @@ function Logo() {
   );
 }
 
+/** Жарық, «ауаға толы» шапка: жылы ақ фон + blur. */
 export default function Header() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-navy-100/80 bg-cream-50/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-navy-100/70 bg-cream-0/90 backdrop-blur-md">
       <div className="container-page flex h-16 items-center justify-between gap-3">
         <Logo />
 
@@ -49,10 +50,8 @@ export default function Header() {
               end={item.end}
               className={({ isActive }) =>
                 cn(
-                  'rounded-full px-4 py-2 text-sm font-semibold transition-colors',
-                  isActive
-                    ? 'bg-navy-800 text-cream-100'
-                    : 'text-navy-500 hover:bg-navy-100/70 hover:text-navy-800',
+                  'rounded-full px-4 py-2 text-sm font-bold transition-colors',
+                  isActive ? 'bg-teal-50 text-teal-800' : 'text-navy-500 hover:bg-navy-50 hover:text-navy-800',
                 )
               }
             >
@@ -65,19 +64,19 @@ export default function Header() {
           <LangSwitcher compact />
           <button
             type="button"
-            className="grid h-10 w-10 place-items-center rounded-full border border-navy-200 bg-white text-navy-600 md:hidden"
+            className="grid h-11 w-11 place-items-center rounded-full border border-navy-200 bg-white text-navy-600 md:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-label={open ? t('nav.close') : t('nav.menu')}
           >
-            {open ? <X size={18} /> : <Menu size={18} />}
+            {open ? <X size={19} /> : <Menu size={19} />}
           </button>
         </div>
       </div>
 
       {open && (
         <nav
-          className="border-t border-navy-100 bg-cream-50/95 px-4 pb-4 pt-2 backdrop-blur-md md:hidden"
+          className="border-t border-navy-100 bg-cream-0/97 px-4 pb-4 pt-2 backdrop-blur-md md:hidden"
           aria-label="mobile"
         >
           {NAV.map((item) => (
@@ -88,10 +87,8 @@ export default function Header() {
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
                 cn(
-                  'mt-1 block rounded-xl px-4 py-3 text-sm font-semibold',
-                  isActive
-                    ? 'bg-navy-800 text-cream-100'
-                    : 'text-navy-600 hover:bg-navy-100/70',
+                  'mt-1 block rounded-2xl px-4 py-3.5 text-[15px] font-bold',
+                  isActive ? 'bg-teal-50 text-teal-800' : 'text-navy-600 hover:bg-navy-50',
                 )
               }
             >

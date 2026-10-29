@@ -6,7 +6,7 @@ export default function NotFoundPage() {
   const { t } = useTranslation();
   return (
     <div className="container-page flex flex-col items-center py-24 text-center">
-      <span className="grid h-16 w-16 place-items-center rounded-2xl bg-navy-800 text-gold-400">
+      <span className="grid h-16 w-16 place-items-center rounded-2xl bg-teal-600 text-white">
         <Compass size={28} aria-hidden="true" />
       </span>
       <p className="mt-6 font-display text-5xl font-bold text-navy-300">404</p>

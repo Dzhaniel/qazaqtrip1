@@ -36,22 +36,25 @@ interface Props {
   data: CityData;
   lang: Lang;
   compact?: boolean;
+  /** Готовое предзаполнение формы (например, из floating-планера на главной). */
+  initialForm?: Partial<GuideForm>;
 }
 
 const BUDGETS: BudgetLevel[] = ['economy', 'medium', 'high'];
 const LANGS: Lang[] = ['kk', 'en', 'ru'];
 
-export default function GuideWidget({ data, lang, compact = false }: Props) {
+export default function GuideWidget({ data, lang, compact = false, initialForm }: Props) {
   const { t } = useTranslation();
 
-  const [form, setForm] = useState<GuideForm>({
+  const [form, setForm] = useState<GuideForm>(() => ({
     arrival: '',
     departure: '',
     travelers: 2,
     budgetLevel: 'medium',
     interests: [],
     language: lang,
-  });
+    ...initialForm,
+  }));
   const [messages, setMessages] = useState<Message[]>([]);
   const [status, setStatus] = useState<'idle' | 'working' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -59,9 +62,15 @@ export default function GuideWidget({ data, lang, compact = false }: Props) {
   const abortRef = useRef<AbortController | null>(null);
   const lastPayloadRef = useRef<{ form: GuideForm; chatText?: string } | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const mountedRef = useRef(false);
 
-  // Жауап тілі бойынша default (UI тілімен синхрон)
+  // Жауап тілі бойынша default (UI тілімен синхрон); алғашқы render-де — алмастырмаймыз,
+  // өйткені initialForm тілін планер қолдан таңдаған болуы мүмкін.
   useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      return;
+    }
     setForm((f) => ({ ...f, language: lang }));
   }, [lang]);
 
@@ -338,7 +347,7 @@ export default function GuideWidget({ data, lang, compact = false }: Props) {
           {messages.map((m) =>
             m.role === 'user' ? (
               <div key={m.id} className="flex justify-end">
-                <div className="max-w-[85%] rounded-2xl rounded-br-md bg-navy-800 px-4 py-2.5 text-sm leading-relaxed text-cream-100">
+                <div className="max-w-[85%] rounded-2xl rounded-br-md bg-teal-600 px-4 py-2.5 text-sm leading-relaxed text-white">
                   {m.isPlan && (
                     <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-gold-300">
                       {t('guide.submit')}
@@ -349,7 +358,7 @@ export default function GuideWidget({ data, lang, compact = false }: Props) {
               </div>
             ) : (
               <div key={m.id} className="flex items-start gap-2.5">
-                <span className="mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-teal-500 to-navy-800 text-white">
+                <span className="mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-teal-600 text-white">
                   <Sparkles size={14} aria-hidden="true" />
                 </span>
                 <div className="max-w-[92%] flex-1">

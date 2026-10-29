@@ -110,3 +110,13 @@ export function hotelPriceLabel(h: Hotel, t: (k: string) => string): string {
 export function uid(): string {
   return Math.random().toString(36).slice(2, 10);
 }
+
+/** Қазақ/орыс: one (1), few (2-4), many (5+); en: one/many. */
+export function pluralKey(lang: string, n: number): 'one' | 'few' | 'many' {
+  if (lang === 'en') return n === 1 ? 'one' : 'many';
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return 'one';
+  if (mod10 >= 2 && mod10 <= 4 && !(mod100 >= 11 && mod100 <= 14)) return 'few';
+  return 'many';
+}

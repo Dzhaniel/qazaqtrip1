@@ -27,7 +27,8 @@
     "badge_city": "Kyzylorda first",
     "stat_attractions": "sights",
     "stat_hotels": "hotels",
-    "stat_phrases": "Kazakh phrases"
+    "stat_phrases": "Kazakh phrases",
+    "tagline": "The city by the Syr Darya — open it in Kazakh: a guide, phrases and an itinerary."
   },
   "cities": {
     "title": "Cities",
@@ -69,6 +70,22 @@
   },
   "city": {
     "heroRegion": "Region",
+    "overview": {
+      "sections_kicker": "Sections",
+      "sections_title": "City sections",
+      "sections_subtitle": "Each section has its own page — pick what interests you.",
+      "open": "Open",
+      "sights_desc": "Museums, theatre, mosques, parks and the bazaar — with category and interest filters.",
+      "hotels_desc": "Prices, ratings, breakfast. Filter by range and sort by price.",
+      "map_desc": "Open map: tap a pin for the name, price and directions. No API key needed.",
+      "map_badge": "OSM · keyless",
+      "phrases_desc": "Useful phrases with transliteration, translation and 🔊 audio.",
+      "guide_desc": "AI guide: day-by-day plan, budget and notes — strictly from the provided data.",
+      "guide_badge": "AI + demo",
+      "getting_kicker": "Getting here",
+      "cta_band_title": "Need a personal itinerary?",
+      "cta_band_text": "Set your dates and interests — the guide builds a day-by-day timeline and a budget summary."
+    },
     "gettingThere": "How to get there",
     "gettingThere_note": "Details may not be official",
     "air": "By air",
@@ -76,6 +93,7 @@
     "bus": "By bus",
     "center": "to the city center",
     "sections": {
+      "overview": "City",
       "sights": "Sights",
       "hotels": "Hotels",
       "map": "Map",
@@ -242,12 +260,30 @@
     "goal_text": "QazaqTrip was made for the regional contest “IT products for using the Kazakh language”. The goal: bring the Kazakh language and culture closer to foreign tourists — so that a guest can say hello in Kazakh, ask about prices and find their way around a museum. The MVP fully covers one city — Kyzylorda; the other cities are “coming soon” cards.",
     "tech_title": "Technologies",
     "tech": [
-      { "name": "React + Vite + TypeScript", "desc": "Structured, fast interface; types catch errors before they ship." },
-      { "name": "Tailwind CSS", "desc": "Mobile-first design: verified down to a 360px screen." },
-      { "name": "react-router + react-i18next", "desc": "Pages and KZ/EN/RU language switching." },
-      { "name": "Leaflet + OpenStreetMap", "desc": "Open map with no API key: pins for sights and hotels." },
-      { "name": "Serverless API (Vercel / Netlify)", "desc": "The /api/guide function — the API key lives on the server only, never in the browser." },
-      { "name": "OpenAI (gpt-4o-mini) + demo mode", "desc": "Without a key, the guide builds the itinerary locally from the JSON — the app never goes down." }
+      {
+        "name": "React + Vite + TypeScript",
+        "desc": "Structured, fast interface; types catch errors before they ship."
+      },
+      {
+        "name": "Tailwind CSS",
+        "desc": "Mobile-first design: verified down to a 360px screen."
+      },
+      {
+        "name": "react-router + react-i18next",
+        "desc": "Pages and KZ/EN/RU language switching."
+      },
+      {
+        "name": "Leaflet + OpenStreetMap",
+        "desc": "Open map with no API key: pins for sights and hotels."
+      },
+      {
+        "name": "Serverless API (Vercel / Netlify)",
+        "desc": "The /api/guide function — the API key lives on the server only, never in the browser."
+      },
+      {
+        "name": "OpenAI (gpt-4o-mini) + demo mode",
+        "desc": "Without a key, the guide builds the itinerary locally from the JSON — the app never goes down."
+      }
     ],
     "ai_title": "How the AI works",
     "ai_text": "When you send a request, the server sends the FULL kyzylorda.json file into the system prompt of /api/guide. The rules: only the places, prices and hours from the file; a null value is reported as “not specified”, never guessed; opening hours are respected (the museum is closed on Mondays, lunch break); the Baikonur permit warning is mandatory; the answer is in Kazakh or your chosen language, with 1–2 Kazakh phrases and translations; it ends with a day-by-day timeline and a budget summary.",
@@ -266,7 +302,8 @@
     "data_source": "Data source: kyzylorda.json",
     "checked": "last checked",
     "rights": "QazaqTrip. Made as a contest project.",
-    "made_with": "Made with love for the Kazakh language"
+    "made_with": "Made with love for the Kazakh language",
+    "photo_credits": "Photos (Creative Commons):"
   },
   "common": {
     "price_unknown": "Price not specified",
@@ -285,5 +322,20 @@
   },
   "guideFab": {
     "label": "AI Guide"
+  },
+  "planner": {
+    "title": "Plan your trip"
+  },
+  "home": {
+    "mustsee_title": "Must-see",
+    "mustsee_subtitle": "Kyzylorda’s most famous spots in one glance.",
+    "mustsee_more": "See all",
+    "how_title": "How the AI guide works",
+    "how_step1_title": "Set up your trip",
+    "how_step1_text": "Pick your dates, budget level and interests.",
+    "how_step2_title": "The guide reads the data",
+    "how_step2_text": "Answers are based strictly on the kyzylorda.json data: where a price is unknown, the guide says so — no guessing.",
+    "how_step3_title": "Ready itinerary",
+    "how_step3_text": "A day-by-day timeline, a budget summary and important notes — in one answer."
   }
 }

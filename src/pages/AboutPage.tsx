@@ -55,7 +55,7 @@ export default function AboutPage() {
             const Icon = TECH_ICONS[i % TECH_ICONS.length];
             return (
               <article key={item.name} className="card p-5">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-navy-800 text-gold-400">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-600 text-white">
                   <Icon size={18} aria-hidden="true" />
                 </span>
                 <h3 className="mt-3 text-sm font-bold text-navy-800">{item.name}</h3>

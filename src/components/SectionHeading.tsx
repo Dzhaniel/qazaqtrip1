@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { cn } from '../lib/utils';
 import { OrnamentDivider } from './Ornament';
 
@@ -9,19 +8,27 @@ interface Props {
   subtitle?: string;
   children?: React.ReactNode;
   className?: string;
+  /** Декоративті «ghost» нөмір (01, 02…) — editorial стиль. */
+  num?: string;
 }
 
-export default function SectionHeading({ id, kicker, title, subtitle, children, className }: Props) {
-  const { t } = useTranslation();
-  void t;
+/**
+ * Editorial бөлім тақырыбы: алтын kicker-сызықша, үлкен display-тақырып,
+ * оң жақтағы жеңіл ghost-нөмір, астында қошқар мүйіз бөліндіші.
+ */
+export default function SectionHeading({ id, kicker, title, subtitle, children, className, num }: Props) {
   return (
-    <div id={id} className={cn('mb-8', className)}>
+    <div id={id} className={cn('relative mb-8', className)}>
+      {num && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-6 right-0 select-none font-display text-6xl font-bold leading-none text-navy-800/[0.06] sm:text-7xl"
+        >
+          {num}
+        </span>
+      )}
       <div className="flex flex-col items-start gap-2">
-        {kicker && (
-          <span className="text-xs font-bold uppercase tracking-[0.18em] text-teal-700">
-            {kicker}
-          </span>
-        )}
+        {kicker && <span className="kicker text-teal-700">{kicker}</span>}
         <h2 className="font-display text-2xl font-bold tracking-tight text-navy-800 sm:text-3xl">
           {title}
         </h2>

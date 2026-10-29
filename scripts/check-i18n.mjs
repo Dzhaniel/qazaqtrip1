@@ -27,7 +27,7 @@ function walk(dir, out = []) {
 const CAT_KEYS = ['history', 'monument', 'nature', 'theatre', 'museum', 'religious', 'market', 'park', 'space'].map((c) => `city.sights.cat_${c}`);
 const DYNAMIC = [
   { re: /nav\..*\$\{[^}]*\}/, keys: ['nav.home', 'nav.city', 'nav.guide', 'nav.about'] },
-  { re: /city\.sections\..*\$\{[^}]*\}/, keys: ['city.sections.sights', 'city.sections.hotels', 'city.sections.map', 'city.sections.phrases', 'city.sections.guide'] },
+  { re: /city\.sections\..*\$\{[^}]*\}/, keys: ['city.sections.overview', 'city.sections.sights', 'city.sections.hotels', 'city.sections.map', 'city.sections.phrases'] },
   { re: /city\.sights\.cat_.*\$\{[^}]*\}/, keys: CAT_KEYS },
   { re: /city\.sights\..*\$\{[^}]*\}/, keys: CAT_KEYS },
   { re: /city\..*\$\{[^}]*\}/, keys: ['city.air', 'city.train', 'city.bus'] },

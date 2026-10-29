@@ -30,6 +30,32 @@ export function OrnamentMark({ className }: { className?: string }) {
   );
 }
 
+/**
+ * Карточка бұрышына арналған жеңіл ою: бір мүйіз + мысқал.
+ * Айналуы сырттан реттеледі (rotate-90 / -rotate-90 / rotate-180).
+ */
+export function OrnCorner({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 44 22" fill="none" className={cn('h-4 w-8', className)} aria-hidden="true">
+      <path
+        d="M4 19 C4 9 10 4.5 16 6 C22 7.5 22 14 17.5 15.5 C14 16.6 12 13.8 12.8 11.2"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <path d="M32 6.5 L35.5 11 L32 15.5 L28.5 11 Z" fill="currentColor" opacity="0.8" />
+      <path d="M39 11 H43" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Үлкен су-белгі ретіндегі ою (hero оң жағында). */
+export function OrnamentWatermark({ className }: { className?: string }) {
+  return (
+    <OrnamentMark className={cn('absolute -right-8 top-1/2 hidden h-56 w-[30rem] -translate-y-1/2 rotate-[-4deg] lg:block', className)} />
+  );
+}
+
 /** Горизонтальный бөліндіш: сызық — ою — сызық. */
 export function OrnamentDivider({ className }: { className?: string }) {
   return (

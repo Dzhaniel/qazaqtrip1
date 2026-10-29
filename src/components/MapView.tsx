@@ -166,7 +166,12 @@ export default function MapView({
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_290px]">
       <div className="card relative overflow-hidden p-1.5">
-        <div ref={containerRef} className="h-[380px] w-full overflow-hidden rounded-[14px] sm:h-[460px]" role="application" aria-label={t('city.map.title')} />
+        <div
+          ref={containerRef}
+          className="h-[420px] w-full overflow-hidden rounded-[20px] sm:h-[520px]"
+          role="application"
+          aria-label={t('city.map.title')}
+        />
 
         {/* Легенда */}
         <div className="absolute bottom-4 left-4 z-[500] flex flex-col gap-1.5 rounded-xl bg-white/95 px-3.5 py-2.5 text-xs font-semibold text-navy-600 shadow-card backdrop-blur">

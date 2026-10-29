@@ -37,6 +37,8 @@ export interface CityInfo {
   id: string;
   name: L10n;
   region: L10n;
+  /** Опциональное фото (например, /images/city-kyzylorda.jpg). Отсутствует в данных — градиент-фолбэк. */
+  image?: string;
   center: { lat: number; lng: number; approx?: boolean };
   description: L10n;
   getting_there: GettingThere[];
@@ -84,6 +86,8 @@ export interface Attraction {
   category: AttractionCategory;
   name: L10n;
   short: L10n;
+  /** Опциональное фото (например, /images/theater.jpg). Отсутствует в данных — градиент-фолбэк. */
+  image?: string;
   address: string;
   map_query: string;
   lat: number | null;
@@ -115,6 +119,8 @@ export interface HotelRating {
 export interface Hotel {
   id: string;
   name: L10n;
+  /** Опциональное фото. Отсутствует в данных — карточка без фото. */
+  image?: string;
   stars: number | null;
   price_from_kzt: number | null;
   price_to_kzt: number | null;
