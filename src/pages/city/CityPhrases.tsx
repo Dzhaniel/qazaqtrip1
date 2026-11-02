@@ -1,14 +1,39 @@
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Volume2 } from 'lucide-react';
+import { Ear, Search, Volume2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { getCity } from '../../data/cities';
 import type { Lang } from '../../data/types';
-import { L } from '../../lib/utils';
+import { cn, L } from '../../lib/utils';
 import PageHero from '../../components/PageHero';
 import CitySubNav from '../../components/CitySubNav';
 import PhraseCard from '../../components/PhraseCard';
+import QuizModal, { type QuizMode } from '../../components/QuizModal';
 import NotFoundPage from '../NotFoundPage';
 import { OrnamentDivider, OrnCorner } from '../../components/Ornament';
+
+const TOPICS = [
+  'greetings',
+  'hotel',
+  'transport',
+  'food',
+  'museum',
+  'shopping',
+  'emergency',
+  'numbers',
+] as const;
+
+const LEARNED_KEY = 'qazaqtrip_learned_phrases';
+
+function loadLearned(): string[] {
+  try {
+    const raw = localStorage.getItem(LEARNED_KEY);
+    const arr = raw ? (JSON.parse(raw) as unknown) : [];
+    return Array.isArray(arr) ? arr.filter((x): x is string => typeof x === 'string') : [];
+  } catch {
+    return [];
+  }
+}
 
 export default function CityPhrases() {
   const { t, i18n } = useTranslation();
@@ -16,7 +41,38 @@ export default function CityPhrases() {
   const lang = i18n.resolvedLanguage as Lang;
   const city = getCity(cityId ?? 'kyzylorda');
 
+  const [topic, setTopic] = useState<'all' | (typeof TOPICS)[number]>('all');
+  const [query, setQuery] = useState('');
+  const [learned, setLearned] = useState<string[]>(loadLearned);
+  const [quiz, setQuiz] = useState<QuizMode | null>(null);
+
+  const phrases = city?.kazakh_phrases ?? [];
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return phrases.filter((p) => {
+      if (topic !== 'all' && p.topic !== topic) return false;
+      if (!q) return true;
+      const hay = [p.kk, p.translit, p.en, p.ru].join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }, [phrases, topic, query]);
+
   if (!city) return <NotFoundPage />;
+
+  const learnedCount = learned.filter((id) => phrases.some((p) => p.id === id)).length;
+
+  function toggleLearned(id: string) {
+    setLearned((prev) => {
+      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
+      try {
+        localStorage.setItem(LEARNED_KEY, JSON.stringify(next));
+      } catch {
+        /* private mode — ignore */
+      }
+      return next;
+    });
+  }
 
   return (
     <div>
@@ -31,17 +87,105 @@ export default function CityPhrases() {
       <CitySubNav city={city} />
 
       <section className="container-page py-10 sm:py-12">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
-          {city.kazakh_phrases.map((p) => (
-            <PhraseCard key={p.id} phrase={p} lang={lang} />
-          ))}
+        {/* Прогресс + транслит ескертпесі */}
+        <div className="card flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-navy-400">
+              {t('city.phrases.progress_label')}
+            </p>
+            <p className="mt-1 font-display text-2xl font-bold text-teal-700">
+              {learnedCount} / {phrases.length}
+            </p>
+          </div>
+          <div className="sm:max-w-xs">
+            <div className="h-2.5 overflow-hidden rounded-full bg-navy-100" role="progressbar" aria-valuenow={learnedCount} aria-valuemin={0} aria-valuemax={phrases.length}>
+              <div
+                className="h-full rounded-full bg-teal-600 transition-all duration-500"
+                style={{ width: phrases.length ? `${(learnedCount / phrases.length) * 100}%` : '0%' }}
+              />
+            </div>
+            <p className="mt-2 text-[11px] leading-snug text-navy-400">{t('city.phrases.translit_note')}</p>
+          </div>
         </div>
 
+        {/* Сүзгі + іздеу */}
+        <div className="mt-6 flex flex-col gap-3">
+          <div className="flex flex-wrap gap-2" role="group" aria-label={t('city.phrases.topics_label')}>
+            <button
+              type="button"
+              onClick={() => setTopic('all')}
+              aria-pressed={topic === 'all'}
+              className={cn(
+                'rounded-full border px-4 py-2 text-xs font-bold transition-colors',
+                topic === 'all' ? 'border-teal-600 bg-teal-600 text-white' : 'border-navy-200 bg-white text-navy-500 hover:border-teal-400 hover:text-teal-700',
+              )}
+            >
+              {t('city.phrases.filter_all')}
+            </button>
+            {TOPICS.map((tp) => (
+              <button
+                key={tp}
+                type="button"
+                onClick={() => setTopic(tp)}
+                aria-pressed={topic === tp}
+                className={cn(
+                  'rounded-full border px-4 py-2 text-xs font-bold transition-colors',
+                  topic === tp ? 'border-teal-600 bg-teal-600 text-white' : 'border-navy-200 bg-white text-navy-500 hover:border-teal-400 hover:text-teal-700',
+                )}
+              >
+                {t(`city.phrases.topic_${tp}`)}
+              </button>
+            ))}
+          </div>
+          <label className="relative block sm:max-w-sm">
+            <Search size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-navy-300" aria-hidden="true" />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={t('city.phrases.search_placeholder')}
+              className="input pl-10"
+              aria-label={t('city.phrases.search_label')}
+            />
+          </label>
+        </div>
+
+        {/* Фразалар торы */}
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
+          {filtered.map((p) => (
+            <PhraseCard key={p.id} phrase={p} lang={lang} learned={learned.includes(p.id)} onToggleLearned={() => toggleLearned(p.id)} />
+          ))}
+          {filtered.length === 0 && (
+            <p className="col-span-full rounded-2xl bg-navy-50 px-5 py-6 text-center text-sm text-navy-400">
+              {t('city.phrases.no_results')}
+            </p>
+          )}
+        </div>
+
+        {/* Қызу */}
         <div className="card relative mt-8 overflow-hidden p-6">
           <OrnCorner className="absolute right-3 top-3 text-gold-400/40" />
-          <h3 className="font-display text-lg font-bold text-navy-800">
-            {t('city.phrases.food_title')}
-          </h3>
+          <p className="kicker text-teal-700">
+            <Ear size={14} aria-hidden="true" />
+            {t('city.phrases.quiz_kicker')}
+          </p>
+          <h3 className="mt-2 font-display text-lg font-bold text-navy-800">{t('city.phrases.quiz_title')}</h3>
+          <p className="mt-1 text-sm text-navy-500">{t('city.phrases.quiz_subtitle')}</p>
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+            <button type="button" className="btn-primary" onClick={() => setQuiz('meaning')}>
+              {t('city.phrases.quiz_start_meaning')}
+            </button>
+            <button type="button" className="btn-ghost" onClick={() => setQuiz('listen')}>
+              <Ear size={16} aria-hidden="true" />
+              {t('city.phrases.quiz_start_listen')}
+            </button>
+          </div>
+        </div>
+
+        {/* Тамақ сөздері */}
+        <div className="card relative mt-8 overflow-hidden p-6">
+          <OrnCorner className="absolute right-3 top-3 text-gold-400/40" />
+          <h3 className="font-display text-lg font-bold text-navy-800">{t('city.phrases.food_title')}</h3>
           <p className="mt-1 text-xs text-navy-400">{t('city.phrases.food_note')}</p>
           <ul className="mt-4 flex flex-wrap gap-2">
             {city.local_food.items.map((item, i) => (
@@ -54,6 +198,14 @@ export default function CityPhrases() {
       </section>
 
       <OrnamentDivider className="container-page mb-4" />
+
+      <QuizModal
+        open={quiz != null}
+        mode={quiz ?? 'meaning'}
+        phrases={phrases}
+        lang={lang}
+        onClose={() => setQuiz(null)}
+      />
     </div>
   );
 }

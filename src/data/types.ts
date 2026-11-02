@@ -155,7 +155,8 @@ export interface KazakhPhrase {
   translit: string;
   en: string;
   ru: string;
-  context: string;
+  /** greetings | hotel | transport | food | museum | shopping | emergency | numbers */
+  topic: string;
 }
 
 export interface InterestOption {

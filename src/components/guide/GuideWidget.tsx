@@ -43,6 +43,14 @@ interface Props {
 const BUDGETS: BudgetLevel[] = ['economy', 'medium', 'high'];
 const LANGS: Lang[] = ['kk', 'en', 'ru'];
 
+/** Қазақша режим қосулы кездегі сұрақ-чиптер (қолдан жазылған, қазақша). */
+const KZ_SUGGESTIONS = [
+  'Маған қысқа сөз үйрет',
+  'Бұл сөздің аудармасы қандай?',
+  'Қонақүйде қалай сөйлесемін?',
+  'Базарда сатып алуды қалай айтамын?',
+];
+
 export default function GuideWidget({ data, lang, compact = false, initialForm }: Props) {
   const { t } = useTranslation();
 
@@ -53,6 +61,7 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
     budgetLevel: 'medium',
     interests: [],
     language: lang,
+    kz_mode: false,
     ...initialForm,
   }));
   const [messages, setMessages] = useState<Message[]>([]);
@@ -311,6 +320,20 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
           </div>
         </div>
 
+        {/* Қазақша сөйлесу режимі */}
+        <label className="flex min-h-11 cursor-pointer items-center gap-3 rounded-2xl border border-teal-200 bg-teal-50/60 px-4 py-2.5 transition-colors hover:border-teal-400">
+          <input
+            type="checkbox"
+            checked={form.kz_mode ?? false}
+            onChange={(e) => setForm((f) => ({ ...f, kz_mode: e.target.checked }))}
+            className="h-5 w-5 shrink-0 accent-teal-600"
+          />
+          <span className="min-w-0">
+            <span className="block text-sm font-bold text-navy-700">{t('guide.kz_mode_title')}</span>
+            <span className="block text-[11px] leading-snug text-navy-400">{t('guide.kz_mode_hint')}</span>
+          </span>
+        </label>
+
         <button type="submit" className="btn-gold w-full sm:w-auto" disabled={working}>
           {working ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : <Sparkles size={16} aria-hidden="true" />}
           {working ? t('guide.planning') : t('guide.submit')}
@@ -327,8 +350,10 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
               </span>
               <p className="max-w-sm text-sm leading-relaxed text-navy-400">{t('guide.subtitle')}</p>
               <div className="flex max-w-xl flex-wrap justify-center gap-2">
-                {(t('guide.suggestions', { returnObjects: true }) as unknown as string[]).map(
-                  (s: string, i: number) => (
+                {(form.kz_mode
+                  ? KZ_SUGGESTIONS
+                  : (t('guide.suggestions', { returnObjects: true }) as unknown as string[])
+                ).map((s: string, i: number) => (
                     <button
                       key={i}
                       type="button"

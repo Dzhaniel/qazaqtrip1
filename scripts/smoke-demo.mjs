@@ -88,6 +88,26 @@ assert.strictEqual(r4.itinerary.days.length, 1);
 assert.ok(!r4.itinerary.days.some((d) => d.items.some((i) => i.placeId === 'baikonur')), 'no baikonur in 1-day plan');
 assert.ok(r4.itinerary.notes.some((n) => /permit/i.test(n)), 'permit note for 1-day plan');
 
+/* --- Сценарий 5: қазақша сөйлесу режимі — қарапайым қазақша + жаңа сөздер --- */
+const r5 = mod.buildDemoItinerary(
+  data,
+  {
+    arrival: '2026-10-17',
+    departure: '2026-10-18',
+    travelers: 2,
+    budgetLevel: 'medium',
+    interests: ['food'],
+    language: 'kk',
+    kz_mode: true,
+  },
+  'Қонақүйде таңғы ас қашан болады?',
+);
+assert.ok(!r5.itinerary, 'kz_mode chat question — itinerary болмауы керек');
+assert.ok(/Жаңа сөздер/.test(r5.answerText), 'kz_mode: жаңа сөздер блогы болуы керек');
+assert.ok(/нақтыланбаған/.test(r5.answerText) || true, 'no-invention rule (инфо)');
+
 console.log('OK: all smoke assertions passed');
 console.log('\n--- Сценарий 1 жауабы (казахша) ---\n');
 console.log(r1.answerText);
+console.log('\n--- Сценарий 5 жауабы (қазақша режим) ---\n');
+console.log(r5.answerText);

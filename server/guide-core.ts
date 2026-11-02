@@ -21,7 +21,7 @@ export interface GuideServerResult {
   itinerary?: Itinerary;
 }
 
-function buildSystemPrompt(data: CityData, lang: Lang): string {
+function buildSystemPrompt(data: CityData, lang: Lang, kzMode: boolean): string {
   const langName =
     lang === 'kk' ? 'Kazakh (keep it natural, use Kazakh Cyrillic with ә ғ қ ң ө ұ ү һ і)' : lang === 'ru' ? 'Russian' : 'English';
 
@@ -29,7 +29,13 @@ function buildSystemPrompt(data: CityData, lang: Lang): string {
   parts.push(
     'You are a friendly Kazakhstan travel guide for Kyzylorda. Use ONLY the places, hotels, prices, hours and phrases in the provided JSON. If a value is null or missing, say it is not specified and advise checking officially, never guess. Respect opening hours (for example museum closed on Monday, lunch break). Mention the Baikonur permit warning and the distance of day trips before suggesting them. Answer in Kazakh by default or in the user\'s selected language, keep Kazakh natural, add 1-2 short Kazakh phrases from the data with translation. Give a day-by-day timeline with time, place, how to get there and cost only where the data has a price; finish with a budget summary listing which items have unknown prices. Prices must be in KZT as in the data (RUB for Baikonur).',
   );
-  parts.push(`Answer language for this conversation: ${langName}.`);
+  parts.push(`Answer language for this conversation: ${kzMode ? 'SIMPLE KAZAKH (see Kazakh practice mode below) — user\'s language is ' + langName + ' only for word meanings' : langName}.`);
+  if (kzMode) {
+    parts.push('');
+    parts.push(
+      'KAZAKH PRACTICE MODE (user is learning Kazakh): answer ONLY in simple Kazakh — short, easy sentences with basic vocabulary. After your answer add a line «Жаңа сөздер:» and list exactly 2-3 key Kazakh words used in your answer, each in the format: «word» (transliteration) — meaning in the user\'s language. Keep the no-invention rule: if the data has no value, say «нақтыланбаған». If the user asks a language question (teach a word/phrase, translate), you may skip the itinerary JSON block entirely.',
+    );
+  }
   parts.push(
     'The user\'s trip details from the planner form are given as "Trip context" in the last user message. The free chat may ask follow-up questions — answer them using the same JSON.',
   );
@@ -59,15 +65,16 @@ export async function runGuide(
   onDelta: (t: string) => void,
 ): Promise<GuideServerResult> {
   const lang: Lang = payload.form?.language === 'en' || payload.form?.language === 'ru' ? payload.form.language : 'kk';
+  const kzMode = payload.form?.kz_mode === true;
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    const demo = buildDemoItinerary(data, payload.form);
+    const demo = buildDemoItinerary(data, payload.form, payload.chatText);
     return { mode: 'demo', answerText: demo.answerText, itinerary: demo.itinerary };
   }
 
   const model = process.env.GUIDE_MODEL || 'gpt-4o-mini';
-  const system = buildSystemPrompt(data, lang);
+  const system = buildSystemPrompt(data, lang, kzMode);
 
   const formContext = `Trip context: ${summarizeForm(payload.form, lang)}`;
   const history = (payload.messages ?? [])

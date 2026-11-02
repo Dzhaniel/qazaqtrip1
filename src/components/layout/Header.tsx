@@ -50,7 +50,7 @@ export default function Header() {
               end={item.end}
               className={({ isActive }) =>
                 cn(
-                  'rounded-full px-4 py-2 text-sm font-bold transition-colors',
+                  'inline-flex min-h-11 items-center rounded-full px-4 text-sm font-bold transition-colors',
                   isActive ? 'bg-teal-50 text-teal-800' : 'text-navy-500 hover:bg-navy-50 hover:text-navy-800',
                 )
               }

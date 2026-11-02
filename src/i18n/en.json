@@ -194,7 +194,38 @@
       "voice_unavailable": "No Kazakh voice was found in this browser — a system voice was used instead.",
       "voice_unsupported": "This browser does not support speech. Please read the transliteration.",
       "food_title": "What to taste",
-      "food_note": "No specific venues verified — these are just traditional dishes."
+      "food_note": "No specific venues verified — these are just traditional dishes.",
+      "progress_label": "Learning progress",
+      "translit_note": "Transliteration follows the 2021 official Kazakh Latin alphabet (adopted practical form: ә→ä, ғ→ğ, қ→q, ң→ng, ө→ö, ұ→u, ү→ü, ы→y, і→i).",
+      "topics_label": "Filter by topic",
+      "filter_all": "All",
+      "search_placeholder": "Search phrases…",
+      "search_label": "Search phrases",
+      "no_results": "Nothing found.",
+      "mark_learned": "I learned this",
+      "learned_done": "Learned",
+      "quiz_kicker": "Quiz",
+      "quiz_title": "Test yourself",
+      "quiz_subtitle": "A short test: pick the translation or listen to Kazakh and choose the phrase you heard.",
+      "quiz_start_meaning": "Pick the translation",
+      "quiz_start_listen": "Listen and pick",
+      "quiz_question": "Question {{current}} / {{total}}",
+      "quiz_pick_translation": "Which translation is correct?",
+      "quiz_pick_heard": "Listen and pick the phrase you heard",
+      "quiz_listen_fallback": "Speech unavailable — read the transliteration and pick.",
+      "quiz_next": "Next",
+      "quiz_finish": "Finish",
+      "quiz_score": "Score: {{score}} / {{total}}",
+      "quiz_again": "Play again",
+      "quiz_close": "Close",
+      "topic_greetings": "Greetings",
+      "topic_hotel": "Hotel",
+      "topic_transport": "Transport",
+      "topic_food": "Food",
+      "topic_museum": "Museum",
+      "topic_shopping": "Shopping",
+      "topic_emergency": "Emergencies",
+      "topic_numbers": "Numbers"
     }
   },
   "guide": {
@@ -258,7 +289,9 @@
       "dates": "Dates",
       "travelers": "travelers",
       "interests": "Interests"
-    }
+    },
+    "kz_mode_title": "Kazakh practice mode",
+    "kz_mode_hint": "The guide answers in simple Kazakh and explains 2–3 key words with transliteration."
   },
   "about": {
     "title": "About QazaqTrip",

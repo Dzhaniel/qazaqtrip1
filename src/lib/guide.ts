@@ -145,7 +145,7 @@ export async function requestGuide(
     // Сервер қолжетімсіз немесе қате — локальді демо режим.
     const city = getCity('kyzylorda');
     if (!city) throw new Error('city data not found');
-    const demo = buildDemoItinerary(city, payload.form);
+    const demo = buildDemoItinerary(city, payload.form, payload.chatText);
     return { mode: 'demo', text: demo.answerText, itinerary: demo.itinerary };
   }
 }

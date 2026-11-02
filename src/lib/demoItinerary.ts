@@ -32,6 +32,8 @@ export interface GuideForm {
   budgetLevel: BudgetLevel;
   interests: string[];
   language: Lang;
+  /** Қазақша сөйлесу режимі: қарапайым қазақша жауап + 2–3 маңызды сөз. */
+  kz_mode?: boolean;
 }
 
 export interface GuideChatMessage {
@@ -89,7 +91,52 @@ export interface Itinerary {
 
 export interface DemoResult {
   answerText: string;
-  itinerary: Itinerary;
+  itinerary?: Itinerary;
+}
+
+/* Қазақша режимде жаңа сөздер ретімен келеді (демо-ротация) */
+let kzPhraseCursor = 0;
+
+function buildKzLesson(data: CityData, lang: Lang, chatText?: string): string {
+  const pool = data.kazakh_phrases;
+  const picks = [0, 1, 2].map((i) => pool[(kzPhraseCursor + i) % pool.length]);
+  kzPhraseCursor = (kzPhraseCursor + 3) % pool.length;
+  const meaningOf = (p: (typeof pool)[number]) => (lang === 'kk' ? p.en : p[lang]);
+
+  const lines: string[] = [];
+  lines.push(
+    lang === 'kk'
+      ? 'Сәлем! Сіз қазақша сөйлесу режимін қостыңыз — мен қарапайым қазақша жауап беремін. 🌤'
+      : lang === 'en'
+        ? 'Sälem! You turned on Kazakh practice mode — I will answer in simple Kazakh. 🌤'
+        : 'Сәлем! Вы включили режим практики на казахском — я отвечу простым казахским. 🌤',
+  );
+  if (chatText && chatText.trim()) {
+    lines.push('');
+    lines.push(
+      lang === 'kk'
+        ? 'Сұрағыңызды түсіндім, бірақ деректерде нақты мәлімет болмаса — «нақтыланбаған» деп айтамын, ойдан шығармаймын.'
+        : lang === 'en'
+          ? 'I understood your question. If the data has no exact value, I will say “not specified” — I never guess.'
+          : 'Я понял ваш вопрос. Если в данных нет точного значения — скажу «не указано», ничего не выдумываю.',
+    );
+  }
+  lines.push('');
+  lines.push(
+    lang === 'kk' ? 'Жаңа сөздер:' : lang === 'en' ? 'New words:' : 'Новые слова:',
+  );
+  for (const p of picks) {
+    lines.push(`• «${p.kk}» (${p.translit}) — ${meaningOf(p)}`);
+  }
+  lines.push('');
+  lines.push(
+    lang === 'kk'
+      ? 'Қолданғыңыз келетін сөзді жазыңыз — мысал сөйлем құрап беремін.'
+      : lang === 'en'
+        ? 'Send me a phrase you want to use — I will build an example sentence.'
+        : 'Пришлите фразу, которую хотите использовать — соберу пример предложения.',
+  );
+  return lines.join('\n');
 }
 
 /* ------------------------------------------------------------------ */
@@ -144,11 +191,16 @@ function pickHotel(hotels: Hotel[], level: BudgetLevel): Hotel {
 /* Негізгі құрастырғыш                                                 */
 /* ------------------------------------------------------------------ */
 
-export function buildDemoItinerary(data: CityData, formRaw: GuideForm): DemoResult {
+export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?: string): DemoResult {
   const lang = formRaw.language;
   const form: GuideForm = { ...formRaw, travelers: clamp(formRaw.travelers || 1, 1, 12) };
   const t = form.travelers;
   const unknown = UNKNOWN(lang);
+
+  // Қазақша сөйлесу режимі + сұрақ бар => қарапайым қазақша жауап (маршрутсыз)
+  if (form.kz_mode && chatText && chatText.trim().length > 0) {
+    return { answerText: buildKzLesson(data, lang, chatText) };
+  }
 
   const cityItems = data.attractions.filter((a) => a.type === 'city');
   const dayTrips = data.attractions.filter((a) => a.type === 'day_trip');

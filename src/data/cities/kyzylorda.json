@@ -878,15 +878,15 @@
       "translit": "Sälemetsiz be!",
       "en": "Hello! (formal)",
       "ru": "Здравствуйте!",
-      "context": "general"
+      "topic": "greetings"
     },
     {
       "id": "p2",
       "kk": "Қош келдіңіз!",
-      "translit": "Qosh keldiңiz!",
+      "translit": "Qosh keldingiz!",
       "en": "Welcome!",
       "ru": "Добро пожаловать!",
-      "context": "hotel"
+      "topic": "greetings"
     },
     {
       "id": "p3",
@@ -894,63 +894,383 @@
       "translit": "Raqmet!",
       "en": "Thank you!",
       "ru": "Спасибо!",
-      "context": "general"
+      "topic": "greetings"
     },
     {
       "id": "p4",
-      "kk": "Бұл қанша тұрады?",
-      "translit": "Bul qansha turady?",
-      "en": "How much is this?",
-      "ru": "Сколько это стоит?",
-      "context": "market"
+      "kk": "Сау болыңыз!",
+      "translit": "Sau bolungyz!",
+      "en": "Goodbye!",
+      "ru": "До свидания!",
+      "topic": "greetings"
     },
     {
       "id": "p5",
+      "kk": "Иә.",
+      "translit": "Iya.",
+      "en": "Yes.",
+      "ru": "Да.",
+      "topic": "greetings"
+    },
+    {
+      "id": "p6",
+      "kk": "Жоқ, рақмет.",
+      "translit": "Joq, raqmet.",
+      "en": "No, thank you.",
+      "ru": "Нет, спасибо.",
+      "topic": "greetings"
+    },
+    {
+      "id": "p7",
+      "kk": "Кешіріңіз.",
+      "translit": "Keshiringiz.",
+      "en": "Excuse me / I am sorry.",
+      "ru": "Извините / простите.",
+      "topic": "greetings"
+    },
+    {
+      "id": "p8",
+      "kk": "Қонақүйде орын бар ма?",
+      "translit": "Qonaquyde oryn bar ma?",
+      "en": "Is there a free room?",
+      "ru": "Есть свободный номер?",
+      "topic": "hotel"
+    },
+    {
+      "id": "p9",
+      "kk": "Тіркеле аламын ба?",
+      "translit": "Tirkelen alayin ba?",
+      "en": "Can I check in?",
+      "ru": "Можно оформить заселение?",
+      "topic": "hotel"
+    },
+    {
+      "id": "p10",
+      "kk": "Таңғы ас қашан болады?",
+      "translit": "Tangy as qashan bolady?",
+      "en": "When is breakfast?",
+      "ru": "Когда завтрак?",
+      "topic": "hotel"
+    },
+    {
+      "id": "p11",
+      "kk": "Бөлме қанша тұрады?",
+      "translit": "Bolme qansha turady?",
+      "en": "How much is the room?",
+      "ru": "Сколько стоит номер?",
+      "topic": "hotel"
+    },
+    {
+      "id": "p12",
+      "kk": "Уай-фай бар ма?",
+      "translit": "Uay-fai bar ma?",
+      "en": "Is there Wi-Fi?",
+      "ru": "Есть ли Wi-Fi?",
+      "topic": "hotel"
+    },
+    {
+      "id": "p13",
+      "kk": "Бөлме таза ма?",
+      "translit": "Bolme taza ma?",
+      "en": "Is the room clean?",
+      "ru": "Номер чистый?",
+      "topic": "hotel"
+    },
+    {
+      "id": "p14",
+      "kk": "Автобус қашан келеді?",
+      "translit": "Avtobus qashan keledi?",
+      "en": "When does the bus come?",
+      "ru": "Когда приедет автобус?",
+      "topic": "transport"
+    },
+    {
+      "id": "p15",
+      "kk": "Такси шақыруға бола ма?",
+      "translit": "Taksi shakyrǵa bola ma?",
+      "en": "Can I get a taxi?",
+      "ru": "Можно вызвать такси?",
+      "topic": "transport"
+    },
+    {
+      "id": "p16",
+      "kk": "Қайда барады?",
+      "translit": "Qayda barady?",
+      "en": "Where does it go?",
+      "ru": "Куда идёт (транспорт)?",
+      "topic": "transport"
+    },
+    {
+      "id": "p17",
+      "kk": "Билет сатып ала аламын ба?",
+      "translit": "Bilet satyp alayin ba?",
+      "en": "Can I buy a ticket?",
+      "ru": "Можно купить билет?",
+      "topic": "transport"
+    },
+    {
+      "id": "p18",
+      "kk": "Қайда түсу керек?",
+      "translit": "Qayda tüsü kerek?",
+      "en": "Where should I get off?",
+      "ru": "Где мне выйти?",
+      "topic": "transport"
+    },
+    {
+      "id": "p19",
+      "kk": "Шай беріңізші.",
+      "translit": "Shai beringsizshi.",
+      "en": "Tea, please.",
+      "ru": "Чай, пожалуйста.",
+      "topic": "food"
+    },
+    {
+      "id": "p20",
+      "kk": "Су беріңізші.",
+      "translit": "Su beringsizshi.",
+      "en": "Water, please.",
+      "ru": "Воды, пожалуйста.",
+      "topic": "food"
+    },
+    {
+      "id": "p21",
+      "kk": "Етсіз тамақ бар ма?",
+      "translit": "Etsiz tamak bar ma?",
+      "en": "Is there food without meat?",
+      "ru": "Есть ли еда без мяса?",
+      "topic": "food"
+    },
+    {
+      "id": "p22",
+      "kk": "Шотты беріңізші.",
+      "translit": "Shottı beringsizshi.",
+      "en": "The bill, please.",
+      "ru": "Счёт, пожалуйста.",
+      "topic": "food"
+    },
+    {
+      "id": "p23",
+      "kk": "Мен ішкілік ішпеймін.",
+      "translit": "Men ishiklik ishpemin.",
+      "en": "I do not drink alcohol.",
+      "ru": "Я не пью алкоголь.",
+      "topic": "food"
+    },
+    {
+      "id": "p24",
+      "kk": "Бұл не?",
+      "translit": "Bul ne?",
+      "en": "What is this?",
+      "ru": "Что это?",
+      "topic": "food"
+    },
+    {
+      "id": "p25",
+      "kk": "Мұражай қайда?",
+      "translit": "Murazhaj qayda?",
+      "en": "Where is the museum?",
+      "ru": "Где музей?",
+      "topic": "museum"
+    },
+    {
+      "id": "p26",
       "kk": "Билет қанша тұрады?",
       "translit": "Bilet qansha turady?",
       "en": "How much is a ticket?",
       "ru": "Сколько стоит билет?",
-      "context": "museum"
+      "topic": "museum"
     },
     {
-      "id": "p6",
-      "kk": "Мұражай қайда?",
-      "translit": "Murazhai qayda?",
-      "en": "Where is the museum?",
-      "ru": "Где музей?",
-      "context": "directions"
+      "id": "p27",
+      "kk": "Суретке түсіп болмай ма?",
+      "translit": "Suretke tüsip bolmay ma?",
+      "en": "Can I take photos?",
+      "ru": "Можно ли фотографировать?",
+      "topic": "museum"
     },
     {
-      "id": "p7",
+      "id": "p28",
+      "kk": "Мұражай қашан жабылады?",
+      "translit": "Murazhaj qashan jabylady?",
+      "en": "When does the museum close?",
+      "ru": "Когда музей закрывается?",
+      "topic": "museum"
+    },
+    {
+      "id": "p29",
+      "kk": "Дауыстық гид бар ма?",
+      "translit": "Dauystyq gide bar ma?",
+      "en": "Is there an audio guide?",
+      "ru": "Есть ли аудиогид?",
+      "topic": "museum"
+    },
+    {
+      "id": "p30",
       "kk": "Өте әдемі!",
       "translit": "Öte ädemi!",
       "en": "Very beautiful!",
       "ru": "Очень красиво!",
-      "context": "sights"
+      "topic": "museum"
     },
     {
-      "id": "p8",
-      "kk": "Көмектесіңізші.",
-      "translit": "Kömektesiңizshi.",
-      "en": "Please help me.",
-      "ru": "Помогите, пожалуйста.",
-      "context": "general"
+      "id": "p31",
+      "kk": "Бұл қанша тұрады?",
+      "translit": "Bul qansha turady?",
+      "en": "How much is this?",
+      "ru": "Сколько это стоит?",
+      "topic": "shopping"
     },
     {
-      "id": "p9",
-      "kk": "Шай беріңізші.",
-      "translit": "Shai beriңizshi.",
-      "en": "Tea, please.",
-      "ru": "Чай, пожалуйста.",
-      "context": "food"
+      "id": "p32",
+      "kk": "Қымбат!",
+      "translit": "Qymbat!",
+      "en": "Expensive!",
+      "ru": "Дорого!",
+      "topic": "shopping"
     },
     {
-      "id": "p10",
-      "kk": "Сау болыңыз!",
-      "translit": "Sau boluңyz!",
-      "en": "Goodbye!",
-      "ru": "До свидания!",
-      "context": "general"
+      "id": "p33",
+      "kk": "Арзандай аласыз ба?",
+      "translit": "Arzanday lasiz ba?",
+      "en": "Can you make it cheaper?",
+      "ru": "Невозможно подешевле?",
+      "topic": "shopping"
+    },
+    {
+      "id": "p34",
+      "kk": "Бұны сатып аламын.",
+      "translit": "Buny satyp alayin.",
+      "en": "I will take this.",
+      "ru": "Возьму это.",
+      "topic": "shopping"
+    },
+    {
+      "id": "p35",
+      "kk": "Қайыруға бола ма?",
+      "translit": "Qayyrǵa bola ma?",
+      "en": "Can I return it?",
+      "ru": "Можно ли вернуть (товар)?",
+      "topic": "shopping"
+    },
+    {
+      "id": "p36",
+      "kk": "Көмектесіңізші!",
+      "translit": "Kömektesingizhi!",
+      "en": "Please help me!",
+      "ru": "Помогите, пожалуйста!",
+      "topic": "emergency"
+    },
+    {
+      "id": "p37",
+      "kk": "Жедел жәрдем шақырыңыз!",
+      "translit": "Jedel jar-dem shakırınız!",
+      "en": "Call an ambulance!",
+      "ru": "Позвоните в скорую!",
+      "topic": "emergency"
+    },
+    {
+      "id": "p38",
+      "kk": "Полиция қайда?",
+      "translit": "Politsiya qayda?",
+      "en": "Where is the police?",
+      "ru": "Где полиция?",
+      "topic": "emergency"
+    },
+    {
+      "id": "p39",
+      "kk": "Дәріхана қайда?",
+      "translit": "Darikana qayda?",
+      "en": "Where is the pharmacy?",
+      "ru": "Где аптека?",
+      "topic": "emergency"
+    },
+    {
+      "id": "p40",
+      "kk": "Менің құжатым жоғалды.",
+      "translit": "Menıng qūjatım jogaladı.",
+      "en": "I lost my documents.",
+      "ru": "Я потерял(а) документы.",
+      "topic": "emergency"
+    },
+    {
+      "id": "p41",
+      "kk": "Бір",
+      "translit": "Bir",
+      "en": "One (1)",
+      "ru": "Один (1)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p42",
+      "kk": "Екі",
+      "translit": "Eki",
+      "en": "Two (2)",
+      "ru": "Два (2)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p43",
+      "kk": "Үш",
+      "translit": "Üsh",
+      "en": "Three (3)",
+      "ru": "Три (3)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p44",
+      "kk": "Төрт",
+      "translit": "Tört",
+      "en": "Four (4)",
+      "ru": "Четыре (4)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p45",
+      "kk": "Бес",
+      "translit": "Bes",
+      "en": "Five (5)",
+      "ru": "Пять (5)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p46",
+      "kk": "Алты",
+      "translit": "Altı",
+      "en": "Six (6)",
+      "ru": "Шесть (6)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p47",
+      "kk": "Жеті",
+      "translit": "Jeti",
+      "en": "Seven (7)",
+      "ru": "Семь (7)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p48",
+      "kk": "Сегіз",
+      "translit": "Segiz",
+      "en": "Eight (8)",
+      "ru": "Восемь (8)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p49",
+      "kk": "Тоғыз",
+      "translit": "Toǵyz",
+      "en": "Nine (9)",
+      "ru": "Девять (9)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p50",
+      "kk": "Он",
+      "translit": "On",
+      "en": "Ten (10)",
+      "ru": "Десять (10)",
+      "topic": "numbers"
     }
   ],
   "interest_options": [
