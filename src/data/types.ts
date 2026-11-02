@@ -93,6 +93,8 @@ export interface Attraction {
   lat: number | null;
   lng: number | null;
   coords_approx: boolean;
+  /** Координаты подтверждены по OSM/Nominatim (иначе пин не показывается на карте). */
+  coords_verified?: boolean;
   distance_from_center_km?: string | number | null;
   travel_note?: L10n;
   hours: string | L10n | null;
@@ -134,6 +136,8 @@ export interface Hotel {
   lat: number | null;
   lng: number | null;
   coords_approx: boolean;
+  /** Координаты подтверждены по OSM/Nominatim (иначе пин не показывается на карте). */
+  coords_verified?: boolean;
   phone?: string | null;
   verified: boolean;
   source?: string;

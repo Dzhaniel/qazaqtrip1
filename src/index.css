@@ -59,7 +59,7 @@
   }
 
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-bold transition-colors;
+    @apply inline-flex min-h-11 items-center gap-1.5 rounded-full border px-4 py-1.5 text-xs font-bold transition-colors;
   }
 
   .chip-off {

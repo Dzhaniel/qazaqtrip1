@@ -1,8 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
   CalendarCheck,
+  ChevronLeft,
+  ChevronRight,
   Clock,
   Cpu,
   MapPin,
@@ -20,6 +22,7 @@ import SectionHeading from '../components/SectionHeading';
 import CityCard from '../components/CityCard';
 import PhraseCard from '../components/PhraseCard';
 import { DayTripBadge } from '../components/Badge';
+import { CATEGORY_ICONS } from '../components/AttractionCard';
 import { OrnamentDivider } from '../components/Ornament';
 
 /** «Міндетті түрде көріңіз» — қолмен таңдалған 5 орын (барлығы фотомен). */
@@ -87,6 +90,12 @@ export default function HomePage() {
     return picked;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [kyzylorda]);
+
+  // «Міндетті түрде көріңіз» carousel: стрелкалармен жылжыту
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const scrollCarousel = (dir: 1 | -1) => {
+    carouselRef.current?.scrollBy({ left: dir * 320, behavior: 'smooth' });
+  };
 
   if (!kyzylorda) return null;
 
@@ -229,18 +238,39 @@ export default function HomePage() {
       {/* ================= 1. ҚАЛАЛАР ================= */}
       <section className="container-page pt-16 sm:pt-24">
         <SectionHeading title={t('cities.title')} subtitle={t('cities.subtitle')} />
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <CityCard
-            id={kyzylorda.city.id}
-            name={kyzylorda.city.name}
-            region={kyzylorda.city.region}
-            active
-            stats={stats}
-            lang={lang}
-          />
-          {comingSoonCities.map((c) => (
-            <CityCard key={c.id} id={c.id} name={c.name} region={c.region} active={false} lang={lang} />
-          ))}
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+          <div className="w-full sm:max-w-sm">
+            <CityCard
+              id={kyzylorda.city.id}
+              name={kyzylorda.city.name}
+              region={kyzylorda.city.region}
+              active
+              stats={stats}
+              lang={lang}
+            />
+          </div>
+          {/* Жақында қосылатын қалалар — compact чиптер */}
+          <div className="flex min-w-0 flex-1 flex-col gap-2.5">
+            <p className="text-xs font-bold uppercase tracking-wider text-navy-400">
+              {t('cities.soon_title')}
+            </p>
+            {comingSoonCities.map((c) => (
+              <div
+                key={c.id}
+                className="flex items-center gap-3 rounded-2xl border border-dashed border-navy-200 bg-white/80 px-4 py-3"
+              >
+                <Clock size={16} className="shrink-0 text-navy-300" aria-hidden="true" />
+                <div className="min-w-0">
+                  <p className="clamp-1 font-display text-[15px] font-bold text-navy-600">{L(c.name, lang)}</p>
+                  <p className="clamp-1 text-xs text-navy-400">{L(c.region, lang)}</p>
+                </div>
+                <span className="ml-auto shrink-0 rounded-full bg-gold-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gold-700">
+                  {t('cities.soon_badge')}
+                </span>
+              </div>
+            ))}
+            <p className="mt-1 text-xs text-navy-400">{t('cities.soon_note')}</p>
+          </div>
         </div>
       </section>
 
@@ -263,8 +293,12 @@ export default function HomePage() {
             </div>
           </SectionHeading>
 
-          <div className="thin-scroll no-scrollbar -mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
-            {mustSee.map((a) => (
+          <div className="relative">
+            <div
+              ref={carouselRef}
+              className="thin-scroll no-scrollbar -mx-4 flex snap-x snap-proximity gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0"
+            >
+              {mustSee.map((a) => (
               <Link
                 key={a.id}
                 to="/city/kyzylorda/sights"
@@ -275,6 +309,7 @@ export default function HomePage() {
                     src={attractionImage(a)}
                     alt={L(a.name, lang)}
                     fallback={MUST_SEE_FALLBACKS[a.id]}
+                    icon={CATEGORY_ICONS[a.category]}
                     className="h-44"
                   />
                   <div className="absolute left-3 top-3 flex flex-wrap gap-1.5 pr-24">
@@ -301,7 +336,25 @@ export default function HomePage() {
                   </div>
                 </div>
               </Link>
-            ))}
+              ))}
+            </div>
+            {/* Carousel стрелкалары (desktop) */}
+            <button
+              type="button"
+              onClick={() => scrollCarousel(-1)}
+              aria-label={t('home.mustsee_prev')}
+              className="absolute -left-5 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white text-navy-600 shadow-lift transition-colors hover:text-teal-700 md:grid"
+            >
+              <ChevronLeft size={20} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollCarousel(1)}
+              aria-label={t('home.mustsee_next')}
+              className="absolute -right-5 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white text-navy-600 shadow-lift transition-colors hover:text-teal-700 md:grid"
+            >
+              <ChevronRight size={20} aria-hidden="true" />
+            </button>
           </div>
         </div>
       </section>

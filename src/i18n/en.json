@@ -32,12 +32,14 @@
   },
   "cities": {
     "title": "Cities",
+    "soon_title": "Coming soon",
     "subtitle": "Full details are available for Kyzylorda right now. The rest are on the way.",
     "choose": "Choose a city",
     "active": "Available",
     "soon": "Coming soon",
     "open": "Open",
-    "soon_note": "Coming soon"
+    "soon_note": "Coming soon",
+    "soon_badge": "Soon"
   },
   "why": {
     "title": "Why Kazakhstan?",
@@ -173,6 +175,11 @@
       "legend_hotels": "Hotels",
       "list_sights": "Sights",
       "list_hotels": "Hotels",
+      "filter_all": "All",
+      "filter_sights": "Sights",
+      "filter_museums": "Museums",
+      "filter_hotels": "Hotels",
+      "unverified_note": "{{count}} places with unverified coordinates are hidden from the map.",
       "approx": "approx.",
       "approx_hint": "Coordinates are approximate — directions use the place name instead",
       "no_pin": "Not shown on the map (no coordinates)",
@@ -330,6 +337,8 @@
     "mustsee_title": "Must-see",
     "mustsee_subtitle": "Kyzylorda’s most famous spots in one glance.",
     "mustsee_more": "See all",
+    "mustsee_prev": "Previous cards",
+    "mustsee_next": "Next cards",
     "how_title": "How the AI guide works",
     "how_step1_title": "Set up your trip",
     "how_step1_text": "Pick your dates, budget level and interests.",

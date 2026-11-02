@@ -38,7 +38,7 @@ const CATEGORY_GRADIENTS: Record<AttractionCategory, string> = {
   space: 'from-navy-600 via-navy-700 to-navy-900',
 };
 
-const CATEGORY_ICONS: Record<AttractionCategory, typeof Sun> = {
+export const CATEGORY_ICONS: Record<AttractionCategory, typeof Sun> = {
   history: Landmark,
   monument: Mountain,
   nature: TreePine,
@@ -226,7 +226,7 @@ export default function AttractionCard({ attraction: a, lang, onShowOnMap, photo
         )}
 
         <div className="mt-auto flex flex-wrap gap-2 pt-2">
-          {isDayTrip || a.lat == null || a.lng == null ? null : (
+          {isDayTrip || a.lat == null || a.lng == null || a.coords_verified !== true ? null : (
             <button type="button" onClick={() => onShowOnMap?.(a)} className="btn-ghost flex-1 basis-36">
               <MapPin size={15} aria-hidden="true" />
               {t('city.sights.show_on_map')}

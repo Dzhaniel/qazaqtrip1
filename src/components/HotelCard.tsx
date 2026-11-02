@@ -25,7 +25,7 @@ export default function HotelCard({ hotel: h, lang, onShowOnMap }: Props) {
   const { t } = useTranslation();
   const [noteOpen, setNoteOpen] = useState(false);
 
-  const hasCoords = h.lat != null && h.lng != null;
+  const hasCoords = h.lat != null && h.lng != null && h.coords_verified === true;
   const priceKnown = h.price_from_kzt != null || h.price_to_kzt != null;
 
   return (

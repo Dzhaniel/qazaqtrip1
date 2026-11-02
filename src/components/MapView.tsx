@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import L from 'leaflet';
 import { useTranslation } from 'react-i18next';
 import type { Attraction, Hotel, Lang } from '../data/types';
@@ -28,6 +28,8 @@ interface Props {
 
 const TEAL = '#1BA3B8';
 const GOLD = '#E0A526';
+
+type MapFilter = 'all' | 'sights' | 'museums' | 'hotels';
 
 function pinIcon(color: string, approx: boolean): L.DivIcon {
   const dash = approx ? ' stroke-dasharray="4 3"' : '';
@@ -76,12 +78,35 @@ export default function MapView({
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<Map<string, L.Marker>>(new Map());
+  const [filter, setFilter] = useState<MapFilter>('all');
 
+  // Картада тек координаталары расталған орындар ғана көрсетіледі
   const sights = useMemo(
-    () => attractions.filter((a) => a.lat != null && a.lng != null),
-    [attractions],
+    () =>
+      attractions.filter((a) => {
+        if (a.lat == null || a.lng == null || a.coords_verified !== true) return false;
+        if (filter === 'hotels') return false;
+        if (filter === 'museums') return a.category === 'museum';
+        return true;
+      }),
+    [attractions, filter],
   );
-  const hotelsWithCoords = useMemo(() => hotels.filter((h) => h.lat != null && h.lng != null), [hotels]);
+  const hotelsWithCoords = useMemo(
+    () =>
+      hotels.filter(
+        (h) =>
+          h.lat != null &&
+          h.lng != null &&
+          h.coords_verified === true &&
+          (filter === 'all' || filter === 'hotels'),
+      ),
+    [hotels, filter],
+  );
+
+  // Картадан жасырылған орындар (координаталары расталмаған)
+  const hiddenCount =
+    attractions.filter((a) => a.lat != null && a.lng != null && a.coords_verified !== true).length +
+    hotels.filter((h) => h.lat != null && h.lng != null && h.coords_verified !== true).length;
 
   /* Создание карты и маркеров (пересоздаём при смене языка) */
   useEffect(() => {
@@ -163,8 +188,35 @@ export default function MapView({
     window.setTimeout(() => marker.openPopup(), 450);
   }, [selected]);
 
+  const filters: { key: MapFilter; label: string }[] = [
+    { key: 'all', label: t('city.map.filter_all') },
+    { key: 'sights', label: t('city.map.filter_sights') },
+    { key: 'museums', label: t('city.map.filter_museums') },
+    { key: 'hotels', label: t('city.map.filter_hotels') },
+  ];
+
   return (
-    <div className="grid gap-4 lg:grid-cols-[1fr_290px]">
+    <div className="space-y-4">
+      <div className="flex flex-wrap gap-2" role="group" aria-label={t('city.map.title')}>
+        {filters.map((f) => (
+          <button
+            key={f.key}
+            type="button"
+            onClick={() => setFilter(f.key)}
+            aria-pressed={filter === f.key}
+            className={cn(
+              'inline-flex min-h-11 items-center rounded-full px-4 text-xs font-bold transition-colors',
+              filter === f.key
+                ? 'bg-teal-600 text-white'
+                : 'bg-white text-navy-600 shadow-card hover:bg-teal-50',
+            )}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-[1fr_290px]">
       <div className="card relative overflow-hidden p-1.5">
         <div
           ref={containerRef}
@@ -197,11 +249,20 @@ export default function MapView({
         <MapList
           sights={sights}
           hotels={hotelsWithCoords}
-          hotelsWithout={hotels.filter((h) => h.lat == null || h.lng == null)}
+          hotelsWithout={hotels.filter(
+            (h) => !(h.lat != null && h.lng != null && h.coords_verified === true),
+          )}
           selected={selected}
           onSelect={onSelect}
           lang={lang}
         />
+      </div>
+
+      {hiddenCount > 0 && (
+        <p className="text-xs leading-relaxed text-navy-500">
+          {t('city.map.unverified_note', { count: hiddenCount })}
+        </p>
+      )}
       </div>
     </div>
   );

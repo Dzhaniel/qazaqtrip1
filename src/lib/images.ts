@@ -7,8 +7,8 @@ import type { Attraction, Hotel } from '../data/types';
  */
 const ATTRACTION_IMAGES: Record<string, string> = {
   'regional-history-museum': '/images/museum.jpg',
-  'central-square-drama-theatre': '/images/central-square.jpg',
-  'first-president-park-embankment': '/images/syrdarya.jpg',
+  'central-square-drama-theatre': '/images/roza-baglanova.jpg',
+  'akmeshit-museum': '/images/akmeshit-mosque.jpg',
   'aitbay-mosque': '/images/aitbay-mosque.jpg',
   'korkyt-ata-memorial': '/images/korkyt-ata.jpg',
   baikonur: '/images/baikonur.jpg',
