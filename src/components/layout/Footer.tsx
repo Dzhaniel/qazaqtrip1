@@ -97,6 +97,12 @@ export default function Footer() {
       <div className="relative border-t border-navy-800 py-4">
         <div className="container-page flex flex-col items-center justify-between gap-2 text-xs text-navy-400 sm:flex-row">
           <span>© {new Date().getFullYear()} {t('footer.rights')}</span>
+          <span
+            className="inline-flex items-center rounded-full border border-gold-400/50 bg-gold-400/10 px-2.5 py-1 font-mono text-[10px] font-bold tracking-wide text-gold-300"
+            title="QazaqTrip build"
+          >
+            v2 · 05.11.2026
+          </span>
           <span className="font-bold text-navy-300">{t('app.tagline')}</span>
         </div>
       </div>
