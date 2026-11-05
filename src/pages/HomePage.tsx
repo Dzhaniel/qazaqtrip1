@@ -91,6 +91,14 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [kyzylorda]);
 
+  // «Күнделікті сөз» — жыл ішіндегі күн нөміріне байланысты тұрақты фраза
+  const wordOfDay = useMemo(() => {
+    if (!kyzylorda || kyzylorda.kazakh_phrases.length === 0) return null;
+    const start = new Date(new Date().getFullYear(), 0, 0).getTime();
+    const day = Math.floor((Date.now() - start) / 86400000);
+    return kyzylorda.kazakh_phrases[day % kyzylorda.kazakh_phrases.length];
+  }, [kyzylorda]);
+
   // «Міндетті түрде көріңіз» carousel: стрелкалармен жылжыту
   const carouselRef = useRef<HTMLDivElement>(null);
   const scrollCarousel = (dir: 1 | -1) => {
@@ -362,6 +370,12 @@ export default function HomePage() {
       {/* ================= 3. ҚАЗАҚША ҮЙRENІП КӨРІҢІЗ ================= */}
       <section className="container-page mt-16 sm:mt-24">
         <SectionHeading title={t('homePhrases.title')} subtitle={t('homePhrases.subtitle')} />
+        {wordOfDay && (
+          <div className="mb-6 max-w-md">
+            <p className="kicker mb-3 text-gold-600">{t('homePhrases.word_of_day')}</p>
+            <PhraseCard phrase={wordOfDay} lang={lang} />
+          </div>
+        )}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {randomPhrases.map((p) => (
             <PhraseCard key={p.id} phrase={p} lang={lang} compact />

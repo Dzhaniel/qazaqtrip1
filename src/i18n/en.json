@@ -68,7 +68,8 @@
     "subtitle": "Listen to a phrase and try it out — press the 🔊 button.",
     "listen": "Play",
     "stop": "Stop",
-    "view_all": "See all phrases"
+    "view_all": "See all phrases",
+    "word_of_day": "Word of the day"
   },
   "city": {
     "heroRegion": "Region",
@@ -86,7 +87,9 @@
       "guide_badge": "AI + demo",
       "getting_kicker": "Getting here",
       "cta_band_title": "Need a personal itinerary?",
-      "cta_band_text": "Set your dates and interests — the guide builds a day-by-day timeline and a budget summary."
+      "cta_band_text": "Set your dates and interests — the guide builds a day-by-day timeline and a budget summary.",
+      "culture_kicker": "Cultural heritage",
+      "culture_title": "About the city"
     },
     "gettingThere": "How to get there",
     "gettingThere_note": "Details may not be official",
@@ -225,7 +228,10 @@
       "topic_museum": "Museum",
       "topic_shopping": "Shopping",
       "topic_emergency": "Emergencies",
-      "topic_numbers": "Numbers"
+      "topic_numbers": "Numbers",
+      "save": "Save to phrasebook",
+      "slow": "Slow",
+      "saved_only": "Saved"
     }
   },
   "guide": {
@@ -291,7 +297,12 @@
       "interests": "Interests"
     },
     "kz_mode_title": "Kazakh practice mode",
-    "kz_mode_hint": "The guide answers in simple Kazakh and explains 2–3 key words with transliteration."
+    "kz_mode_hint": "The guide answers in simple Kazakh and explains 2–3 key words with transliteration.",
+    "preset1": "Demo: 2 days · 1 person",
+    "preset2": "Demo: 3 days · 2 people",
+    "preset3": "Demo: 4 days · 4 people (Baikonur)",
+    "demo_hint": "Ready-made demo scenario — one click",
+    "demo_fallback_note": "The AI did not respond. Here is a demo itinerary built from the data:"
   },
   "about": {
     "title": "About QazaqTrip",

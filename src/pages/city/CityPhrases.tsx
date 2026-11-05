@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Ear, Search, Volume2 } from 'lucide-react';
+import { Ear, Search, Star, Volume2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { getCity } from '../../data/cities';
 import type { Lang } from '../../data/types';
@@ -24,10 +24,21 @@ const TOPICS = [
 ] as const;
 
 const LEARNED_KEY = 'qazaqtrip_learned_phrases';
+const FAVORITES_KEY = 'qazaqtrip_favorites';
 
 function loadLearned(): string[] {
   try {
     const raw = localStorage.getItem(LEARNED_KEY);
+    const arr = raw ? (JSON.parse(raw) as unknown) : [];
+    return Array.isArray(arr) ? arr.filter((x): x is string => typeof x === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+function loadFavorites(): string[] {
+  try {
+    const raw = localStorage.getItem(FAVORITES_KEY);
     const arr = raw ? (JSON.parse(raw) as unknown) : [];
     return Array.isArray(arr) ? arr.filter((x): x is string => typeof x === 'string') : [];
   } catch {
@@ -44,6 +55,8 @@ export default function CityPhrases() {
   const [topic, setTopic] = useState<'all' | (typeof TOPICS)[number]>('all');
   const [query, setQuery] = useState('');
   const [learned, setLearned] = useState<string[]>(loadLearned);
+  const [favorites, setFavorites] = useState<string[]>(loadFavorites);
+  const [favOnly, setFavOnly] = useState(false);
   const [quiz, setQuiz] = useState<QuizMode | null>(null);
 
   const phrases = city?.kazakh_phrases ?? [];
@@ -52,11 +65,12 @@ export default function CityPhrases() {
     const q = query.trim().toLowerCase();
     return phrases.filter((p) => {
       if (topic !== 'all' && p.topic !== topic) return false;
+      if (favOnly && !favorites.includes(p.id)) return false;
       if (!q) return true;
       const hay = [p.kk, p.translit, p.en, p.ru].join(' ').toLowerCase();
       return hay.includes(q);
     });
-  }, [phrases, topic, query]);
+  }, [phrases, topic, query, favOnly, favorites]);
 
   if (!city) return <NotFoundPage />;
 
@@ -67,6 +81,18 @@ export default function CityPhrases() {
       const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
       try {
         localStorage.setItem(LEARNED_KEY, JSON.stringify(next));
+      } catch {
+        /* private mode — ignore */
+      }
+      return next;
+    });
+  }
+
+  function toggleFavorite(id: string) {
+    setFavorites((prev) => {
+      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
+      try {
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(next));
       } catch {
         /* private mode — ignore */
       }
@@ -136,6 +162,18 @@ export default function CityPhrases() {
                 {t(`city.phrases.topic_${tp}`)}
               </button>
             ))}
+            <button
+              type="button"
+              onClick={() => setFavOnly((v) => !v)}
+              aria-pressed={favOnly}
+              className={cn(
+                'inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-xs font-bold transition-colors',
+                favOnly ? 'border-gold-400 bg-gold-100 text-gold-700' : 'border-navy-200 bg-white text-navy-500 hover:border-gold-400 hover:text-gold-700',
+              )}
+            >
+              <Star size={13} fill={favOnly ? 'currentColor' : 'none'} aria-hidden="true" />
+              {t('city.phrases.saved_only')} ({favorites.length})
+            </button>
           </div>
           <label className="relative block sm:max-w-sm">
             <Search size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-navy-300" aria-hidden="true" />
@@ -153,7 +191,15 @@ export default function CityPhrases() {
         {/* Фразалар торы */}
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
           {filtered.map((p) => (
-            <PhraseCard key={p.id} phrase={p} lang={lang} learned={learned.includes(p.id)} onToggleLearned={() => toggleLearned(p.id)} />
+            <PhraseCard
+              key={p.id}
+              phrase={p}
+              lang={lang}
+              learned={learned.includes(p.id)}
+              onToggleLearned={() => toggleLearned(p.id)}
+              favorited={favorites.includes(p.id)}
+              onToggleFavorite={() => toggleFavorite(p.id)}
+            />
           ))}
           {filtered.length === 0 && (
             <p className="col-span-full rounded-2xl bg-navy-50 px-5 py-6 text-center text-sm text-navy-400">

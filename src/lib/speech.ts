@@ -39,11 +39,42 @@ export function whenVoicesReady(timeoutMs = 1500): Promise<SpeechSynthesisVoice[
 }
 
 let activeUtterance: SpeechSynthesisUtterance | null = null;
+let activeAudio: HTMLAudioElement | null = null;
+
+/** Жазып алынған аудио болса (public/audio/{id}.mp3) — оны ойнату. 404 → false (TTS fallback). */
+export async function tryPlayAudio(src: string): Promise<boolean> {
+  try {
+    const res = await fetch(src, { method: 'GET' });
+    if (!res.ok) return false;
+    const audio = new Audio();
+    activeAudio = audio;
+    audio.src = URL.createObjectURL(await res.blob());
+    await audio.play();
+    audio.onended = () => {
+      if (activeAudio === audio) activeAudio = null;
+      URL.revokeObjectURL(audio.src);
+    };
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export function stopSpeech(): void {
+  if (activeAudio) {
+    activeAudio.pause();
+    activeAudio = null;
+  }
   if (!isSpeechSupported()) return;
   window.speechSynthesis.cancel();
   activeUtterance = null;
+}
+
+export interface SpeakOptions {
+  /** 0.7 = «Баяу» режим */
+  rate?: number;
+  /** public/audio/{phraseId}.mp3 — болса TTS орнына ойнатылады */
+  audioSrc?: string;
 }
 
 /**
@@ -53,7 +84,12 @@ export function stopSpeech(): void {
  *          'unsupported' — браузер не поддерживает озвучку;
  *          'error' — сбой синтеза.
  */
-export async function speakKazakh(text: string): Promise<SpeechResult> {
+export async function speakKazakh(text: string, opts: SpeakOptions = {}): Promise<SpeechResult> {
+  // 1) Жазып алынған аудио бірінші (демо үшін ең сенімді жол)
+  if (opts.audioSrc) {
+    if (await tryPlayAudio(opts.audioSrc)) return 'ok';
+    // файл жоқ — TTS-ке өтеміз
+  }
   if (!isSpeechSupported()) return 'unsupported';
   const synth = window.speechSynthesis;
   synth.cancel();
@@ -72,7 +108,7 @@ export async function speakKazakh(text: string): Promise<SpeechResult> {
     const utterance = new SpeechSynthesisUtterance(text);
     if (voice) utterance.voice = voice;
     utterance.lang = 'kk-KZ';
-    utterance.rate = 0.92;
+    utterance.rate = opts.rate ?? 0.92;
     utterance.pitch = 1;
 
     let settled = false;

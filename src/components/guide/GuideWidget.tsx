@@ -17,7 +17,7 @@ import {
   requestGuide,
   GuideAbortedError,
 } from '../../lib/guide';
-import type { BudgetLevel, GuideForm, Itinerary } from '../../lib/demoItinerary';
+import { buildDemoItinerary, type BudgetLevel, type GuideForm, type Itinerary } from '../../lib/demoItinerary';
 import { cn, L, uid } from '../../lib/utils';
 import ItineraryView from './ItineraryView';
 
@@ -49,6 +49,13 @@ const KZ_SUGGESTIONS = [
   'Бұл сөздің аудармасы қандай?',
   'Қонақүйде қалай сөйлесемін?',
   'Базарда сатып алуды қалай айтамын?',
+];
+
+/** «Демо маршрут» — 1 батырмамен дайын сценарий (демо күні үшін сенімді жол). */
+const DEMO_PRESETS = [
+  { days: 2, travelers: 1, interests: ['culture'], labelKey: 'guide.preset1' },
+  { days: 3, travelers: 2, interests: ['culture', 'history'], labelKey: 'guide.preset2' },
+  { days: 4, travelers: 4, interests: ['culture', 'history', 'space'], labelKey: 'guide.preset3' },
 ];
 
 export default function GuideWidget({ data, lang, compact = false, initialForm }: Props) {
@@ -112,16 +119,17 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
   const working = status === 'working';
 
   const send = useCallback(
-    async (chatText?: string, asPlan = false) => {
+    async (chatText?: string, asPlan = false, formOverride?: GuideForm) => {
       if (working) return;
       abortRef.current?.abort();
+      const f = formOverride ?? form;
 
       const userText =
         asPlan
-          ? `${t('guide.form_summary.dates')}: ${form.arrival || '—'} → ${form.departure || '—'} · ${form.travelers} ${t('guide.form_summary.travelers')} · ${t(`guide.budget_level.${form.budgetLevel}`)}${
-              form.interests.length
-                ? ` · ${t('guide.form_summary.interests')}: ${form.interests
-                    .map((id) => data.interest_options.find((o) => o.id === id)?.[form.language] ?? id)
+          ? `${t('guide.form_summary.dates')}: ${f.arrival || '—'} → ${f.departure || '—'} · ${f.travelers} ${t('guide.form_summary.travelers')} · ${t(`guide.budget_level.${f.budgetLevel}`)}${
+              f.interests.length
+                ? ` · ${t('guide.form_summary.interests')}: ${f.interests
+                    .map((id) => data.interest_options.find((o) => o.id === id)?.[f.language] ?? id)
                     .join(', ')}`
                 : ''
             }`
@@ -134,11 +142,11 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
         .map((m) => ({ role: m.role as 'user' | 'assistant', content: m.text }));
 
       const payload = {
-        form,
+        form: f,
         messages: history,
         chatText: asPlan ? undefined : userText,
       };
-      lastPayloadRef.current = { form, chatText: asPlan ? undefined : userText };
+      lastPayloadRef.current = { form: f, chatText: asPlan ? undefined : userText };
 
       const userMsg: Message = {
         id: uid(),
@@ -159,31 +167,50 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
       abortRef.current = controller;
 
       try {
-        const res = await requestGuide(
-          payload,
-          (delta) => {
-            setMessages((prev) =>
-              prev.map((m) => (m.id === botId ? { ...m, text: m.text + delta, shown: m.shown + delta } : m)),
-            );
-          },
-          controller.signal,
-        );
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === botId
-              ? {
-                  ...m,
-                  text: res.text,
-                  mode: res.mode,
-                  itinerary: res.itinerary,
-                  // Стрим болса — shown мәтінімен үйлеседі; әйтпесе typewriter жалғайды
-                  shown: m.shown.length >= res.text.length ? res.text : m.shown,
-                  done: m.shown.length >= res.text.length,
-                }
-              : m,
-          ),
-        );
-        setStatus('idle');
+        const onDelta = (delta: string) =>
+          setMessages((prev) =>
+            prev.map((m) => (m.id === botId ? { ...m, text: m.text + delta, shown: m.shown + delta } : m)),
+          );
+        const applyResult = (res: { mode: 'ai' | 'demo'; text: string; itinerary?: Itinerary }) => {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === botId
+                ? {
+                    ...m,
+                    text: res.text,
+                    mode: res.mode,
+                    itinerary: res.itinerary,
+                    // Стрим болса — shown мәтінімен үйлеседі; әйтпесе typewriter жалғайды
+                    shown: m.shown.length >= res.text.length ? res.text : m.shown,
+                    done: m.shown.length >= res.text.length,
+                  }
+                : m,
+            ),
+          );
+          setStatus('idle');
+        };
+
+        let res;
+        try {
+          res = await requestGuide(payload, onDelta, controller.signal);
+        } catch (firstErr) {
+          if (firstErr instanceof GuideAbortedError) throw firstErr;
+          // Автоматты 1 рет қайталау
+          try {
+            res = await requestGuide(payload, onDelta, controller.signal);
+          } catch (secondErr) {
+            if (secondErr instanceof GuideAbortedError) throw secondErr;
+            // Демо fallback — демо кезінде ең сенімді жол
+            const demo = buildDemoItinerary(data, payload.form);
+            applyResult({
+              mode: 'demo',
+              text: `${t('guide.demo_fallback_note')}\n\n${demo.answerText}`,
+              itinerary: demo.itinerary,
+            });
+            return;
+          }
+        }
+        applyResult(res);
       } catch (e) {
         if (e instanceof GuideAbortedError) {
           // тоқтатылды — жиналған бөлігі қалады
@@ -204,6 +231,25 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
   );
 
   const stop = () => abortRef.current?.abort();
+
+  /** «Демо маршрут» preset: форманы толтырып, бірден жібереді. */
+  function runPreset(p: (typeof DEMO_PRESETS)[number]) {
+    const start = new Date();
+    start.setDate(start.getDate() + 14);
+    const end = new Date(start);
+    end.setDate(end.getDate() + p.days - 1);
+    const iso = (d: Date) => d.toISOString().slice(0, 10);
+    const presetForm: GuideForm = {
+      ...form,
+      arrival: iso(start),
+      departure: iso(end),
+      travelers: p.travelers,
+      interests: p.interests,
+      budgetLevel: 'medium',
+    };
+    setForm(presetForm);
+    void send(undefined, true, presetForm);
+  }
 
   const toggleInterest = (id: string) =>
     setForm((f) => ({
@@ -338,6 +384,23 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
           {working ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : <Sparkles size={16} aria-hidden="true" />}
           {working ? t('guide.planning') : t('guide.submit')}
         </button>
+
+        {/* Демо маршрут — 1 батырмамен дайын сценарий */}
+        <div className="flex flex-wrap gap-2">
+          {DEMO_PRESETS.map((p) => (
+            <button
+              key={p.labelKey}
+              type="button"
+              onClick={() => runPreset(p)}
+              disabled={working}
+              className="chip-off"
+              title={t('guide.demo_hint')}
+            >
+              <FlaskConical size={13} aria-hidden="true" />
+              {t(p.labelKey)}
+            </button>
+          ))}
+        </div>
       </form>
 
       {/* ---------- Chat ---------- */}

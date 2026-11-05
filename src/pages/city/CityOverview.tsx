@@ -16,10 +16,11 @@ import { getCity } from '../../data/cities';
 import type { Lang } from '../../data/types';
 import { L, cn } from '../../lib/utils';
 import { cityImage } from '../../lib/images';
+import { CULTURE_FACTS } from '../../lib/culture';
 import Photo from '../../components/Photo';
 import SectionHeading from '../../components/SectionHeading';
 import CitySubNav from '../../components/CitySubNav';
-import { OrnamentDivider } from '../../components/Ornament';
+import { OrnamentDivider, OrnCorner } from '../../components/Ornament';
 import NotFoundPage from '../NotFoundPage';
 
 const SECTION_ICONS = [Landmark, BedDouble, Map, Volume2, Sparkles];
@@ -121,6 +122,23 @@ export default function CityOverview() {
               </Link>
             );
           })}
+        </div>
+      </section>
+
+      {/* ================= МӘДЕНИ МҰРА ================= */}
+      <section className="container-page pt-10 sm:pt-14">
+        <div className="card relative overflow-hidden p-6 sm:p-8">
+          <OrnCorner className="absolute right-4 top-4 text-gold-400/40" />
+          <p className="kicker text-teal-700">
+            <Landmark size={14} aria-hidden="true" />
+            {t('city.overview.culture_kicker')}
+          </p>
+          <h3 className="mt-2 font-display text-lg font-bold text-navy-800 sm:text-xl">
+            {t('city.overview.culture_title')}
+          </h3>
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-navy-600 sm:text-[15px]">
+            {L(CULTURE_FACTS[city.city.id] ?? CULTURE_FACTS.kyzylorda, lang)}
+          </p>
         </div>
       </section>
 
