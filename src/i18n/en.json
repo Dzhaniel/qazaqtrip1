@@ -69,7 +69,8 @@
     "listen": "Play",
     "stop": "Stop",
     "view_all": "See all phrases",
-    "word_of_day": "Word of the day"
+    "word_of_day": "Word of the day",
+    "proverb_of_day": "Proverb of the day"
   },
   "city": {
     "heroRegion": "Region",
@@ -103,7 +104,8 @@
       "hotels": "Hotels",
       "map": "Map",
       "phrases": "Kazakh phrases",
-      "guide": "AI Guide"
+      "guide": "AI Guide",
+      "learn": "Learn"
     },
     "sights": {
       "title": "Sights",
@@ -231,7 +233,8 @@
       "topic_numbers": "Numbers",
       "save": "Save to phrasebook",
       "slow": "Slow",
-      "saved_only": "Saved"
+      "saved_only": "Saved",
+      "topic_directions": "Directions"
     }
   },
   "guide": {
@@ -289,7 +292,9 @@
       "free_time": "Free time",
       "on_map": "On the map",
       "warning": "Warning",
-      "phrases": "Useful phrases for the road"
+      "phrases": "Useful phrases for the road",
+      "learn_these": "Learn these words",
+      "added_to_deck": "Added to your deck"
     },
     "form_summary": {
       "dates": "Dates",
@@ -390,5 +395,60 @@
     "how_step2_text": "Answers are based strictly on the kyzylorda.json data: where a price is unknown, the guide says so — no guessing.",
     "how_step3_title": "Ready itinerary",
     "how_step3_text": "A day-by-day timeline, a budget summary and important notes — in one answer."
+  },
+  "learn": {
+    "hub_title": "Learn Kazakh",
+    "hub_subtitle": "Words, flashcards, dialogues and the alphabet — all in one place.",
+    "streak": "{{count}}-day streak",
+    "overall_label": "Overall progress",
+    "overall_text": "You know {{count}} of {{total}} words",
+    "badges_title": "Achievements",
+    "badge_first_quiz": "First steps",
+    "badge_first_quiz_desc": "Completed your first quiz",
+    "badge_words_10": "10 words",
+    "badge_words_10_desc": "Learned 10 words",
+    "badge_words_25": "25 words",
+    "badge_words_25_desc": "Learned 25 words",
+    "badge_words_50": "50 words",
+    "badge_words_50_desc": "Learned 50 words",
+    "badge_city_master": "City expert",
+    "badge_city_master_desc": "Viewed a city itinerary and completed a quiz",
+    "badge_listener": "Listener",
+    "badge_listener_desc": "Completed a listening quiz",
+    "categories_title": "Word categories",
+    "words_unit": "words",
+    "tools_title": "Learning tools",
+    "tool_flashcards": "Flashcards",
+    "tool_flashcards_desc": "Flip cards: Kazakh on the front, transcription and translation on the back.",
+    "tool_dialogues": "Dialogues",
+    "tool_dialogues_desc": "Three situational dialogues: pick the right reply and listen to the audio.",
+    "tool_alphabet": "Kazakh alphabet",
+    "tool_alphabet_desc": "9 difficult letters with sound hints, example words and audio.",
+    "flashcards_title": "Flashcards",
+    "flashcards_subtitle": "Kazakh on the front, transcription and translation on the back. The Leitner system schedules your reviews.",
+    "deck_label": "Word set",
+    "deck_all": "All",
+    "deck_route": "Trip words",
+    "tap_flip": "Tap to flip",
+    "box": "Box",
+    "know": "I know it",
+    "dont_know": "I don't know",
+    "leitner_hint": "“I know it” — the word comes back less often; “I don’t know” — it returns sooner.",
+    "session_done": "Session complete!",
+    "again": "Start over",
+    "back_hub": "Back to learning",
+    "empty_deck": "No words in this set.",
+    "dialogues_title": "Dialogues",
+    "dialogues_subtitle": "You play the tourist: choose the correct reply; the local’s line is spoken aloud.",
+    "dialog_lines": "lines",
+    "dialog_choices": "choices",
+    "dialog_start": "Start dialogue",
+    "your_reply": "Your reply",
+    "you": "You",
+    "dialog_score": "Score: {{score}}/{{total}}",
+    "alphabet_title": "Kazakh alphabet",
+    "alphabet_subtitle": "The 9 letters hardest for foreigners: sound hints, example words and audio.",
+    "learn.flip": "Flip card",
+    "flip": "Flip card"
   }
 }

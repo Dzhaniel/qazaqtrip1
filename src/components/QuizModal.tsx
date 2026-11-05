@@ -13,6 +13,8 @@ interface Props {
   phrases: KazakhPhrase[];
   lang: Lang;
   onClose: () => void;
+  /** Quiz аяқталғанда (badge-тар үшін). */
+  onFinished?: (mode: QuizMode) => void;
 }
 
 const QUESTION_COUNT = 10;
@@ -50,7 +52,7 @@ function buildQuestions(phrases: KazakhPhrase[], mode: QuizMode, lang: Lang) {
  * Қазақша сөзді шынайы «тыңдап» таңдау / аудармасын таңдау қызуы.
  * ТTTS (kk-KZ) қолжетімсіз болса — транслитерация fallback-і көрсетіледі.
  */
-export default function QuizModal({ open, mode, phrases, lang, onClose }: Props) {
+export default function QuizModal({ open, mode, phrases, lang, onClose, onFinished }: Props) {
   const { t } = useTranslation();
   const [round, setRound] = useState(0);
   const [idx, setIdx] = useState(0);
@@ -101,6 +103,7 @@ export default function QuizModal({ open, mode, phrases, lang, onClose }: Props)
     stopSpeech();
     if (idx + 1 >= questions.length) {
       setFinished(true);
+      onFinished?.(mode);
     } else {
       setIdx(idx + 1);
       setPicked(null);

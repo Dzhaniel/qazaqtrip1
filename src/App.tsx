@@ -9,6 +9,10 @@ const CitySights = lazy(() => import('./pages/city/CitySights'));
 const CityHotels = lazy(() => import('./pages/city/CityHotels'));
 const CityMap = lazy(() => import('./pages/city/CityMap'));
 const CityPhrases = lazy(() => import('./pages/city/CityPhrases'));
+const CityLearn = lazy(() => import('./pages/city/CityLearn'));
+const CityFlashcards = lazy(() => import('./pages/city/CityFlashcards'));
+const CityDialogues = lazy(() => import('./pages/city/CityDialogues'));
+const CityAlphabet = lazy(() => import('./pages/city/CityAlphabet'));
 const GuidePage = lazy(() => import('./pages/GuidePage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
@@ -34,6 +38,10 @@ export default function App() {
             <Route path="/city/:cityId/hotels" element={<CityHotels />} />
             <Route path="/city/:cityId/map" element={<CityMap />} />
             <Route path="/city/:cityId/phrases" element={<CityPhrases />} />
+            <Route path="/city/:cityId/learn" element={<CityLearn />} />
+            <Route path="/city/:cityId/flashcards" element={<CityFlashcards />} />
+            <Route path="/city/:cityId/dialogues" element={<CityDialogues />} />
+            <Route path="/city/:cityId/alphabet" element={<CityAlphabet />} />
             <Route path="/guide" element={<GuidePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<NotFoundPage />} />

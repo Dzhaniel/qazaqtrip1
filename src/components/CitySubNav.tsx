@@ -17,6 +17,7 @@ export default function CitySubNav({ city }: { city: CityData }) {
     { to: `${base}/sights`, key: 'sights' },
     { to: `${base}/hotels`, key: 'hotels' },
     { to: `${base}/map`, key: 'map' },
+    { to: `${base}/learn`, key: 'learn' },
     { to: `${base}/phrases`, key: 'phrases' },
   ];
 

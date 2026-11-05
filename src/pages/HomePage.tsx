@@ -10,6 +10,8 @@ import {
   MapPin,
   Route,
   Sparkles,
+  Volume2,
+  VolumeX,
   Wand2,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -17,13 +19,15 @@ import { cities, comingSoonCities, getCity } from '../data/cities';
 import type { Attraction, Lang } from '../data/types';
 import { L, cn, visitLabel } from '../lib/utils';
 import { HERO_IMAGE, attractionImage } from '../lib/images';
+import { proverbOfTheDay } from '../lib/proverbs';
+import { speakKazakh, stopSpeech } from '../lib/speech';
 import Photo from '../components/Photo';
 import SectionHeading from '../components/SectionHeading';
 import CityCard from '../components/CityCard';
 import PhraseCard from '../components/PhraseCard';
 import { DayTripBadge } from '../components/Badge';
 import { CATEGORY_ICONS } from '../components/AttractionCard';
-import { OrnamentDivider } from '../components/Ornament';
+import { OrnamentDivider, OrnCorner } from '../components/Ornament';
 
 /** «Міндетті түрде көріңіз» — қолмен таңдалған 5 орын (барлығы фотомен). */
 const MUST_SEE_IDS = [
@@ -98,6 +102,21 @@ export default function HomePage() {
     const day = Math.floor((Date.now() - start) / 86400000);
     return kyzylorda.kazakh_phrases[day % kyzylorda.kazakh_phrases.length];
   }, [kyzylorda]);
+
+  // «Күннің мақалы» — тек 3 мақалдан күн бойынша айналады
+  const proverb = useMemo(() => proverbOfTheDay(), []);
+  const [proverbSpeaking, setProverbSpeaking] = useState(false);
+
+  async function playProverb() {
+    if (proverbSpeaking) {
+      stopSpeech();
+      setProverbSpeaking(false);
+      return;
+    }
+    setProverbSpeaking(true);
+    await speakKazakh(proverb.kk);
+    setProverbSpeaking(false);
+  }
 
   // «Міндетті түрде көріңіз» carousel: стрелкалармен жылжыту
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -376,6 +395,30 @@ export default function HomePage() {
             <PhraseCard phrase={wordOfDay} lang={lang} />
           </div>
         )}
+        {/* Күннің мақалы */}
+        <div className="mb-6 max-w-md">
+          <p className="kicker mb-3 text-teal-700">{t('homePhrases.proverb_of_day')}</p>
+          <div className="card relative overflow-hidden p-6">
+            <OrnCorner className="absolute right-3 top-3 text-gold-400/40" />
+            <p className="font-display text-xl font-bold leading-snug text-navy-800">«{proverb.kk}»</p>
+            <p className="mt-2 text-sm font-bold text-teal-800">{lang === 'ru' ? proverb.ru : proverb.en}</p>
+            {lang === 'kk' && <p className="mt-0.5 text-xs text-navy-400">{proverb.en}</p>}
+            <button
+              type="button"
+              onClick={() => void playProverb()}
+              aria-label={t('city.phrases.listen')}
+              className={cn(
+                'mt-4 inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-xs font-bold transition-colors',
+                proverbSpeaking
+                  ? 'border-teal-600 bg-teal-600 text-white'
+                  : 'border-navy-200 bg-white text-teal-700 hover:border-teal-500 hover:bg-teal-600 hover:text-white',
+              )}
+            >
+              {proverbSpeaking ? <VolumeX size={14} aria-hidden="true" /> : <Volume2 size={14} aria-hidden="true" />}
+              {t('city.phrases.listen')}
+            </button>
+          </div>
+        </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {randomPhrases.map((p) => (
             <PhraseCard key={p.id} phrase={p} lang={lang} compact />

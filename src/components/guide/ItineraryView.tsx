@@ -1,7 +1,9 @@
-import { AlertTriangle, BedDouble, Car, MapPin, Sun, Utensils } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { AlertTriangle, BedDouble, BookMarked, Car, Check, MapPin, Sun, Utensils } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { Itinerary, PlanItem } from '../../lib/demoItinerary';
 import { cn } from '../../lib/utils';
+import { addRoutePhrases, touchItinerary, unlockBadge, loadBadges } from '../../lib/learnStore';
 
 const KIND_ICONS: Record<PlanItem['kind'], typeof MapPin> = {
   attraction: MapPin,
@@ -29,10 +31,30 @@ function CostPill({ cost, known }: { cost: string; known: boolean }) {
 /** Итнерарий: күн бойынша таймлайн + бюджет кестесі + ескертулер. */
 export default function ItineraryView({ it }: { it: Itinerary }) {
   const { t } = useTranslation();
+  const [added, setAdded] = useState(false);
   const kztTotal = it.budget.reduce((s, b) => s + (b.known && b.kzt ? b.kzt : 0), 0);
   const rubTotal = it.budget.reduce((s, b) => s + (b.known && b.rub ? b.rub : 0), 0);
+
+  // «Қала білгірі» badge-і: маршрут көрсетілді
+  useEffect(() => {
+    touchItinerary();
+    if (loadBadges().includes('first_quiz')) unlockBadge('city_master');
+  }, []);
+
   const kindLabel = (k: string) =>
     t(`guide.itinerary.${k === 'ticket' ? 'ticket' : k === 'hotel' ? 'hotel' : k === 'tour' ? 'tour' : 'other'}`);
+
+  function addToDeck() {
+    const addedCount = addRoutePhrases(
+      it.phrases.map((p, i) => ({
+        id: `route-${p.kk.replace(/[^\p{L}]/gu, '').slice(0, 24)}-${i}`,
+        kk: p.kk,
+        translit: p.translit,
+        meaning: p.meaning,
+      })),
+    );
+    setAdded(addedCount > 0);
+  }
 
   return (
     <div className="mt-4 space-y-5">
@@ -204,12 +226,28 @@ export default function ItineraryView({ it }: { it: Itinerary }) {
         </div>
       )}
 
-      {/* Сөздер */}
+      {/* Сөздер (A8: flashcard deck-ке қосу) */}
       {it.phrases.length > 0 && (
         <div className="card animate-fade-up p-4" style={{ animationDelay: '360ms' }}>
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-gold-700">
-            {t('guide.itinerary.phrases')}
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-gold-700">
+              {t('guide.itinerary.phrases')}
+            </p>
+            <button
+              type="button"
+              onClick={addToDeck}
+              disabled={added}
+              className={cn(
+                'inline-flex min-h-11 items-center gap-1.5 rounded-full border px-4 text-xs font-bold transition-colors',
+                added
+                  ? 'cursor-default border-teal-600 bg-teal-600 text-white'
+                  : 'border-teal-600 bg-white text-teal-700 hover:bg-teal-600 hover:text-white',
+              )}
+            >
+              {added ? <Check size={14} aria-hidden="true" /> : <BookMarked size={14} aria-hidden="true" />}
+              {added ? t('guide.itinerary.added_to_deck') : t('guide.itinerary.learn_these')}
+            </button>
+          </div>
           <ul className="mt-2 space-y-1">
             {it.phrases.map((p, i) => (
               <li key={i} className="text-sm text-navy-700">

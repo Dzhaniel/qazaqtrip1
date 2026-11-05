@@ -1271,6 +1271,78 @@
       "en": "Ten (10)",
       "ru": "Десять (10)",
       "topic": "numbers"
+    },
+    {
+      "id": "p101",
+      "kk": "Оңға",
+      "translit": "Oŋğa",
+      "en": "To the right",
+      "ru": "Вправо",
+      "topic": "directions"
+    },
+    {
+      "id": "p102",
+      "kk": "Солға",
+      "translit": "Solğa",
+      "en": "To the left",
+      "ru": "Влево",
+      "topic": "directions"
+    },
+    {
+      "id": "p103",
+      "kk": "Тура",
+      "translit": "Tura",
+      "en": "Straight ahead",
+      "ru": "Прямо",
+      "topic": "directions"
+    },
+    {
+      "id": "p104",
+      "kk": "Жақын",
+      "translit": "Jaqın",
+      "en": "Near / close",
+      "ru": "Близко",
+      "topic": "directions"
+    },
+    {
+      "id": "p105",
+      "kk": "Алыс",
+      "translit": "Alys",
+      "en": "Far",
+      "ru": "Далеко",
+      "topic": "directions"
+    },
+    {
+      "id": "p106",
+      "kk": "Жиырма",
+      "translit": "Jıyrma",
+      "en": "Twenty (20)",
+      "ru": "Двадцать (20)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p107",
+      "kk": "Елу",
+      "translit": "Elu",
+      "en": "Fifty (50)",
+      "ru": "Пятьдесят (50)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p108",
+      "kk": "Жүз",
+      "translit": "Jüz",
+      "en": "One hundred (100)",
+      "ru": "Сто (100)",
+      "topic": "numbers"
+    },
+    {
+      "id": "p109",
+      "kk": "Мың",
+      "translit": "Mıń",
+      "en": "One thousand (1000)",
+      "ru": "Тысяча (1000)",
+      "topic": "numbers"
     }
   ],
   "interest_options": [

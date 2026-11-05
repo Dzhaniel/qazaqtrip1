@@ -79,6 +79,27 @@
     @apply inline-flex items-center gap-2.5 text-[11px] font-extrabold uppercase tracking-[0.2em];
   }
 
+  /* Flip card (Leitner flashcards) */
+  .flip-card {
+    perspective: 1200px;
+  }
+  .flip-inner {
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+  }
+  .flip-inner.flipped {
+    transform: rotateY(180deg);
+  }
+  .flip-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .flip-back {
+    transform: rotateY(180deg);
+  }
+
   .kicker::before {
     content: '';
     width: 1.75rem;

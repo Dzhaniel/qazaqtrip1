@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { getCity } from '../../data/cities';
 import type { Lang } from '../../data/types';
 import { cn, L } from '../../lib/utils';
+import { KEYS, loadJSON, unlockBadge } from '../../lib/learnStore';
 import PageHero from '../../components/PageHero';
 import CitySubNav from '../../components/CitySubNav';
 import PhraseCard from '../../components/PhraseCard';
@@ -14,6 +15,7 @@ import { OrnamentDivider, OrnCorner } from '../../components/Ornament';
 
 const TOPICS = [
   'greetings',
+  'directions',
   'hotel',
   'transport',
   'food',
@@ -52,7 +54,11 @@ export default function CityPhrases() {
   const lang = i18n.resolvedLanguage as Lang;
   const city = getCity(cityId ?? 'kyzylorda');
 
-  const [topic, setTopic] = useState<'all' | (typeof TOPICS)[number]>('all');
+  const [topic, setTopic] = useState<'all' | (typeof TOPICS)[number]>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tp = params.get('topic');
+    return tp && (TOPICS as readonly string[]).includes(tp) ? (tp as (typeof TOPICS)[number]) : 'all';
+  });
   const [query, setQuery] = useState('');
   const [learned, setLearned] = useState<string[]>(loadLearned);
   const [favorites, setFavorites] = useState<string[]>(loadFavorites);
@@ -84,8 +90,20 @@ export default function CityPhrases() {
       } catch {
         /* private mode — ignore */
       }
+      // Badge: сөз саны еселері
+      const valid = new Set(phrases.map((p) => p.id));
+      const count = next.filter((x) => valid.has(x)).length;
+      if (count >= 50) unlockBadge('words_50');
+      else if (count >= 25) unlockBadge('words_25');
+      else if (count >= 10) unlockBadge('words_10');
       return next;
     });
+  }
+
+  function onQuizFinished(mode: QuizMode) {
+    unlockBadge('first_quiz');
+    if (mode === 'listen') unlockBadge('listener');
+    if (loadJSON<boolean>(KEYS.itineraryDone, false)) unlockBadge('city_master');
   }
 
   function toggleFavorite(id: string) {
@@ -251,6 +269,7 @@ export default function CityPhrases() {
         phrases={phrases}
         lang={lang}
         onClose={() => setQuiz(null)}
+        onFinished={onQuizFinished}
       />
     </div>
   );

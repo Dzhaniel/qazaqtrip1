@@ -15,6 +15,10 @@ import CitySights from '../pages/city/CitySights';
 import CityHotels from '../pages/city/CityHotels';
 import CityMap from '../pages/city/CityMap';
 import CityPhrases from '../pages/city/CityPhrases';
+import CityLearn from '../pages/city/CityLearn';
+import CityFlashcards from '../pages/city/CityFlashcards';
+import CityDialogues from '../pages/city/CityDialogues';
+import CityAlphabet from '../pages/city/CityAlphabet';
 import GuidePage from '../pages/GuidePage';
 import AboutPage from '../pages/AboutPage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -49,6 +53,10 @@ async function renderClient(path: string, waitMs = 750): Promise<string> {
           <Route path="/city/:cityId/hotels" element={<CityHotels />} />
           <Route path="/city/:cityId/map" element={<CityMap />} />
           <Route path="/city/:cityId/phrases" element={<CityPhrases />} />
+          <Route path="/city/:cityId/learn" element={<CityLearn />} />
+          <Route path="/city/:cityId/flashcards" element={<CityFlashcards />} />
+          <Route path="/city/:cityId/dialogues" element={<CityDialogues />} />
+          <Route path="/city/:cityId/alphabet" element={<CityAlphabet />} />
           <Route path="/guide" element={<GuidePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
@@ -177,6 +185,42 @@ describe('страницы рендерятся (по умолчанию — к�
     expect(html).toContain('Дереккөздер');
     expect(html).toContain(getCity('kyzylorda')!.meta.last_checked);
     expect(html).toContain('welcome.kz');
+  });
+
+  it('Үйрену hub: streak, badges, санаттар, құралдар', async () => {
+    const html = await renderClient('/city/kyzylorda/learn', 150);
+    expect(html).toContain('Қазақша үйрену');
+    expect(html).toContain('Достижения');
+    expect(html).toContain('Сөз санаттары');
+    expect(html).toContain('/city/kyzylorda/flashcards');
+    expect(html).toContain('/city/kyzylorda/dialogues');
+    expect(html).toContain('/city/kyzylorda/alphabet');
+  });
+
+  it('Флэш-карточкалар: карточка, flip, Leitner-түймелері', async () => {
+    const html = await renderClient('/city/kyzylorda/flashcards', 150);
+    expect(html).toContain('Сөз карточкалары');
+    expect(html).toContain('Сәлеметсіз бе!');
+    expect(html).toContain('Басып аударыңыз');
+    expect(html).toContain('Білемін');
+    expect(html).toContain('Білмеймін');
+  });
+
+  it('Диалогтар: 3 диалог, start-түйме', async () => {
+    const html = await renderClient('/city/kyzylorda/dialogues', 150);
+    expect(html).toContain('Диалогтар');
+    expect(html).toContain('Диалогты бастау');
+    expect(html).toContain('Мейрамханада');
+    expect(html).toContain('Таксиде');
+  });
+
+  it('Әліпби: 9 әріп + транслит + мысал', async () => {
+    const html = await renderClient('/city/kyzylorda/alphabet', 150);
+    expect(html).toContain('Қазақ әліпбиі');
+    expect(html).toContain('Ә ә');
+    expect(html).toContain('Қ қ');
+    expect(html).toContain('әке');
+    expect(html).toContain('қала');
   });
 
   it('404', async () => {
