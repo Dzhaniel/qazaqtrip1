@@ -250,7 +250,7 @@
 | guide.kz_mode_title | Қазақша сөйлесу режимі | 카자흐어 대화 모드 |
 | guide.lang_en | Ағылшынша | 영어 |
 | guide.lang_kk | Қазақша | 카자흐어 |
-| guide.lang_ko | Қазақша | 한국어 |
+| guide.lang_ko | Корейше | 한국어 |
 | guide.lang_ru | Орысша | 러시아어 |
 | guide.language | Жауап тілі | 답변 언어 |
 | guide.plan_ready | Маршрут дайын | 일정 준비 완료 |
