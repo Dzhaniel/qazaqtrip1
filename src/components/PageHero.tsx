@@ -30,7 +30,7 @@ export default function PageHero({ city, lang, crumb, title, subtitle, Icon, kic
 
   return (
     <section className="border-b border-navy-100/70 bg-cream-50">
-      <div className="container-page py-6 sm:py-8">
+      <div className="container-page pt-8 pb-5 sm:pb-6">
         <nav className="flex flex-wrap items-center gap-1.5 text-xs font-bold text-navy-400" aria-label="breadcrumb">
           <Link to="/" className="transition-colors hover:text-teal-700">
             {t('nav.home')}
