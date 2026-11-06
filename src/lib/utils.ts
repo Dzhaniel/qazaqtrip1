@@ -7,12 +7,40 @@ export function cn(...parts: Array<string | false | null | undefined>): string {
 
 /**
  * Локализация контента из JSON: если строка — возвращаем как есть
- * (одноязычные поля данных, например notes), если {kk,en,ru} — берём язык.
+ * (одноязычные поля данных, например notes), если {kk,en,ru,ko} — берём язык.
+ * ko fallback-режелері: ko → en → kk (ешқашан raw key / бос мәтін болмайды).
  */
 export function L(value: L10n | string | null | undefined, lang: Lang): string {
   if (value == null) return '';
   if (typeof value === 'string') return value;
+  if (lang === 'ko') return value.ko || value.en || value.kk;
   return value[lang] || value.kk;
+}
+
+/**
+ * Дүниежүзілік (plain) мәтіндік өрістің локализациясы: ко UI-де *_ko қосындысын
+ * қолданады, жоқ болса түпнұсқа (kk) мәтінді қайтарады. Бос/undefined болмайды.
+ * Мысалы: getLocalized(a.address, a.address_ko, lang)
+ */
+export function getLocalized(base: string | null | undefined, ko?: string, lang?: Lang): string {
+  if (base == null || base === '') return '';
+  if (lang === 'ko' && ko) return ko;
+  return base;
+}
+
+/**
+ * Екінші жақты атау көрсету: ko UI-де «корей атауы» үлкен, қазақ оригиналы кіші.
+ * Басқа тілдерде — L() бойынша бір атау.
+ * Мысалы: nameParts(a.name, 'ko') → { main: '코르키트 아타 공원 및 기념비', sub: 'Қорқыт ата саябағы мен ескерткіші' }
+ */
+export function nameParts(name: L10n | string | null | undefined, lang: Lang): { main: string; sub?: string } {
+  if (name == null) return { main: '' };
+  const main = L(name, lang);
+  if (!main) return { main: '' };
+  if (lang === 'ko' && typeof name === 'object' && name.kk && name.kk !== main) {
+    return { main, sub: name.kk };
+  }
+  return { main };
 }
 
 /** Google Maps link из map_query (единое правило для всех «Бағдар алу»). */

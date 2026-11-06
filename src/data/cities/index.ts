@@ -21,34 +21,34 @@ export function getCity(id: string): CityData | undefined {
 /** Города «Жақында» (coming soon) — карточки на главной, без данных. */
 export interface ComingSoonCity {
   id: string;
-  name: { kk: string; en: string; ru: string };
-  region: { kk: string; en: string; ru: string };
+  name: { kk: string; en: string; ru: string; ko?: string };
+  region: { kk: string; en: string; ru: string; ko?: string };
 }
 
 export const comingSoonCities: ComingSoonCity[] = [
   {
     id: 'astana',
-    name: { kk: 'Астана', en: 'Astana', ru: 'Астана' },
-    region: { kk: 'Астана қаласы', en: 'Astana city', ru: 'г. Астана' },
+    name: { kk: 'Астана', en: 'Astana', ru: 'Астана', ko: '아스타나' },
+    region: { kk: 'Астана қаласы', en: 'Astana city', ru: 'г. Астана', ko: '아스타나시' },
   },
   {
     id: 'almaty',
-    name: { kk: 'Алматы', en: 'Almaty', ru: 'Алматы' },
-    region: { kk: 'Алматы қаласы', en: 'Almaty city', ru: 'г. Алматы' },
+    name: { kk: 'Алматы', en: 'Almaty', ru: 'Алматы', ko: '알마티' },
+    region: { kk: 'Алматы қаласы', en: 'Almaty city', ru: 'г. Алматы', ko: '알마티시' },
   },
   {
     id: 'turkistan',
-    name: { kk: 'Түркістан', en: 'Turkistan', ru: 'Туркестан' },
-    region: { kk: 'Түркістан облысы', en: 'Turkistan Region', ru: 'Туркестанская область' },
+    name: { kk: 'Түркістан', en: 'Turkistan', ru: 'Туркестан', ko: '투르키스탄' },
+    region: { kk: 'Түркістан облысы', en: 'Turkistan Region', ru: 'Туркестанская область', ko: '투르키스탄주' },
   },
   {
     id: 'shymkent',
-    name: { kk: 'Шымкент', en: 'Shymkent', ru: 'Шымкент' },
-    region: { kk: 'Шымкент қаласы', en: 'Shymkent city', ru: 'г. Шымкент' },
+    name: { kk: 'Шымкент', en: 'Shymkent', ru: 'Шымкент', ko: '심켄트' },
+    region: { kk: 'Шымкент қаласы', en: 'Shymkent city', ru: 'г. Шымкент', ko: '심켄트시' },
   },
   {
     id: 'aktau',
-    name: { kk: 'Ақтау', en: 'Aktau', ru: 'Акtau' },
-    region: { kk: 'Маңғыстау облысы', en: 'Mangystau Region', ru: 'Мангистауская область' },
+    name: { kk: 'Ақтау', en: 'Aktau', ru: 'Акtau', ko: '악타우' },
+    region: { kk: 'Маңғыстау облысы', en: 'Mangystau Region', ru: 'Мангистауская область', ko: '망기스타우주' },
   },
 ];

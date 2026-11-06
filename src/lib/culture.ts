@@ -9,25 +9,30 @@ export const CULTURE_FACTS: Record<string, L10n> = {
     kk: 'Кызылорда өңірі — ежелгі Ақмешіт (Қызылқент) қалашығының орны: XIII ғасырда монғол хандарының тақтасын қабылдау рәсімі осында өткен. Қала Сырдария — «ана-өзен» бойында орналасқан, ал Шықсағат мұнарасы мен Ақмешіт сарайы — түркі-ислам сәулетінің ескі үлгілері.',
     en: 'The Kyzylorda region is the site of the ancient city of Akmeshit (Kyzl-Kent): in the 13th century, the coronation of Mongol khans took place here. The city stands on the Syr Darya — the “Mother River” — and the Shyq-Sagat tower and the Akmeshit palace are early samples of Turkic-Islamic architecture.',
     ru: 'Кызылординский регион — место древнего городища Акмешит (Кызылкент): в XIII веке здесь проходила коронация монгольских ханов. Город стоит на Сырдарье — «матушке-реке», а башня Шык-Сагата и дворец Акмешит — ранние образцы тюрко-исламской архитектуры.',
+    ko: '크질오르다 지역은 고대 도시 압메시트(크질켄트)의 자취가 남은 곳으로, 13세기 몽골 칸들의 등극 의식이 여기서 열렸습니다. 도시는 시르다리야 — “모여(母川)” — 옆에 자리하고, 쉬크사гат 탑과 압메시트 궁전은 튀르코-이슬람 건축의 초기 예입니다.',
   },
   turkistan: {
     kk: 'Қожа Ахмет Ясауи кесенесі XIV ғасырда Әмір Темір тапсырысымен салынған — түркі әлемінің рухани астанасы. 1998 жылдан бұл кесене ЮНЕСКО Әлемдік мұра тізімінде.',
     en: 'The Mausoleum of Khoja Ahmed Yasawi was built in the 14th century under Timur’s order — it is the spiritual capital of the Turkic world. Since 1998 the mausoleum has been on the UNESCO World Heritage List.',
     ru: 'Мавзолей Кожа Ахмета Яссави возведён в XIV веке по заказу Тимура — духовная столица тюркского мира. С 1998 года мавзолей включён в список Всемирного наследия ЮНЕСКО.',
+    ko: '코자 아흐메트 야사위 묘소는 14세기에 티무르의 명으로 건립된, 튀르크 세계의 영혼의 수도입니다. 1998년부터 유네스코 세계문화유산 목록에 등재되어 있습니다.',
   },
   almaty: {
     kk: '«Алматы» — қазақша «алма бағы»: қала атауы алмамен байланысты. Медеу, Көлсай көлдері мен Іле өзенінің бойы — қаланың сәні. Қала тау етегінде орналасқан — Азиядағы ең биік қалалардың бірі, заманауи метро жүйесі бар.',
     en: '“Almaty” means “apple garden” in Kazakh. Medeu, the Kolsai lakes and the Ili river define the city. Almaty sits at the foot of the mountains — one of the highest major cities in Asia — and has a modern metro.',
     ru: '«Алматы» в переводе с казахского — «яблоневый сад». Медео, Кольсайские озёра и берег реки Иле — визитная карточка города. Город стоит у подножия гор — один из самых высоко расположенных крупных городов Азии — и обладает современным метро.',
+    ko: '“알마티”는 카자흐어로 “사과 정원”이라는 뜻으로, 도시 이름이 사과와 관련이 있습니다. 메데우, 콜사이 호수군과 일리 강변이 도시를 대표합니다. 도시는 산기슭에 자리한 아시아 최고고도 도시 중 하나로, 현대적인 지하철이 있습니다.',
   },
   astana: {
     kk: 'Астана — 1997 жылдан ҚР астанасы, Іле өзенінің бойындағы заманауи қала. Байтерек монументі — ел бірлігінің символы: алтын жаңғақ — түркі мифологиясындағы Өмір ағашының жемісі.',
     en: 'Astana has been the capital since 1997 — a modern city on the Ili river. The Baiterek monument is a symbol of national unity: the golden pomegranate is the fruit of the World Tree of Turkic mythology.',
     ru: 'Астана — столица с 1997 года, современный город на реке Иле. Мемориал Байтерек — символ единства страны: золотой гранат — плод Древа жизни в тюркской мифологии.',
+    ko: '아스타나는 1997년부터 국도로, 일리 강변의 현대적인 도시입니다. 바이테렉 기념물은 국가 단결의 상징이며, 황금 자두(석류)는 튀르크 신화의 생명나무 열매입니다.',
   },
   aktau: {
     kk: 'Ақтау — Каспий теңізінің қақпасындағы, шөлді аймақта орналасқан қала. Манас көлі, «Үш анық» бұлақтары және теңіз жағалауы — демалыс орындары.',
     en: 'Aktau is the gateway to the Caspian Sea — a city in an arid region. The Manas lake, the “Ush Anyk” springs and the Caspian shore are its leisure spots.',
     ru: 'Актау — ворота Каспийского моря — город в засушливом регионе. Озеро Манас, источники «Уш Анык» и каспийский берег — места отдыха.',
+    ko: '악타우는 카스피해의 관문, 건조한 지역에 위치한 도시입니다. 마나스 호수, “우쉬 안ы크” 온천과 해안선이 휴양 명소입니다.',
   },
 };

@@ -129,7 +129,7 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
           ? `${t('guide.form_summary.dates')}: ${f.arrival || '—'} → ${f.departure || '—'} · ${f.travelers} ${t('guide.form_summary.travelers')} · ${t(`guide.budget_level.${f.budgetLevel}`)}${
               f.interests.length
                 ? ` · ${t('guide.form_summary.interests')}: ${f.interests
-                    .map((id) => data.interest_options.find((o) => o.id === id)?.[f.language === 'ko' ? 'kk' : f.language] ?? id)
+                    .map((id) => data.interest_options.find((o) => o.id === id)?.[f.language] ?? id)
                     .join(', ')}`
                 : ''
             }`

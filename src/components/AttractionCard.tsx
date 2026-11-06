@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { Attraction, AttractionCategory, Lang } from '../data/types';
-import { L, mapsUrl, ticketDisplay, visitLabel, formatKzt, formatRub, cn } from '../lib/utils';
+import { L, getLocalized, mapsUrl, nameParts, ticketDisplay, visitLabel, formatKzt, formatRub, cn } from '../lib/utils';
 import { attractionImage } from '../lib/images';
 import Photo from './Photo';
 import { DayTripBadge, PermitBadge, VerifyBadge } from './Badge';
@@ -83,6 +83,7 @@ export default function AttractionCard({ attraction: a, lang, onShowOnMap, photo
   const isDayTrip = a.type === 'day_trip';
   const restricted = Boolean(a.restricted && a.permit);
   const ticket = ticketDisplay(a.ticket);
+  const name = nameParts(a.name, lang);
 
   function hoursText(): string {
     if (a.hours == null) return t('common.hours_unknown');
@@ -139,8 +140,8 @@ export default function AttractionCard({ attraction: a, lang, onShowOnMap, photo
             <p className="mt-1.5 text-[13px] leading-relaxed text-amber-900/90">{L(a.permit, lang)}</p>
             {a.permit.recommendation && (
               <p className="mt-1.5 text-xs font-bold text-amber-800">
-                {lang === 'kk' ? 'Кеңес: ' : lang === 'ru' ? 'Совет: ' : 'Advice: '}
-                {a.permit.recommendation}
+                {lang === 'kk' ? 'Кеңес: ' : lang === 'ru' ? 'Совет: ' : lang === 'ko' ? '제안: ' : 'Advice: '}
+                {getLocalized(a.permit.recommendation, a.permit.recommendation_ko, lang)}
               </p>
             )}
           </div>
@@ -150,7 +151,12 @@ export default function AttractionCard({ attraction: a, lang, onShowOnMap, photo
           <p className="text-[11px] font-extrabold uppercase tracking-wider text-teal-700">
             {t(`city.sights.${CATEGORY_KEYS[a.category]}`)}
           </p>
-          <h3 className="mt-1 font-display text-lg font-bold leading-snug text-navy-800">{L(a.name, lang)}</h3>
+          <h3 className="mt-1 font-display text-lg font-bold leading-snug text-navy-800">
+            {name.main}
+            {name.sub && (
+              <span className="mt-0.5 block font-sans text-xs font-medium leading-snug text-navy-400">{name.sub}</span>
+            )}
+          </h3>
         </div>
 
         <p className={cn('text-sm leading-relaxed text-navy-500', !expanded && 'clamp-3')}>
@@ -170,7 +176,7 @@ export default function AttractionCard({ attraction: a, lang, onShowOnMap, photo
               <MapPin size={14} className="shrink-0" aria-hidden="true" />
               {t('city.sights.address')}
             </dt>
-            <dd className="text-navy-600">{a.address}</dd>
+            <dd className="text-navy-600">{getLocalized(a.address, a.address_ko, lang)}</dd>
           </div>
           <div className="flex items-start gap-2">
             <dt className="flex items-center gap-1.5 font-bold text-navy-400">
@@ -186,7 +192,11 @@ export default function AttractionCard({ attraction: a, lang, onShowOnMap, photo
             </dt>
             <dd className={cn(ticket.kind === 'unknown' ? 'italic text-gold-700' : 'text-navy-600')}>
               {ticketMain()}
-              {a.ticket.note && <span className="mt-0.5 block text-xs text-navy-400">{a.ticket.note}</span>}
+              {a.ticket.note && (
+                <span className="mt-0.5 block text-xs text-navy-400">
+                  {getLocalized(a.ticket.note, a.ticket.note_ko, lang)}
+                </span>
+              )}
             </dd>
           </div>
           <div className="flex items-start gap-2">

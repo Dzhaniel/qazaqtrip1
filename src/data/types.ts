@@ -16,6 +16,8 @@ export interface Meta {
   language_primary: string;
   sources: string[];
   disclaimer: L10n;
+  /** Ко корей аудармалары тексерілмеді (machine translation). */
+  ko_reviewed?: boolean;
   data_rules: {
     null_means: string;
     coords_approx_true_means: string;
@@ -29,8 +31,12 @@ export interface GettingThere {
   type: GettingThereType;
   name: L10n;
   distance_to_center_km?: number | string | null;
+  /** Ко (UI=ko кезде көрсетіледі); жоқ болса түпнұсқа. */
+  distance_to_center_km_ko?: string;
   hours?: string | null;
+  hours_ko?: string;
   address?: string;
+  address_ko?: string;
   note?: L10n;
   verified?: boolean;
 }
@@ -44,6 +50,7 @@ export interface CityInfo {
   center: { lat: number; lng: number; approx?: boolean };
   description: L10n;
   getting_there: GettingThere[];
+  ko_reviewed?: boolean;
 }
 
 export type AttractionType = 'city' | 'day_trip';
@@ -69,6 +76,8 @@ export interface Ticket {
   museum_audio_guide_rub?: number;
   cosmodrome_group_tour_rub?: number;
   note?: string;
+  /** Ко версия билет-ескертпесі (UI=ko). */
+  note_ko?: string;
   verified?: boolean;
 }
 
@@ -77,8 +86,10 @@ export interface Permit {
   kk: string;
   en: string;
   ru: string;
+  ko?: string;
   official_museum_site?: string;
   recommendation?: string;
+  recommendation_ko?: string;
   verified?: boolean;
 }
 
@@ -91,6 +102,8 @@ export interface Attraction {
   /** Опциональное фото (например, /images/theater.jpg). Отсутствует в данных — градиент-фолбэк. */
   image?: string;
   address: string;
+  /** Ко мекенжай (UI=ko кезде); жоқ болса түпнұсқа. */
+  address_ko?: string;
   map_query: string;
   lat: number | null;
   lng: number | null;
@@ -111,6 +124,7 @@ export interface Attraction {
   etiquette?: L10n;
   verified: boolean;
   source?: string;
+  ko_reviewed?: boolean;
 }
 
 export interface HotelRating {
@@ -130,9 +144,11 @@ export interface Hotel {
   price_to_kzt: number | null;
   price_usd_from?: number | null;
   price_note?: string;
+  price_note_ko?: string;
   rating: HotelRating | null;
   breakfast_included: boolean | null;
   address: string;
+  address_ko?: string;
   district: L10n | null;
   map_query: string;
   lat: number | null;
@@ -143,12 +159,15 @@ export interface Hotel {
   phone?: string | null;
   verified: boolean;
   source?: string;
+  ko_reviewed?: boolean;
 }
 
 export interface LocalFood {
   note: string;
+  note_ko?: string;
   items: L10n[];
   verified: boolean;
+  ko_reviewed?: boolean;
 }
 
 export interface KazakhPhrase {
@@ -176,6 +195,7 @@ export interface InterestOption {
   kk: string;
   en: string;
   ru: string;
+  ko?: string;
 }
 
 export interface CityData {

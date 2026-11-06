@@ -9,6 +9,7 @@ import {
   formatRub,
   hotelPriceLabel,
   mapsUrl,
+  nameParts,
   ticketDisplay,
 } from '../lib/utils';
 
@@ -127,13 +128,16 @@ export default function MapView({
 
     for (const a of sights) {
       const pos: [number, number] = [a.lat!, a.lng!];
+      const np = nameParts(a.name, lang);
       const m = L.marker(pos, { icon: pinIcon(TEAL, a.coords_approx), title: L10n(a.name, lang) })
         .addTo(map)
         .on('click', () => onSelect({ kind: 'attraction', id: a.id }));
       m.bindPopup(
         `<div style="min-width:190px">
           <div style="font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#0E7C8F">${t(`city.sights.cat_${a.category}`)}</div>
-          <div style="font-weight:800;font-size:14px;color:#0F2A3D;margin-top:2px">${L10n(a.name, lang)}</div>
+          <div style="font-weight:800;font-size:14px;color:#0F2A3D;margin-top:2px">${np.main}${
+            np.sub ? `<div style="font-weight:500;font-size:11px;color:#6B8299;margin-top:1px;line-height:1.4">${np.sub}</div>` : ''
+          }</div>
           <div style="font-size:12px;color:#4E7389;margin-top:3px">${attractionTicketLine(a, t)}</div>
           ${a.coords_approx ? `<div style="font-size:11px;font-style:italic;color:#9A6E16;margin-top:3px">· ${t('city.map.approx')}</div>` : ''}
           <a href="${mapsUrl(a.map_query)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:8px;font-size:12px;font-weight:800;color:#0E7C8F">${t('city.sights.directions')} ↗</a>
@@ -144,13 +148,16 @@ export default function MapView({
 
     for (const h of hotelsWithCoords) {
       const pos: [number, number] = [h.lat!, h.lng!];
+      const hp = nameParts(h.name, lang);
       const m = L.marker(pos, { icon: pinIcon(GOLD, h.coords_approx), title: L10n(h.name, lang) })
         .addTo(map)
         .on('click', () => onSelect({ kind: 'hotel', id: h.id }));
       m.bindPopup(
         `<div style="min-width:190px">
           <div style="font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9A6E16">${t('city.map.legend_hotels')}</div>
-          <div style="font-weight:800;font-size:14px;color:#0F2A3D;margin-top:2px">${L10n(h.name, lang)}</div>
+          <div style="font-weight:800;font-size:14px;color:#0F2A3D;margin-top:2px">${hp.main}${
+            hp.sub ? `<div style="font-weight:500;font-size:11px;color:#6B8299;margin-top:1px;line-height:1.4">${hp.sub}</div>` : ''
+          }</div>
           <div style="font-size:12px;color:#4E7389;margin-top:3px">${hotelPriceLabel(h, t as (k: string) => string)}</div>
           ${h.rating ? `<div style="font-size:11px;color:#4E7389;margin-top:2px">★ ${h.rating.score.toFixed(1)} / ${h.rating.scale} · ${h.rating.reviews}</div>` : ''}
           ${h.coords_approx ? `<div style="font-size:11px;font-style:italic;color:#9A6E16;margin-top:3px">· ${t('city.map.approx')}</div>` : ''}

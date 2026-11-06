@@ -37,7 +37,7 @@ function buildSystemPrompt(data: CityData, lang: Lang, kzMode: boolean): string 
   );
   if (lang === 'ko') {
     parts.push(
-      'Korean mode: answer in natural Korean. Keep Kazakh place names in Kazakh Cyrillic (do NOT translate or transliterate proper names). When helpful, include 1-2 short Kazakh phrases in the format «қазақша сөз» [hangul pronunciation] — 뜻 (Korean meaning).',
+      'Korean mode: answer in natural polite Korean (합니다체). For place names use the Korean display name from the data (the "ko" field of each name object), followed by the original Kazakh name in parentheses, e.g. “코르키트 아타 공원 및 기념비 (Қорқыт ата саябағы мен ескерткіші)”. If a name has no "ko" field, keep the Kazakh (Cyrillic) name as is. Use the established Korean city names from the data (크질орда, etc.). Do NOT invent places, prices or facts that are not in the provided JSON. When helpful, include 1-2 short Kazakh phrases from the data in the format «қазақша сөз» [hangul pronunciation] — 뜻 (Korean meaning).',
     );
   }
   parts.push(`Answer language for this conversation: ${kzMode ? 'SIMPLE KAZAKH (see Kazakh practice mode below) — user\'s language is ' + langName + ' only for word meanings' : langName}.`);

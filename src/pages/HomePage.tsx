@@ -17,7 +17,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { cities, comingSoonCities, getCity } from '../data/cities';
 import type { Attraction, Lang } from '../data/types';
-import { L, cn, visitLabel } from '../lib/utils';
+import { L, cn, nameParts, visitLabel } from '../lib/utils';
 import { HERO_IMAGE, attractionImage } from '../lib/images';
 import { proverbOfTheDay } from '../lib/proverbs';
 import { speakKazakh, stopSpeech } from '../lib/speech';
@@ -281,21 +281,29 @@ export default function HomePage() {
             <p className="text-xs font-bold uppercase tracking-wider text-navy-400">
               {t('cities.soon_title')}
             </p>
-            {comingSoonCities.map((c) => (
-              <div
-                key={c.id}
-                className="flex items-center gap-3 rounded-2xl border border-dashed border-navy-200 bg-white/80 px-4 py-3"
-              >
-                <Clock size={16} className="shrink-0 text-navy-300" aria-hidden="true" />
-                <div className="min-w-0">
-                  <p className="clamp-1 font-display text-[15px] font-bold text-navy-600">{L(c.name, lang)}</p>
-                  <p className="clamp-1 text-xs text-navy-400">{L(c.region, lang)}</p>
+            {comingSoonCities.map((c) => {
+              const np = nameParts(c.name, lang);
+              return (
+                <div
+                  key={c.id}
+                  className="flex items-center gap-3 rounded-2xl border border-dashed border-navy-200 bg-white/80 px-4 py-3"
+                >
+                  <Clock size={16} className="shrink-0 text-navy-300" aria-hidden="true" />
+                  <div className="min-w-0">
+                    <p className="clamp-1 font-display text-[15px] font-bold text-navy-600">
+                      {np.main}
+                      {np.sub && (
+                        <span className="ml-1 font-sans text-[11px] font-medium text-navy-400">{np.sub}</span>
+                      )}
+                    </p>
+                    <p className="clamp-1 text-xs text-navy-400">{L(c.region, lang)}</p>
+                  </div>
+                  <span className="ml-auto shrink-0 rounded-full bg-gold-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gold-700">
+                    {t('cities.soon_badge')}
+                  </span>
                 </div>
-                <span className="ml-auto shrink-0 rounded-full bg-gold-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gold-700">
-                  {t('cities.soon_badge')}
-                </span>
-              </div>
-            ))}
+              );
+            })}
             <p className="mt-1 text-xs text-navy-400">{t('cities.soon_note')}</p>
           </div>
         </div>

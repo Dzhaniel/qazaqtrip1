@@ -272,6 +272,69 @@ describe('страницы рендерятся (по умолчанию — к�
     }
   });
 
+  it('Korean (KO): sights — data контенті корейше (атау + қазақ кіші)', async () => {
+    const i18n = (await import('../i18n')).default;
+    await i18n.changeLanguage('ko');
+    try {
+      const html = await renderClient('/city/kyzylorda/sights', 800);
+      expect(html).toContain('코르키트 아타 공원 및 기념비'); // name.ko
+      expect(html).toContain('Қорқыт ата саябағы мен ескерткіші'); // kk sub
+      expect(html).toContain('크질오르다 중심부'); // address_ko
+      expect(html).toContain('입장료 정보는 없으며'); // ticket.note_ko (std phrase)
+      expect(html).toContain('운영 시간 정보 없음'); // common.hours_unknown (std phrase)
+      expect(html).not.toContain('undefined');
+    } finally {
+      await i18n.changeLanguage('kk');
+    }
+  });
+
+  it('Korean (KO): home — coming-soon қалалар корейше', async () => {
+    const i18n = (await import('../i18n')).default;
+    await i18n.changeLanguage('ko');
+    try {
+      const html = await renderClient('/', 250);
+      expect(html).toContain('아스타나시');
+      expect(html).toContain('투르키스탄주');
+      expect(html).toContain('망기스타우주');
+    } finally {
+      await i18n.changeLanguage('kk');
+    }
+  });
+
+  it('Korean (KO): demo-маршрут атаулары «ко (қазақ)» форматында', async () => {
+    const { buildDemoItinerary } = await import('../lib/demoItinerary');
+    const data = getCity('kyzylorda')!;
+    const res = buildDemoItinerary(data, {
+      arrival: '2026-11-10',
+      departure: '2026-11-12',
+      travelers: 2,
+      budgetLevel: 'medium',
+      interests: ['space', 'history'],
+      language: 'ko',
+    });
+    const text = res.answerText + ' ' + JSON.stringify(res.itinerary ?? {});
+    expect(text).toContain('바이코누르 단지 (시, 우주 기지, 박물관)');
+    expect(text).toContain('코르키트 아타 기념 시설 (Қорқыт ата мемориалдық кешені)');
+    expect(text).toContain('허가증이 필요합니다'); // Байқоңыр рұқсат мәтіні — корейше (data ko)
+    expect(text).toContain('크질오르다에서 차로 2시간 이상'); // travel_note ko
+  });
+
+  it('Korean (KO): demo — Байқоңыр қосылмаса en-fallback ескерту', async () => {
+    const { buildDemoItinerary } = await import('../lib/demoItinerary');
+    const data = getCity('kyzylorda')!;
+    const res = buildDemoItinerary(data, {
+      arrival: '2026-11-10',
+      departure: '2026-11-12',
+      travelers: 2,
+      budgetLevel: 'medium',
+      interests: ['history'],
+      language: 'ko',
+    });
+    const text = res.answerText + ' ' + JSON.stringify(res.itinerary ?? {});
+    expect(text).toContain('is a restricted area'); // мәтін en-fallback, атау ко(қазақ)
+    expect(text).toContain('바이코누르 단지');
+  });
+
   it('404', async () => {
     const html = await renderClient('/no-such-page', 100);
     expect(html).toContain('404');

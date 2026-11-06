@@ -14,7 +14,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { getCity } from '../../data/cities';
 import type { Lang } from '../../data/types';
-import { L, cn } from '../../lib/utils';
+import { L, cn, getLocalized, nameParts } from '../../lib/utils';
 import { cityImage } from '../../lib/images';
 import { CULTURE_FACTS } from '../../lib/culture';
 import Photo from '../../components/Photo';
@@ -33,6 +33,8 @@ export default function CityOverview() {
   const city = getCity(cityId ?? 'kyzylorda');
 
   if (!city) return <NotFoundPage />;
+
+  const cityName = nameParts(city.city.name, lang);
 
   const base = `/city/${city.city.id}`;
   const stats = {
@@ -67,7 +69,12 @@ export default function CityOverview() {
               {t('city.heroRegion')}: {L(city.city.region, lang)}
             </p>
             <h1 className="mt-3 font-display text-4xl font-bold leading-[1.05] tracking-tight text-white drop-shadow-sm sm:text-6xl">
-              {L(city.city.name, lang)}
+              {cityName.main}
+              {cityName.sub && (
+                <span className="mt-1 block font-sans text-sm font-semibold tracking-normal text-white/75 sm:text-base">
+                  {cityName.sub}
+                </span>
+              )}
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/90 sm:text-base">
               {L(city.city.description, lang)}
@@ -165,16 +172,18 @@ export default function CityOverview() {
                 </div>
                 <p className="mt-3 text-sm font-bold text-navy-800">{L(g.name, lang)}</p>
                 <p className="mt-1.5 text-xs leading-relaxed text-navy-500">
-                  {g.note ? L(g.note, lang) : g.address ?? ''}
+                  {g.note ? L(g.note, lang) : getLocalized(g.address, g.address_ko, lang)}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-bold text-navy-400">
                   {g.distance_to_center_km != null && (
                     <span>
-                      {t('city.center')}: {String(g.distance_to_center_km)}
-                      {typeof g.distance_to_center_km === 'number' ? ` ${t('common.km')}` : ''}
+                      {t('city.center')}:{' '}
+                      {typeof g.distance_to_center_km === 'number'
+                        ? `${g.distance_to_center_km} ${t('common.km')}`
+                        : getLocalized(g.distance_to_center_km, g.distance_to_center_km_ko, lang)}
                     </span>
                   )}
-                  {g.hours && <span>{g.hours}</span>}
+                  {g.hours && <span>{getLocalized(g.hours, g.hours_ko, lang)}</span>}
                 </div>
               </div>
             );

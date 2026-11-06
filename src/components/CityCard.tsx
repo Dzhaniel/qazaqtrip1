@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Lock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { Lang } from '../data/types';
-import { cn, L } from '../lib/utils';
+import { cn, L, nameParts } from '../lib/utils';
 import { comingSoonImage, cityImage } from '../lib/images';
 import Photo from './Photo';
 
 interface Props {
   id: string;
-  name: { kk: string; en: string; ru: string };
-  region: { kk: string; en: string; ru: string } | null;
+  name: { kk: string; en: string; ru: string; ko?: string };
+  region: { kk: string; en: string; ru: string; ko?: string } | null;
   active: boolean;
   stats?: { attractions: number; hotels: number; phrases: number };
   lang: Lang;
@@ -49,7 +49,14 @@ export default function CityCard({ id, name, region, active, stats, lang }: Prop
           )}
         </div>
         <div className="absolute inset-x-0 bottom-0 p-5">
-          <h3 className="font-display text-2xl font-bold text-white drop-shadow-sm sm:text-3xl">{L(name, lang)}</h3>
+          <h3 className="font-display text-2xl font-bold text-white drop-shadow-sm sm:text-3xl">
+            {nameParts(name, lang).main}
+            {lang === 'ko' && name.kk && (
+              <span className="mt-0.5 block font-sans text-xs font-semibold tracking-normal text-white/70 drop-shadow">
+                {name.kk}
+              </span>
+            )}
+          </h3>
           {region && <p className="mt-0.5 text-xs font-bold text-white/85">{L(region, lang)}</p>}
         </div>
       </div>

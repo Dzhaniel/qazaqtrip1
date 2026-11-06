@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { Hotel, Lang } from '../data/types';
-import { L, cn, hotelPriceLabel, mapsUrl } from '../lib/utils';
+import { L, cn, getLocalized, hotelPriceLabel, mapsUrl, nameParts } from '../lib/utils';
 import { VerifyBadge } from './Badge';
 
 interface Props {
@@ -27,12 +27,18 @@ export default function HotelCard({ hotel: h, lang, onShowOnMap }: Props) {
 
   const hasCoords = h.lat != null && h.lng != null && h.coords_verified === true;
   const priceKnown = h.price_from_kzt != null || h.price_to_kzt != null;
+  const name = nameParts(h.name, lang);
 
   return (
     <article className="card flex h-full flex-col gap-4 p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h3 className="font-display text-lg font-bold leading-snug text-navy-800">{L(h.name, lang)}</h3>
+          <h3 className="font-display text-lg font-bold leading-snug text-navy-800">
+            {name.main}
+            {name.sub && (
+              <span className="mt-0.5 block font-sans text-xs font-medium leading-snug text-navy-400">{name.sub}</span>
+            )}
+          </h3>
           <div className="mt-1.5 flex flex-wrap items-center gap-2">
             {h.stars != null && (
               <span className="flex items-center gap-0.5" aria-label={`${h.stars} ${t('city.hotels.stars')}`}>
@@ -86,7 +92,9 @@ export default function HotelCard({ hotel: h, lang, onShowOnMap }: Props) {
             <ChevronDown size={12} className={cn('transition-transform', noteOpen && 'rotate-180')} aria-hidden="true" />
           </button>
           {noteOpen && (
-            <p className="mt-1.5 rounded-lg bg-navy-50 px-3 py-2 text-xs leading-relaxed text-navy-500">{h.price_note}</p>
+            <p className="mt-1.5 rounded-lg bg-navy-50 px-3 py-2 text-xs leading-relaxed text-navy-500">
+              {getLocalized(h.price_note, h.price_note_ko, lang)}
+            </p>
           )}
         </div>
       )}
@@ -96,7 +104,7 @@ export default function HotelCard({ hotel: h, lang, onShowOnMap }: Props) {
           <dt className="sr-only">{t('city.hotels.address')}</dt>
           <dd className="flex items-start gap-1.5 text-navy-600">
             <MapPin size={14} className="mt-0.5 shrink-0 text-navy-300" aria-hidden="true" />
-            {h.address}
+            {getLocalized(h.address, h.address_ko, lang)}
           </dd>
         </div>
         {h.district && (
