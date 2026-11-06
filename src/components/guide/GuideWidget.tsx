@@ -18,8 +18,25 @@ import {
   GuideAbortedError,
 } from '../../lib/guide';
 import { buildDemoItinerary, type BudgetLevel, type GuideForm, type Itinerary } from '../../lib/demoItinerary';
+import { localizeItinerary } from '../../lib/itineraryLocalize';
+import { useItineraryLang } from '../../lib/useItineraryLang';
 import { cn, L, uid } from '../../lib/utils';
 import ItineraryView from './ItineraryView';
+
+/** Itinerary хабарлама ішінде: тіл ауысқанда — қайта құрмай, локальдейді (demo: қайта құрады; AI: дерек-өрістер бірден, AI-мәтіндер translate-мен). */
+function MessageItinerary({ msg, data, lang }: { msg: Message; data: CityData; lang: Lang }) {
+  const { itinerary, translating } = useItineraryLang({
+    base: msg.itinerary,
+    mode: msg.mode,
+    data,
+    lang,
+    routeId: msg.id,
+    form: msg.genForm,
+    chatText: msg.genChatText,
+  });
+  if (!itinerary) return null;
+  return <ItineraryView it={itinerary} lang={lang} translating={translating} />;
+}
 
 interface Message {
   id: string;
@@ -30,6 +47,9 @@ interface Message {
   mode?: 'ai' | 'demo';
   itinerary?: Itinerary;
   isPlan?: boolean;
+  /** Генерация контексі (тіл ауысқанда demo-ны қайта құру үшін). */
+  genForm?: GuideForm;
+  genChatText?: string;
 }
 
 interface Props {
@@ -143,6 +163,7 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
 
       const payload = {
         form: f,
+        lang: f.language,
         messages: history,
         chatText: asPlan ? undefined : userText,
       };
@@ -172,6 +193,10 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
             prev.map((m) => (m.id === botId ? { ...m, text: m.text + delta, shown: m.shown + delta } : m)),
           );
         const applyResult = (res: { mode: 'ai' | 'demo'; text: string; itinerary?: Itinerary }) => {
+          // AI мәтін берді, бірақ itinerary JSON-блок жоқ/бұзылған → demo-маршрут (сол тілде)
+          const itinerary =
+            res.itinerary ??
+            localizeItinerary(buildDemoItinerary(data, f).itinerary, data, f.language);
           setMessages((prev) =>
             prev.map((m) =>
               m.id === botId
@@ -179,7 +204,9 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
                     ...m,
                     text: res.text,
                     mode: res.mode,
-                    itinerary: res.itinerary,
+                    itinerary,
+                    genForm: f,
+                    genChatText: asPlan ? undefined : userText,
                     // Стрим болса — shown мәтінімен үйлеседі; әйтпесе typewriter жалғайды
                     shown: m.shown.length >= res.text.length ? res.text : m.shown,
                     done: m.shown.length >= res.text.length,
@@ -205,7 +232,7 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
             applyResult({
               mode: 'demo',
               text: `${t('guide.demo_fallback_note')}\n\n${demo.answerText}`,
-              itinerary: demo.itinerary,
+              itinerary: localizeItinerary(demo.itinerary, data, payload.form.language),
             });
             return;
           }
@@ -475,7 +502,7 @@ export default function GuideWidget({ data, lang, compact = false, initialForm }
                         {m.mode === 'demo' ? t('guide.demo_mode') : t('guide.ai_mode')}
                       </p>
                     )}
-                    {m.itinerary && m.done && <ItineraryView it={m.itinerary} />}
+                    {m.itinerary && m.done && <MessageItinerary msg={m} data={data} lang={lang} />}
                   </div>
                 </div>
               </div>

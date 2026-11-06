@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { AlertTriangle, BedDouble, BookMarked, Car, Check, MapPin, Sun, Utensils } from 'lucide-react';
+import { AlertTriangle, BedDouble, BookMarked, Car, Check, Loader2, MapPin, Sun, Utensils } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import type { Lang } from '../../data/types';
 import type { Itinerary, PlanItem } from '../../lib/demoItinerary';
 import { cn } from '../../lib/utils';
 import { addRoutePhrases, touchItinerary, unlockBadge, loadBadges } from '../../lib/learnStore';
@@ -29,7 +30,7 @@ function CostPill({ cost, known }: { cost: string; known: boolean }) {
 }
 
 /** Итнерарий: күн бойынша таймлайн + бюджет кестесі + ескертулер. */
-export default function ItineraryView({ it }: { it: Itinerary }) {
+export default function ItineraryView({ it, lang, translating = false }: { it: Itinerary; lang: Lang; translating?: boolean }) {
   const { t } = useTranslation();
   const [added, setAdded] = useState(false);
   const kztTotal = it.budget.reduce((s, b) => s + (b.known && b.kzt ? b.kzt : 0), 0);
@@ -58,6 +59,25 @@ export default function ItineraryView({ it }: { it: Itinerary }) {
 
   return (
     <div className="mt-4 space-y-5">
+      {/* Summary (AI/demo мәтіні) */}
+      {it.summary && (
+        <div className="card animate-fade-up border-l-4 border-l-teal-500 p-4">
+          <p className="text-sm leading-relaxed text-navy-700">{it.summary}</p>
+          {translating && (
+            <p className="mt-2 inline-flex items-center gap-1.5 text-[11px] font-semibold text-teal-600">
+              <Loader2 size={12} className="animate-spin" aria-hidden="true" />
+              {t('guide.itinerary.translating')}
+            </p>
+          )}
+        </div>
+      )}
+      {!it.summary && translating && (
+        <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-teal-600">
+          <Loader2 size={12} className="animate-spin" aria-hidden="true" />
+          {t('guide.itinerary.translating')}
+        </p>
+      )}
+
       {/* Күндер */}
       <div>
         <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-teal-700">
@@ -127,6 +147,12 @@ export default function ItineraryView({ it }: { it: Itinerary }) {
                         {item.howToGet && (
                           <p className="mt-0.5 text-xs leading-relaxed text-navy-400">{item.howToGet}</p>
                         )}
+                        {item.tip && (
+                          <p className="mt-1 rounded-lg bg-teal-50/80 px-2.5 py-1.5 text-xs leading-relaxed text-teal-900">
+                            <span className="font-bold">{t('guide.itinerary.tip')}: </span>
+                            {item.tip}
+                          </p>
+                        )}
                         {item.mapsUrl && (
                           <a
                             href={item.mapsUrl}
@@ -136,6 +162,25 @@ export default function ItineraryView({ it }: { it: Itinerary }) {
                           >
                             {t('guide.itinerary.on_map')} ↗
                           </a>
+                        )}
+                        {/* Stop фразалары: қазақша + UI тіліне сай аударма/оқылу */}
+                        {item.phrases && item.phrases.length > 0 && (
+                          <ul className="mt-1.5 space-y-0.5">
+                            {item.phrases.map((p, pi) => {
+                              const pron =
+                                lang === 'ko' ? p.pron_ko ?? p.translit
+                                : lang === 'en' ? p.easy_pron ?? p.translit
+                                : lang === 'kk' ? null
+                                : p.translit;
+                              return (
+                                <li key={pi} className="flex flex-wrap items-baseline gap-x-1.5 text-xs leading-relaxed text-navy-600">
+                                  <span className="font-semibold text-teal-800">«{p.kk}»</span>
+                                  {pron ? <span className="text-navy-400">[{pron}]</span> : null}
+                                  {p.meaning ? <span className="text-navy-500">— {p.meaning}</span> : null}
+                                </li>
+                              );
+                            })}
+                          </ul>
                         )}
                       </div>
                     </li>
@@ -175,6 +220,9 @@ export default function ItineraryView({ it }: { it: Itinerary }) {
             </li>
           ))}
         </ul>
+        {it.budgetNote && (
+          <p className="border-t border-navy-100 px-4 py-2.5 text-xs leading-relaxed text-navy-500">{it.budgetNote}</p>
+        )}
         {(kztTotal > 0 || rubTotal > 0) && (
           <div className="flex flex-wrap items-center justify-between gap-2 border-t-2 border-navy-100 bg-navy-50/60 px-4 py-3">
             <p className="text-xs font-semibold text-navy-500">{t('guide.itinerary.total_known')}</p>

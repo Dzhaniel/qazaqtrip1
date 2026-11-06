@@ -64,6 +64,15 @@ MVP полностью покрывает один город — **Кызыло
   - стриминг (SSE на Vercel) + typing-анимация, состояния загрузки/ошибки, быстрые подсказки;
   - UI маршрута: таймлайн по дням, таблица бюджета (гостиница — от `price_from_kzt`, билеты
     только там, где есть цена, неизвестное — «нақтыланбаған»), список неизвестных цен.
+  - **Тіл маршруты (route language)**: запрос несёт `lang` (whitelist `kk|en|ru|ko`, иначе `kk`);
+    модель возвращает STRICT JSON с нейтральной структурой (`place_id`, `day`, `time`,
+    `duration_min`, `estimated_cost_kzt`, `order`) и пишет только текстовые поля
+    (`summary`, `day_title`, `stop_tip`, `budget_note`, `warnings`). Атау/мекенжай/баға/уақыт
+    приложение подставляет из `kyzylorda.json` (в `ko` — «корей атауы (Қазақша атауы)»);
+    вымышленные `place_id` отбрасываются. При смене UI-языка маршрут **не пересоздаётся**:
+    data-поля пере-localize-ятся мгновенно, AI-тексты — коротким `mode=translate`
+    запросом (кэш `route_id+lang`, loading, fallback на прежний язык). Демо-маршрут при
+    смене языка пересобирается локально (детерминированно), без сети.
 - **О правилах данных** (обязательно соблюдены):
   - `null` → **«Баға нақтыланбаған»** / «Уақыты нақтыланбаған» — никогда 0 и не догадки;
   - `coords_approx: true` → на пине пунктирная обводка + «шамамен / approx.» в попапе;
@@ -83,7 +92,7 @@ MVP полностью покрывает один город — **Кызыло
 
 ## Стек
 
-React 18 · Vite 5 · TypeScript · Tailwind CSS · react-router 6 · react-i18next (kk/en/ru) ·
+React 18 · Vite 5 · TypeScript · Tailwind CSS · react-router 6 · react-i18next (kk/en/ru/ko) ·
 Leaflet + OpenStreetMap · lucide-react · Serverless-функция `/api/guide`
 (Vercel **и** Netlify, общий ядро в `server/guide-core.ts`) · OpenAI `gpt-4o-mini`
 (опционально) · Vitest + jsdom.

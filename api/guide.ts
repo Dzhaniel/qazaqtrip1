@@ -6,7 +6,7 @@
  *
  * OpenAI-кілт тек процесс-әйнекшелерден (OPENAI_API_KEY), браузерге бармайды.
  */
-import { runGuide } from '../server/guide-core';
+import { runGuide, runGuideTranslate } from '../server/guide-core';
 import { getCity } from '../src/data/cities';
 
 interface Req {
@@ -36,8 +36,25 @@ export default async function handler(req: Req, res: Res): Promise<void> {
     return;
   }
 
-  const p = payload as { form?: unknown };
-  if (!p || typeof p !== 'object' || !p.form) {
+  const p = payload as { form?: unknown; mode?: unknown };
+  if (!p || typeof p !== 'object') {
+    res.status(400).json({ error: 'payload required' });
+    return;
+  }
+
+  // mode=translate: кілт сөздерді ғана мақсат тіліне аудару (жол қайта құрылмайды).
+  if (p.mode === 'translate') {
+    try {
+      const texts = await runGuideTranslate(p as { lang?: unknown; texts?: unknown });
+      res.status(200).json({ ok: true, texts });
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'translate error';
+      res.status(502).json({ ok: false, error: message });
+    }
+    return;
+  }
+
+  if (!p.form) {
     res.status(400).json({ error: 'form is required' });
     return;
   }

@@ -5,7 +5,7 @@
  * { mode: 'ai' | 'demo', answerText, itinerary? }
  * Клиент JSON-ны да SSE-ні де бірдей қолдайды, ал «streaming typing» анимациясын UI жағында жасайды.
  */
-import { runGuide } from '../../server/guide-core';
+import { runGuide, runGuideTranslate } from '../../server/guide-core';
 import { getCity } from '../../src/data/cities';
 
 interface NetlifyEvent {
@@ -37,8 +37,23 @@ export const handler = async (event: NetlifyEvent) => {
     return { statusCode: 400, headers: JSON_HEADERS, body: JSON.stringify({ error: 'invalid json' }) };
   }
 
-  const p = payload as { form?: unknown };
-  if (!p || typeof p !== 'object' || !p.form) {
+  const p = payload as { form?: unknown; mode?: unknown };
+  if (!p || typeof p !== 'object') {
+    return { statusCode: 400, headers: JSON_HEADERS, body: JSON.stringify({ error: 'payload required' }) };
+  }
+
+  // mode=translate: мәтіндерді ғана аудару (жол қайта құрылмайды).
+  if (p.mode === 'translate') {
+    try {
+      const texts = await runGuideTranslate(p as { lang?: unknown; texts?: unknown });
+      return { statusCode: 200, headers: JSON_HEADERS, body: JSON.stringify({ ok: true, texts }) };
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'translate error';
+      return { statusCode: 502, headers: JSON_HEADERS, body: JSON.stringify({ ok: false, error: message }) };
+    }
+  }
+
+  if (!p.form) {
     return { statusCode: 400, headers: JSON_HEADERS, body: JSON.stringify({ error: 'form is required' }) };
   }
 

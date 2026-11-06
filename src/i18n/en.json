@@ -282,6 +282,8 @@
     "itinerary": {
       "days": "Day-by-day plan",
       "day": "Day",
+      "translating": "Translating texts…",
+      "tip": "Tip",
       "budget": "Budget summary",
       "hotel": "Hotel",
       "ticket": "Tickets",

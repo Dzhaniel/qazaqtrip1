@@ -10,7 +10,13 @@
  * ЕСКЕРТУ: API кілт тек серверде (environment variable), браузерге бармайды.
  */
 import { getCity } from '../data/cities';
-import { buildDemoItinerary, type GuidePayload, type Itinerary } from './demoItinerary';
+import {
+  buildDemoItinerary,
+  type AiTexts,
+  type GuidePayload,
+  type Itinerary,
+} from './demoItinerary';
+import { localizeItinerary } from './itineraryLocalize';
 
 export interface GuideResult {
   mode: 'ai' | 'demo';
@@ -22,6 +28,26 @@ export class GuideAbortedError extends Error {
   constructor() {
     super('aborted');
     this.name = 'GuideAbortedError';
+  }
+}
+
+/** AI/demo мәтін өрістерін мақсат тіліне аудару. Қате/тайм-аут болса → null (fallback). */
+export async function translateGuideTexts(
+  payload: { lang: string; texts: AiTexts },
+  signal?: AbortSignal,
+): Promise<AiTexts | null> {
+  try {
+    const res = await fetch('/api/guide', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'translate', lang: payload.lang, texts: payload.texts }),
+      signal,
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { ok?: boolean; texts?: AiTexts };
+    return data.ok && data.texts ? data.texts : null;
+  } catch {
+    return null; // network/timeout → fallback
   }
 }
 
@@ -145,7 +171,8 @@ export async function requestGuide(
     // Сервер қолжетімсіз немесе қате — локальді демо режим.
     const city = getCity('kyzylorda');
     if (!city) throw new Error('city data not found');
+    const lang = payload.lang ?? payload.form.language;
     const demo = buildDemoItinerary(city, payload.form, payload.chatText);
-    return { mode: 'demo', text: demo.answerText, itinerary: demo.itinerary };
+    return { mode: 'demo', text: demo.answerText, itinerary: localizeItinerary(demo.itinerary, city, lang) };
   }
 }

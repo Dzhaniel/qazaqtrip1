@@ -9,7 +9,7 @@
  *  - қаладан тыс орындарға жол уақыты travel_note деректерінен алынады;
  *  - RUB бағалар (Байқоңыр) KZT-ге аударылмайды.
  */
-import type { Attraction, CityData, Hotel, Lang, L10n } from '../data/types';
+import type { Attraction, AttractionCategory, CityData, Hotel, KazakhPhrase, Lang, L10n } from '../data/types';
 import {
   L,
   addDays,
@@ -28,7 +28,7 @@ import {
  * ko UI-де орын атауы: «корей атауы (қазақ оригиналы)» — brief-ке сай.
  * Басқа тілдерде — L() бойынша (kk/en/ru).
  */
-function koPlace(name: L10n, lang: Lang): string {
+export function koPlace(name: L10n, lang: Lang): string {
   if (lang !== 'ko') return L(name, lang);
   const ko = name.ko || name.en || name.kk;
   return ko === name.kk ? ko : `${ko} (${name.kk})`;
@@ -56,18 +56,29 @@ export interface GuidePayload {
   form: GuideForm;
   messages: GuideChatMessage[];
   chatText?: string;
+  /** UI тілі (whitelist: kk|en|ru|ko; server-де тексеріледі, invalid → kk). */
+  lang?: Lang;
 }
 
 export interface PlanItem {
   time?: string;
   kind: 'attraction' | 'hotel' | 'meal' | 'free' | 'travel';
+  /** Структурное поле: id из данных (attractions[].id | hotels[].id). */
   placeId?: string;
   name: string;
   howToGet?: string;
+  /** AI/demo-written 1-2 sentence tip (localized text field). */
+  tip?: string;
   costLabel?: string;
   costKnown?: boolean;
   warning?: string;
   mapsUrl?: string;
+  order?: number;
+  durationMin?: number | null;
+  /** Цена только из данных; null = не указано. */
+  estimatedCostKzt?: number | null;
+  /** Ситуативные фразы этого стопа (из БД фраз, kk всегда на кириллице). */
+  phrases?: ItineraryPhrase[];
 }
 
 export interface DayPlan {
@@ -89,7 +100,22 @@ export interface BudgetLine {
 export interface ItineraryPhrase {
   kk: string;
   translit: string;
+  /** Аударма UI тіліне сай: kk→en, en→en+easy_pron, ru→ru, ko→ko+pron_ko. */
   meaning: string;
+  easy_pron?: string;
+  pron_ko?: string;
+  /** false = AI жазған (тексерілмеген); true = деректерден. */
+  reviewed?: boolean;
+}
+
+/** AI-жазған мәтін өрістері (аудару/кэш үшін). */
+export interface AiTexts {
+  summary?: string;
+  dayTitles: string[];
+  tips: string[];
+  notes: string[];
+  budgetLabels: string[];
+  budgetNote?: string;
 }
 
 export interface Itinerary {
@@ -98,6 +124,12 @@ export interface Itinerary {
   notes: string[];
   unknownPrices: string[];
   phrases: ItineraryPhrase[];
+  /** AI/demo summary (localized text field). */
+  summary?: string;
+  /** Бюджет туралы 1-2 сөйлем (localized text field). */
+  budgetNote?: string;
+  /** Мәтін өрістері қай тілде жасалған (switch кезінде translate-сұраныс үшін). */
+  lang?: Lang;
 }
 
 export interface DemoResult {
@@ -424,14 +456,18 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
             time: '10:00',
             kind: 'attraction',
             placeId: baikonur.id,
-            name:
+            name: koPlace(baikonur.name, lang),
+            tip:
               textLang === 'kk'
-                ? 'Байқоңыр ғарыш айлағы тарихы мұражайы (аудиогид)'
+                ? 'Мұражай (аудиогидпен)'
                 : textLang === 'en'
-                  ? 'Baikonur Cosmodrome History Museum (audio guide)'
-                  : 'Музей истории космодрома Байконур (аудиогид)',
+                  ? 'Museum visit (audio guide)'
+                  : 'Экскурсия в музей (аудиогид)',
+            durationMin: 120,
+            estimatedCostKzt: null,
             costLabel: formatRub(baikonur.ticket.museum_audio_guide_rub),
             costKnown: true,
+            phrases: stopPhrasesFor(data, stopTopics('attraction', baikonur), lang),
           });
         }
         if (baikonur.ticket.cosmodrome_group_tour_rub != null) {
@@ -439,14 +475,18 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
             time: '13:30',
             kind: 'attraction',
             placeId: baikonur.id,
-            name:
+            name: koPlace(baikonur.name, lang),
+            tip:
               textLang === 'kk'
                 ? 'Ғарыш айлағына топтық экскурсия (4 сағат, 25 адамға дейін)'
                 : textLang === 'en'
                   ? 'Group tour of the cosmodrome (4 hours, up to 25 people)'
                   : 'Групповая экскурсия на космодром (4 часа, до 25 человек)',
+            durationMin: 240,
+            estimatedCostKzt: null,
             costLabel: formatRub(baikonur.ticket.cosmodrome_group_tour_rub),
             costKnown: true,
+            phrases: stopPhrasesFor(data, stopTopics('travel'), lang),
           });
         }
         planItems.push({
@@ -468,9 +508,12 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
           kind: 'attraction',
           placeId: korkyt.id,
           name: koPlace(korkyt.name, lang),
+          durationMin: korkyt.visit_min,
+          estimatedCostKzt: korkyt.ticket.currency === 'RUB' ? null : korkyt.ticket.adult_kzt ?? null,
           costLabel: unknown,
           costKnown: false,
           mapsUrl: mapsUrl(korkyt.map_query),
+          phrases: stopPhrasesFor(data, stopTopics('attraction', korkyt), lang),
         });
         planItems.push({
           time: '14:00',
@@ -486,16 +529,22 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
     /* Қалалық күн */
     const items = perDay[cityDayIndices.indexOf(dayIdx)] ?? [];
     let clock = 9 * 60 + 30;
+    let orderNo = 0;
     for (const item of items) {
+      orderNo++;
       planItems.push({
         time: minToClock(clock),
         kind: 'attraction',
         placeId: item.id,
+        order: orderNo,
         name: koPlace(item.name, lang),
+        durationMin: item.visit_min,
+        estimatedCostKzt: item.ticket.currency === 'RUB' ? null : item.ticket.adult_kzt ?? null,
         howToGet: item.address,
         costLabel: ticketCostLabel(item, lang),
         costKnown: ticketCostKnown(item),
         mapsUrl: mapsUrl(item.map_query),
+        phrases: stopPhrasesFor(data, stopTopics('attraction', item), lang),
       });
       clock += item.visit_min + 30;
       if (item.id === 'old-bazaar-sybaga') {
@@ -510,6 +559,7 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
                 : 'Горячая самса и специи на рынке',
           costLabel: unknown,
           costKnown: false,
+          phrases: stopPhrasesFor(data, stopTopics('meal'), lang),
         });
         unknownPrices.push(
           textLang === 'kk'
@@ -531,6 +581,7 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
             : textLang === 'en'
               ? 'Free time: walk around the city, the bazaar'
               : 'Свободное время: прогулка по городу, базар',
+        phrases: stopPhrasesFor(data, stopTopics('free'), lang),
       });
     } else if (clock < 17 * 60) {
       planItems.push({
@@ -542,6 +593,7 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
             : textLang === 'en'
               ? 'Free time: a walk along the Syr Darya embankment'
               : 'Свободное время: прогулка вдоль набережной Сырдарьи',
+        phrases: stopPhrasesFor(data, stopTopics('free'), lang),
       });
     }
     days.push({ day: dayIdx + 1, dateLabel, items: planItems });
@@ -638,7 +690,10 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
     phrases.push({
       kk: p.kk,
       translit: p.translit,
-      meaning: textLang === 'kk' ? p.en : (p[lang] ?? p.en),
+      meaning: phraseMeaning(p, lang),
+      easy_pron: p.easy_pron,
+      pron_ko: p.pron_ko,
+      reviewed: true,
     });
   }
 
@@ -660,7 +715,32 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
   // қайталанған unknownPrices-терді тазалаймыз
   const uniqueUnknown = Array.from(new Set(unknownPrices));
 
-  return { answerText, itinerary: { days, budget, notes: notes.filter(Boolean), unknownPrices: uniqueUnknown, phrases } };
+  const kztTotalAll = budget.reduce((s, b) => s + (b.kzt ?? 0), 0);
+  const rubTotalAll = budget.reduce((s, b) => s + (b.rub ?? 0), 0);
+  const tripCount = dedicated.length;
+  const summary =
+    textLang === 'kk'
+      ? `Қызылордада ${nDays} күндік маршрут: ${allPlanned.length} қалалық орын${tripCount ? ` + ${tripCount} күндік саяхат` : ''} + қонақүй.`
+      : textLang === 'en'
+        ? `A ${nDays}-day Kyzylorda itinerary: ${allPlanned.length} city stops${tripCount ? ` + ${tripCount} day trip(s)` : ''} + hotel.`
+        : `Маршрут по Кызылорде на ${nDays} дн.: ${allPlanned.length} городских точек${tripCount ? ` + выезды (${tripCount})` : ''} + отель.`;
+  const budgetNote =
+    textLang === 'kk'
+      ? kztTotalAll > 0
+        ? `Нақты белгілі қосынды: шамамен ${formatKzt(kztTotalAll)}${rubTotalAll > 0 ? ` + Байқоңырға ${formatRub(rubTotalAll)} (RUB, аударылмаған)` : ''}. Бағасы нақтыланбаған жерлер астында көрсетілді.`
+        : 'Баға деректері қолжетімсіз — барлық сомалар нақтыланбаған.'
+      : textLang === 'en'
+        ? kztTotalAll > 0
+          ? `Known total: about ${formatKzt(kztTotalAll)}${rubTotalAll > 0 ? ` + ${formatRub(rubTotalAll)} RUB for Baikonur (not converted)` : ''}. Places with unknown prices are listed below.`
+          : 'No price data available — all amounts are unspecified.'
+        : kztTotalAll > 0
+          ? `Известная сумма: примерно ${formatKzt(kztTotalAll)}${rubTotalAll > 0 ? ` + ${formatRub(rubTotalAll)} RUB на Байконур (без конвертации)` : ''}. Места без цены указаны ниже.`
+          : 'Нет данных о ценах — все суммы не указаны.';
+
+  return {
+    answerText,
+    itinerary: { days, budget, notes: notes.filter(Boolean), unknownPrices: uniqueUnknown, phrases, summary, budgetNote, lang },
+  };
 }
 
 function hotelName(lang: Lang): string {
@@ -672,7 +752,7 @@ function hotelName(lang: Lang): string {
   }[lang];
 }
 
-function ticketCostLabel(a: Attraction, lang: Lang): string {
+export function ticketCostLabel(a: Attraction, lang: Lang): string {
   const textLang: 'kk' | 'en' | 'ru' = lang === 'ko' ? 'en' : lang;
   const unknown = UNKNOWN(lang);
   const tk = a.ticket;
@@ -693,11 +773,95 @@ function ticketCostLabel(a: Attraction, lang: Lang): string {
   return formatKzt(tk.adult_kzt);
 }
 
-function ticketCostKnown(a: Attraction): boolean {
+export function ticketCostKnown(a: Attraction): boolean {
   const tk = a.ticket;
   if (tk.currency === 'RUB') return true;
   if (tk.adult_kzt == null) return false;
   return true;
+}
+
+/* ------------------------------------------------------------------ */
+/* Stop-phrases: әр stop-қа 2-3 деректерден алынған жағдайлық фраза     */
+/* ------------------------------------------------------------------ */
+
+/** Баға сөздері (локальді көрсету үшін; i18n мәндерімен сәйкес). */
+export const COST_WORDS: Record<Lang, { free: string; unknown: string; perNight: string; from: string }> = {
+  kk: { free: 'Тегін', unknown: 'Баға нақтыланбаған', perNight: 'түніне', from: 'бағасы бастап' },
+  en: { free: 'Free', unknown: 'Price not specified', perNight: 'per night', from: 'from' },
+  ru: { free: 'Бесплатно', unknown: 'Цена не указана', perNight: 'за ночь', from: 'от' },
+  ko: { free: '무료', unknown: '가격 미기재', perNight: '1박', from: '부터' },
+};
+
+/** Фразаның аудармасы UI тіліне сай (brief: kk→en, en→en+easy_pron, ru→ru, ko→ko+pron_ko). */
+export function phraseMeaning(p: KazakhPhrase, lang: Lang): string {
+  if (lang === 'kk') return p.en;
+  if (lang === 'ko') return p.ko ?? p.en;
+  return p[lang] ?? p.en;
+}
+
+/** Stop-тың тақырыбына сәйкес фразалар topic-тары (cat/interests → topics). */
+export function stopTopics(
+  kind: PlanItem['kind'],
+  a?: { category?: AttractionCategory; interests?: string[] },
+): string[] {
+  if (kind === 'meal') return ['food', 'shopping'];
+  if (kind === 'travel') return ['transport', 'directions'];
+  if (kind === 'free') return ['greetings'];
+  const ints = a?.interests ?? [];
+  switch (a?.category) {
+    case 'museum':
+      return ['museum', 'shopping'];
+    case 'market':
+      return ['shopping', 'food'];
+    case 'religious':
+      return ['greetings', 'directions'];
+    case 'theatre':
+      return ['greetings', 'museum'];
+    case 'space':
+      return ['directions', 'emergency'];
+    default:
+      if (ints.includes('food')) return ['food', 'shopping'];
+      if (ints.includes('shopping')) return ['shopping', 'food'];
+      return ['directions', 'greetings'];
+  }
+}
+
+/**
+ * Деректерден (kazakh_phrases) жағдайлық фразалар: 2-3 дана, topic-тар бойынша.
+ * kk мәтіні әрқашан кириллица; аударма/pronunciation UI тіліне сай.
+ * AI фразалары мағыналы болмаса, тек деректердегі фразалар ғана қолданылады.
+ */
+export function stopPhrasesFor(data: CityData, topics: string[], lang: Lang, limit = 2): ItineraryPhrase[] {
+  const out: ItineraryPhrase[] = [];
+  const seen = new Set<string>();
+  for (const topic of topics) {
+    for (const p of data.kazakh_phrases) {
+      if (out.length >= limit) break;
+      if (p.topic !== topic || seen.has(p.id)) continue;
+      seen.add(p.id);
+      out.push({
+        kk: p.kk,
+        translit: p.translit,
+        meaning: phraseMeaning(p, lang),
+        easy_pron: p.easy_pron,
+        pron_ko: p.pron_ko,
+        reviewed: true,
+      });
+    }
+  }
+  if (out.length === 0) {
+    const p = data.kazakh_phrases[0];
+    if (p)
+      out.push({
+        kk: p.kk,
+        translit: p.translit,
+        meaning: phraseMeaning(p, lang),
+        easy_pron: p.easy_pron,
+        pron_ko: p.pron_ko,
+        reviewed: true,
+      });
+  }
+  return out;
 }
 
 /* ------------------------------------------------------------------ */

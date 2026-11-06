@@ -284,6 +284,8 @@
     "itinerary": {
       "days": "하루별 일정",
       "day": "일",
+      "translating": "텍스트 번역 중…",
+      "tip": "팁",
       "budget": "예산 요약",
       "hotel": "숙소",
       "ticket": "입장권",
