@@ -86,7 +86,7 @@ export default function CityPhrases() {
       if (topic !== 'all' && p.topic !== topic) return false;
       if (favOnly && !favorites.includes(p.id)) return false;
       if (!q) return true;
-      const hay = [p.kk, p.translit, p.easy_pron ?? '', p.en, p.ru].join(' ').toLowerCase();
+      const hay = [p.kk, p.translit, p.easy_pron ?? '', p.pron_ko ?? '', p.ko ?? '', p.en, p.ru].join(' ').toLowerCase();
       return hay.includes(q);
     });
   }, [phrases, topic, query, favOnly, favorites]);

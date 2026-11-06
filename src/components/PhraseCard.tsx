@@ -20,10 +20,11 @@ interface Props {
   showEasyPron?: boolean;
 }
 
-/** Аударма UI тіліне сай: KZ → EN+RU, EN → RU, RU → EN (өз тілін көрсетпейміз). */
+/** Аударма UI тіліне сай: KZ → EN+RU, EN → RU, RU → EN, KO → KO (өз тілін көрсетпейміз). */
 function meaningsFor(phrase: KazakhPhrase, lang: Lang): string[] {
   if (lang === 'kk') return [phrase.en, phrase.ru];
   if (lang === 'en') return [phrase.ru];
+  if (lang === 'ko') return [phrase.ko ?? phrase.en];
   return [phrase.en];
 }
 
@@ -131,8 +132,11 @@ export default function PhraseCard({
         <p className="text-[15px] font-medium italic leading-snug text-navy-500">
           {phrase.translit} <span className="not-italic text-navy-400">· {t('city.phrases.translit')}</span>
         </p>
-        {showEasyPron && phrase.easy_pron && (
+        {showEasyPron && lang !== 'ko' && phrase.easy_pron && (
           <p className="text-[15px] font-semibold leading-snug text-teal-700">{phrase.easy_pron}</p>
+        )}
+        {showEasyPron && lang === 'ko' && phrase.pron_ko && (
+          <p className="text-[15px] font-semibold leading-snug text-teal-700">{phrase.pron_ko}</p>
         )}
       </div>
       <div>

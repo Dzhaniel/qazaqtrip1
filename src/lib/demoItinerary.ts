@@ -98,41 +98,43 @@ export interface DemoResult {
 let kzPhraseCursor = 0;
 
 function buildKzLesson(data: CityData, lang: Lang, chatText?: string): string {
+  // ko-да дерек-мәтін en-нан алынады (fallback ережесі)
+  const textLang: 'kk' | 'en' | 'ru' = lang === 'ko' ? 'en' : lang;
   const pool = data.kazakh_phrases;
   const picks = [0, 1, 2].map((i) => pool[(kzPhraseCursor + i) % pool.length]);
   kzPhraseCursor = (kzPhraseCursor + 3) % pool.length;
-  const meaningOf = (p: (typeof pool)[number]) => (lang === 'kk' ? p.en : p[lang]);
+  const meaningOf = (p: (typeof pool)[number]) => (textLang === 'kk' ? p.en : p[lang]);
 
   const lines: string[] = [];
   lines.push(
-    lang === 'kk'
+    textLang === 'kk'
       ? 'Сәлем! Сіз қазақша сөйлесу режимін қостыңыз — мен қарапайым қазақша жауап беремін. 🌤'
-      : lang === 'en'
+      : textLang === 'en'
         ? 'Sälem! You turned on Kazakh practice mode — I will answer in simple Kazakh. 🌤'
         : 'Сәлем! Вы включили режим практики на казахском — я отвечу простым казахским. 🌤',
   );
   if (chatText && chatText.trim()) {
     lines.push('');
     lines.push(
-      lang === 'kk'
+      textLang === 'kk'
         ? 'Сұрағыңызды түсіндім, бірақ деректерде нақты мәлімет болмаса — «нақтыланбаған» деп айтамын, ойдан шығармаймын.'
-        : lang === 'en'
+        : textLang === 'en'
           ? 'I understood your question. If the data has no exact value, I will say “not specified” — I never guess.'
           : 'Я понял ваш вопрос. Если в данных нет точного значения — скажу «не указано», ничего не выдумываю.',
     );
   }
   lines.push('');
   lines.push(
-    lang === 'kk' ? 'Жаңа сөздер:' : lang === 'en' ? 'New words:' : 'Новые слова:',
+    textLang === 'kk' ? 'Жаңа сөздер:' : textLang === 'en' ? 'New words:' : 'Новые слова:',
   );
   for (const p of picks) {
     lines.push(`• «${p.kk}» (${p.translit}) — ${meaningOf(p)}`);
   }
   lines.push('');
   lines.push(
-    lang === 'kk'
+    textLang === 'kk'
       ? 'Қолданғыңыз келетін сөзді жазыңыз — мысал сөйлем құрап беремін.'
-      : lang === 'en'
+      : textLang === 'en'
         ? 'Send me a phrase you want to use — I will build an example sentence.'
         : 'Пришлите фразу, которую хотите использовать — соберу пример предложения.',
   );
@@ -147,10 +149,11 @@ const BUDGET_LEVEL_NAMES: Record<Lang, Record<BudgetLevel, string>> = {
   kk: { economy: 'үнемді', medium: 'орташа', high: 'жоғары' },
   en: { economy: 'budget', medium: 'medium', high: 'premium' },
   ru: { economy: 'эконом', medium: 'средний', high: 'высокий' },
+  ko: { economy: '절약형', medium: '보통', high: '고급' },
 };
 
 const UNKNOWN = (lang: Lang) =>
-  ({ kk: 'нақтыланбаған', en: 'not specified', ru: 'не указано' })[lang];
+  ({ kk: 'нақтыланбаған', en: 'not specified', ru: 'не указано', ko: '미기재' })[lang];
 
 /** «Редакциялық» басымдық: қызығушылық берілмесе, бірінші рет келгенге ыңғайлы тәртіп. */
 const FEATURED_ORDER = [
@@ -193,6 +196,8 @@ function pickHotel(hotels: Hotel[], level: BudgetLevel): Hotel {
 
 export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?: string): DemoResult {
   const lang = formRaw.language;
+  // ko-да demo мәтіні en-нан алынады (fallback ережесі); L() атаулары kk-да қалады
+  const textLang: 'kk' | 'en' | 'ru' = lang === 'ko' ? 'en' : lang;
   const form: GuideForm = { ...formRaw, travelers: clamp(formRaw.travelers || 1, 1, 12) };
   const t = form.travelers;
   const unknown = UNKNOWN(lang);
@@ -277,17 +282,17 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
     if (second) {
       if (second === baikonur) {
         notes.push(
-          lang === 'kk'
+          textLang === 'kk'
             ? 'Байқоңырға толық күн керек — екі күндік жоспарға қоса алмадық. Маршрутты ұзартсаңыз немесе «Ғарыш» қызығушылығын таңдасаңыз, арнайы күн бөлеміз (рұқсат міндетті!).'
-            : lang === 'en'
+            : textLang === 'en'
               ? 'Baikonur needs a full day, so it does not fit into a 2-day plan. Extend the trip (a permit is required!) and we will allocate a dedicated day.'
               : 'Байконуру нужен целый день — в 2-дневный план он не поместился. Удлините поездку (пропуск обязателен!), и мы выделим отдельный день.',
         );
       } else if (second === korkyt) {
         notes.push(
-          lang === 'kk'
+          textLang === 'kk'
             ? 'Қорқыт ата мемориалына толық күн керек — екі күндік жоспарға қоса алмадық. Маршрутты ұзартсаңыз, арнайы күн бөлеміз.'
-            : lang === 'en'
+            : textLang === 'en'
               ? 'Korkyt Ata Memorial needs a full day (2+ hours of road each way), so it does not fit into a 2-day plan. Extend the trip and we will allocate a dedicated day.'
               : 'Мемориал Коркыт-ата требует целый день (более 2 часов дороги в одну сторону) — в 2-дневный план он не поместился. Удлините поездку, и мы выделим отдельный день.',
         );
@@ -296,18 +301,18 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
   } else if (nDays === 1 && (wantBaikonur || wantKorkyt)) {
     if (wantBaikonur && baikonur && baikonur.permit) {
       notes.push(
-        lang === 'kk'
+        textLang === 'kk'
           ? 'Байқоңыр режимдік аймақ: рұқсатсыз бару мүмкін емес, сонымен қатар толық күн керек — 1 күндік жоспарға қосылдырылған жоқ.'
-          : lang === 'en'
+          : textLang === 'en'
             ? 'Baikonur is a restricted area: no visit without a permit, and it needs a full day — it was not added to a 1-day plan.'
             : 'Байконур — режимная зона: без пропуска попасть нельзя, а ещё нужен целый день — в 1-дневный план он не добавлен.',
       );
     }
     if (wantKorkyt && korkyt) {
       notes.push(
-        lang === 'kk'
+        textLang === 'kk'
           ? 'Қорқыт ата мемориалы қаладан 170–185 км (2 сағаттан астам жол) — 1 күндік жоспарға қосылдырылған жоқ.'
-          : lang === 'en'
+          : textLang === 'en'
             ? 'Korkyt Ata Memorial is 170–185 km from the city (2+ hours of road) — it was not added to a 1-day plan.'
             : 'Мемориал Коркыт-ата в 170–185 км от города (более 2 часов дороги) — в 1-дневный план не добавлен.',
       );
@@ -351,9 +356,9 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
   const museumDaysUsed = perDay.some((day) => day.some((a) => a?.category === 'museum'));
   if (museumDaysUsed && museum) {
     notes.push(
-      lang === 'kk'
+      textLang === 'kk'
         ? `${L(museum.name, lang)} дүйсенбіде жұмыс істемейді, 13:00–15:00 аралығында үзіліс бар — кесте осыны ескерді.`
-        : lang === 'en'
+        : textLang === 'en'
           ? `The ${L(museum.name, lang)} is closed on Mondays and has a 13:00–15:00 break — the schedule takes this into account.`
           : `${L(museum.name, lang)} закрыт по понедельникам, перерыв 13:00–15:00 — расписание это учитывает.`,
     );
@@ -361,7 +366,7 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
   if (cursor.length > 0) {
     const extra = cursor.slice(0, 3).map((a) => L(a.name, lang)).join(', ');
     notes.push(
-      (lang === 'kk' ? 'Тағы көруге тұрарлық (кейінгі күндерге): ' : lang === 'en' ? 'Worth seeing later: ' : 'Стоит посмотреть позже: ') +
+      (textLang === 'kk' ? 'Тағы көруге тұрарлық (кейінгі күндерге): ' : textLang === 'en' ? 'Worth seeing later: ' : 'Стоит посмотреть позже: ') +
         extra,
     );
   }
@@ -384,9 +389,9 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
           time: '08:00',
           kind: 'travel',
           name:
-            lang === 'kk'
+            textLang === 'kk'
               ? 'Байқоңырға шығу (тек ұйымдастырылған топтармен)'
-              : lang === 'en'
+              : textLang === 'en'
                 ? 'Departure to Baikonur (organized groups only)'
                 : 'Выезд в Байконур (только организованные группы)',
           howToGet: permit.recommendation,
@@ -398,9 +403,9 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
             kind: 'attraction',
             placeId: baikonur.id,
             name:
-              lang === 'kk'
+              textLang === 'kk'
                 ? 'Байқоңыр ғарыш айлағы тарихы мұражайы (аудиогид)'
-                : lang === 'en'
+                : textLang === 'en'
                   ? 'Baikonur Cosmodrome History Museum (audio guide)'
                   : 'Музей истории космодрома Байконур (аудиогид)',
             costLabel: formatRub(baikonur.ticket.museum_audio_guide_rub),
@@ -413,9 +418,9 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
             kind: 'attraction',
             placeId: baikonur.id,
             name:
-              lang === 'kk'
+              textLang === 'kk'
                 ? 'Ғарыш айлағына топтық экскурсия (4 сағат, 25 адамға дейін)'
-                : lang === 'en'
+                : textLang === 'en'
                   ? 'Group tour of the cosmodrome (4 hours, up to 25 people)'
                   : 'Групповая экскурсия на космодром (4 часа, до 25 человек)',
             costLabel: formatRub(baikonur.ticket.cosmodrome_group_tour_rub),
@@ -426,14 +431,14 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
           time: '18:00',
           kind: 'travel',
           name:
-            lang === 'kk' ? 'Қызылордаға қайту' : lang === 'en' ? 'Return to Kyzylorda' : 'Возвращение в Кызылорду',
+            textLang === 'kk' ? 'Қызылордаға қайту' : textLang === 'en' ? 'Return to Kyzylorda' : 'Возвращение в Кызылорду',
         });
       } else if (korkyt) {
         planItems.push({
           time: '09:00',
           kind: 'travel',
           name:
-            lang === 'kk' ? 'Қорқыт ата мемориалына жол (R-69/E38)' : lang === 'en' ? 'Drive to Korkyt Ata Memorial (R-69/E38)' : 'Поездка к мемориалу Коркыт-ата (R-69/E38)',
+            textLang === 'kk' ? 'Қорқыт ата мемориалына жол (R-69/E38)' : textLang === 'en' ? 'Drive to Korkyt Ata Memorial (R-69/E38)' : 'Поездка к мемориалу Коркыт-ата (R-69/E38)',
           howToGet: korkyt.travel_note ? L(korkyt.travel_note, lang) : undefined,
         });
         planItems.push({
@@ -449,7 +454,7 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
           time: '14:00',
           kind: 'travel',
           name:
-            lang === 'kk' ? 'Қызылордаға қайту' : lang === 'en' ? 'Return to Kyzylorda' : 'Возвращение в Кызылорду',
+            textLang === 'kk' ? 'Қызылордаға қайту' : textLang === 'en' ? 'Return to Kyzylorda' : 'Возвращение в Кызылорду',
         });
       }
       days.push({ day: dayIdx + 1, dateLabel, title: L(trip.name, lang), items: planItems });
@@ -476,18 +481,18 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
           time: minToClock(clock),
           kind: 'meal',
           name:
-            lang === 'kk'
+            textLang === 'kk'
               ? 'Базарда ыстық самса мен дәмдеуіштер'
-              : lang === 'en'
+              : textLang === 'en'
                 ? 'Hot samsa and spices at the market'
                 : 'Горячая самса и специи на рынке',
           costLabel: unknown,
           costKnown: false,
         });
         unknownPrices.push(
-          lang === 'kk'
+          textLang === 'kk'
             ? 'Сыбаға базарындағы тамақ'
-            : lang === 'en'
+            : textLang === 'en'
               ? 'Food at Sybaga Market'
               : 'Еда на рынке Сыбага',
         );
@@ -499,9 +504,9 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
         time: '10:00',
         kind: 'free',
         name:
-          lang === 'kk'
+          textLang === 'kk'
             ? 'Еркін уақыт: қала бойымен серуен, базар'
-            : lang === 'en'
+            : textLang === 'en'
               ? 'Free time: walk around the city, the bazaar'
               : 'Свободное время: прогулка по городу, базар',
       });
@@ -510,9 +515,9 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
         time: minToClock(clock),
         kind: 'free',
         name:
-          lang === 'kk'
+          textLang === 'kk'
             ? 'Еркін уақыт: Сырдария жағалауында серуен'
-            : lang === 'en'
+            : textLang === 'en'
               ? 'Free time: a walk along the Syr Darya embankment'
               : 'Свободное время: прогулка вдоль набережной Сырдарьи',
       });
@@ -523,9 +528,9 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
   /* ---- Бюджет ---- */
   const budget: BudgetLine[] = [];
   const perNight =
-    lang === 'kk' ? 'түніне' : lang === 'en' ? 'per night' : 'за ночь';
+    textLang === 'kk' ? 'түніне' : textLang === 'en' ? 'per night' : 'за ночь';
   const perPerson =
-    lang === 'kk' ? 'адамға' : lang === 'en' ? 'per person' : 'с человека';
+    textLang === 'kk' ? 'адамға' : textLang === 'en' ? 'per person' : 'с человека';
 
   if (nights > 0) {
     if (hotel.price_from_kzt != null) {
@@ -533,7 +538,7 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
         label: `${hotelName(lang)}: ${L(hotel.name, lang)}`,
         kind: 'hotel',
         amountLabel: `${formatKzt(hotel.price_from_kzt)} ${perNight} × ${nights} ${
-          lang === 'kk' ? 'түн' : lang === 'en' ? 'nights' : 'ноч'
+          textLang === 'kk' ? 'түн' : textLang === 'en' ? 'nights' : 'ноч'
         }`,
         known: true,
         kzt: hotel.price_from_kzt * nights,
@@ -559,7 +564,7 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
     }
     if (tk.adult_kzt === 0) continue; // тегін — бюджетке енбейді
     budget.push({
-      label: `${L(item.name, lang)} × ${t} ${lang === 'kk' ? 'адам' : lang === 'en' ? 'people' : 'чел.'}`,
+      label: `${L(item.name, lang)} × ${t} ${textLang === 'kk' ? 'адам' : textLang === 'en' ? 'people' : 'чел.'}`,
       kind: 'ticket',
       amountLabel: `${formatKzt(tk.adult_kzt)} × ${t}`,
       known: true,
@@ -573,9 +578,9 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
     if (baikonur.ticket.museum_audio_guide_rub != null) {
       budget.push({
         label:
-          lang === 'kk'
+          textLang === 'kk'
             ? 'Байқоңыр: музей (аудиогид)'
-            : lang === 'en'
+            : textLang === 'en'
               ? 'Baikonur: museum (audio guide)'
               : 'Байконур: музей (аудиогид)',
         kind: 'tour',
@@ -587,9 +592,9 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
     if (baikonur.ticket.cosmodrome_group_tour_rub != null) {
       budget.push({
         label:
-          lang === 'kk'
+          textLang === 'kk'
             ? 'Байқоңыр: ғарыш айлағына топтық экскурсия'
-            : lang === 'en'
+            : textLang === 'en'
               ? 'Baikonur: group tour of the cosmodrome'
               : 'Байконур: групповая экскурсия на космодром',
         kind: 'tour',
@@ -611,7 +616,7 @@ export function buildDemoItinerary(data: CityData, formRaw: GuideForm, chatText?
     phrases.push({
       kk: p.kk,
       translit: p.translit,
-      meaning: lang === 'kk' ? p.en : p[lang],
+      meaning: textLang === 'kk' ? p.en : (p[lang] ?? p.en),
     });
   }
 
@@ -641,25 +646,27 @@ function hotelName(lang: Lang): string {
     kk: 'Қонақүй',
     en: 'Hotel',
     ru: 'Отель',
+    ko: '호텔',
   }[lang];
 }
 
 function ticketCostLabel(a: Attraction, lang: Lang): string {
+  const textLang: 'kk' | 'en' | 'ru' = lang === 'ko' ? 'en' : lang;
   const unknown = UNKNOWN(lang);
   const tk = a.ticket;
   if (tk.currency === 'RUB') {
     const parts: string[] = [];
     if (tk.museum_audio_guide_rub != null)
       parts.push(
-        `${lang === 'kk' ? 'музей (аудиогид)' : lang === 'en' ? 'museum (audio guide)' : 'музей (аудиогид)'}: ${formatRub(tk.museum_audio_guide_rub)}`,
+        `${textLang === 'kk' ? 'музей (аудиогид)' : textLang === 'en' ? 'museum (audio guide)' : 'музей (аудиогид)'}: ${formatRub(tk.museum_audio_guide_rub)}`,
       );
     if (tk.cosmodrome_group_tour_rub != null)
       parts.push(
-        `${lang === 'kk' ? 'ғарыш айлағы (топтық)' : lang === 'en' ? 'cosmodrome (group)' : 'космодром (группово)'}: ${formatRub(tk.cosmodrome_group_tour_rub)}`,
+        `${textLang === 'kk' ? 'ғарыш айлағы (топтық)' : textLang === 'en' ? 'cosmodrome (group)' : 'космодром (группово)'}: ${formatRub(tk.cosmodrome_group_tour_rub)}`,
       );
     return parts.join(' · ');
   }
-  if (tk.adult_kzt === 0) return { kk: 'Тегін', en: 'Free', ru: 'Бесплатно' }[lang];
+  if (tk.adult_kzt === 0) return { kk: 'Тегін', en: 'Free', ru: 'Бесплатно', ko: '무료' }[lang];
   if (tk.adult_kzt == null) return unknown;
   return formatKzt(tk.adult_kzt);
 }
@@ -691,6 +698,7 @@ interface AnswerInput {
 
 function buildAnswerText(input: AnswerInput): string {
   const { lang, form, nDays, datesOk, hotel, notes, phrases, kztTotal, rubTotal, unknownPrices } = input;
+  const textLang: 'kk' | 'en' | 'ru' = lang === 'ko' ? 'en' : lang;
   const level = BUDGET_LEVEL_NAMES[lang][form.budgetLevel];
   const unknown = UNKNOWN(lang);
 
@@ -698,50 +706,50 @@ function buildAnswerText(input: AnswerInput): string {
   const dDep = parseDateStr(form.departure);
   const datesLabel = datesOk && dArr && dDep
     ? `${formatDateLabel(form.arrival, lang)} – ${formatDateLabel(form.departure, lang)}`
-    : lang === 'kk' ? 'күндер көрсетілмеген' : lang === 'en' ? 'no dates given' : 'даты не указаны';
+    : textLang === 'kk' ? 'күндер көрсетілмеген' : textLang === 'en' ? 'no dates given' : 'даты не указаны';
 
   const interestNames =
     form.interests.length > 0
       ? form.interests
           .map((id) => {
             const opt = input.data.interest_options.find((o) => o.id === id);
-            return opt ? opt[lang] : id;
+            return opt ? opt[lang === 'ko' ? 'kk' : lang] : id;
           })
           .join(', ')
-      : lang === 'kk' ? 'таңдалмаған' : lang === 'en' ? 'none selected' : 'не выбраны';
+      : textLang === 'kk' ? 'таңдалмаған' : textLang === 'en' ? 'none selected' : 'не выбраны';
 
   const lines: string[] = [];
 
   const greet =
-    lang === 'kk'
+    textLang === 'kk'
       ? 'Сәлеметсіз бе! Қызылорда үшін маршрут құрдым. 🌤'
-      : lang === 'en'
+      : textLang === 'en'
         ? 'Hello! I have built an itinerary for you in Kyzylorda. 🌤'
         : 'Здравствуйте! Я составил маршрут для вас по Кызылорде. 🌤';
   lines.push(greet);
 
   lines.push('');
   const planTitle =
-    lang === 'kk' ? 'Сіздің сұранысыңыз:' : lang === 'en' ? 'Your request:' : 'Ваш запрос:';
+    textLang === 'kk' ? 'Сіздің сұранысыңыз:' : textLang === 'en' ? 'Your request:' : 'Ваш запрос:';
   lines.push(planTitle);
   lines.push(
-    lang === 'kk'
+    textLang === 'kk'
       ? `• Күндері: ${datesLabel} (${nDays} күн)\n• Саяхатшылар: ${form.travelers} адам\n• Бюджет: ${level}\n• Қызығушылықтар: ${interestNames}`
-      : lang === 'en'
+      : textLang === 'en'
         ? `• Dates: ${datesLabel} (${nDays} days)\n• Travelers: ${form.travelers}\n• Budget: ${level}\n• Interests: ${interestNames}`
         : `• Даты: ${datesLabel} (${nDays} дн.)\n• Путешественники: ${form.travelers}\n• Бюджет: ${level}\n• Интересы: ${interestNames}`,
   );
 
   const hotelLine =
     hotel.price_from_kzt != null
-      ? lang === 'kk'
+      ? textLang === 'kk'
         ? `• Қонақүй: ${L(hotel.name, lang)} — түніне ${formatKzt(hotel.price_from_kzt)}-тен бастап${hotel.breakfast_included ? ' (таңғы ас қоса)' : ''}`
-        : lang === 'en'
+        : textLang === 'en'
           ? `• Hotel: ${L(hotel.name, lang)} — from ${formatKzt(hotel.price_from_kzt)} per night${hotel.breakfast_included ? ' (breakfast included)' : ''}`
           : `• Отель: ${L(hotel.name, lang)} — от ${formatKzt(hotel.price_from_kzt)} за ночь${hotel.breakfast_included ? ' (с завтраком)' : ''}`
-      : lang === 'kk'
+      : textLang === 'kk'
         ? `• Қонақүй: ${L(hotel.name, lang)} — бағасы ${unknown}`
-        : lang === 'en'
+        : textLang === 'en'
           ? `• Hotel: ${L(hotel.name, lang)} — price ${unknown}`
           : `• Отель: ${L(hotel.name, lang)} — цена ${unknown}`;
   lines.push(hotelLine);
@@ -749,43 +757,43 @@ function buildAnswerText(input: AnswerInput): string {
   if (notes.length > 0) {
     lines.push('');
     lines.push(
-      lang === 'kk' ? 'Маңызды ескертулер:' : lang === 'en' ? 'Important notes:' : 'Важные замечания:',
+      textLang === 'kk' ? 'Маңызды ескертулер:' : textLang === 'en' ? 'Important notes:' : 'Важные замечания:',
     );
     for (const n of notes) lines.push(`• ${n}`);
   }
 
   lines.push('');
   lines.push(
-    lang === 'kk'
+    textLang === 'kk'
       ? 'Төменде күн бойынша кесте мен бюджет қорытындысы. Бағасы белгісіз орындар «нақтыланбаған» деп белгіленді — ойлап сан айтқан жоқпын.'
-      : lang === 'en'
+      : textLang === 'en'
         ? 'Below is the day-by-day plan and the budget summary. Places with unknown prices are marked “not specified” — I never guess.'
         : 'Ниже — подневной план и итог по бюджету. Места с неизвестной ценой помечены «не указано» — я никогда не выдумываю.',
   );
 
   if (kztTotal > 0) {
     lines.push(
-      lang === 'kk'
+      textLang === 'kk'
         ? `Нақты белгілі қосынды: шамамен ${formatKzt(kztTotal)}`
-        : lang === 'en'
+        : textLang === 'en'
           ? `Total of known costs: about ${formatKzt(kztTotal)}`
           : `Сумма известных расходов: примерно ${formatKzt(kztTotal)}`,
     );
   }
   if (rubTotal > 0) {
     lines.push(
-      lang === 'kk'
+      textLang === 'kk'
         ? `Байқоңырға арналған қосымша (RUB-пен, аударылмаған): ${formatRub(rubTotal)}`
-        : lang === 'en'
+        : textLang === 'en'
           ? `Extra for Baikonur (in RUB, not converted): ${formatRub(rubTotal)}`
           : `Дополнительно для Байконура (в RUB, без конвертации): ${formatRub(rubTotal)}`,
     );
   }
   if (unknownPrices.length > 0) {
     lines.push(
-      lang === 'kk'
+      textLang === 'kk'
         ? `Бағасы нақтыланбаған: ${unknownPrices.join(', ')}.`
-        : lang === 'en'
+        : textLang === 'en'
           ? `Unknown prices: ${unknownPrices.join(', ')}.`
           : `Цены не указаны: ${unknownPrices.join(', ')}.`,
     );
@@ -794,9 +802,9 @@ function buildAnswerText(input: AnswerInput): string {
   if (phrases.length > 0) {
     lines.push('');
     lines.push(
-      lang === 'kk'
+      textLang === 'kk'
         ? 'Жолда пайдалы сөздер:'
-        : lang === 'en'
+        : textLang === 'en'
           ? 'Useful Kazakh phrases for the road:'
           : 'Полезные казахские фразы в пути:',
     );
@@ -804,7 +812,7 @@ function buildAnswerText(input: AnswerInput): string {
   }
 
   lines.push('');
-  lines.push(input.data.meta.disclaimer[lang]);
+  lines.push(L(input.data.meta.disclaimer, lang));
 
   return lines.join('\n');
 }
@@ -814,12 +822,13 @@ function buildAnswerText(input: AnswerInput): string {
 /* ------------------------------------------------------------------ */
 
 export function summarizeForm(form: GuideForm, lang: Lang): string {
+  const textLang: 'kk' | 'en' | 'ru' = lang === 'ko' ? 'en' : lang;
   const level = BUDGET_LEVEL_NAMES[lang][form.budgetLevel];
   const interests =
     form.interests.length > 0
       ? form.interests.join(', ')
-      : lang === 'kk' ? 'таңдалмаған' : lang === 'en' ? 'none selected' : 'не выбраны';
-  if (lang === 'kk') {
+      : textLang === 'kk' ? 'таңдалмаған' : textLang === 'en' ? 'none selected' : 'не выбраны';
+  if (textLang === 'kk') {
     return `Саяхат сұранысы: келу — ${form.arrival || 'нақтыланбаған'}, кету — ${form.departure || 'нақтыланбаған'}, саяхатшылар: ${form.travelers} адам, бюджет: ${level}, қызығушылықтар: ${interests}.`;
   }
   if (lang === 'ru') {

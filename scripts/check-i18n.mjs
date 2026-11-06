@@ -10,7 +10,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const srcDir = join(root, 'src');
 
 const dicts = {};
-for (const lang of ['kk', 'en', 'ru']) {
+for (const lang of ['kk', 'en', 'ru', 'ko']) {
   dicts[lang] = JSON.parse(readFileSync(join(root, 'src/i18n', `${lang}.json`), 'utf8'));
 }
 
@@ -31,7 +31,7 @@ const DYNAMIC = [
   { re: /city\.sights\.cat_.*\$\{[^}]*\}/, keys: CAT_KEYS },
   { re: /city\.sights\..*\$\{[^}]*\}/, keys: CAT_KEYS },
   { re: /city\..*\$\{[^}]*\}/, keys: ['city.air', 'city.train', 'city.bus'] },
-  { re: /guide\.lang_.*\$\{[^}]*\}/, keys: ['guide.lang_kk', 'guide.lang_en', 'guide.lang_ru'] },
+  { re: /guide\.lang_.*\$\{[^}]*\}/, keys: ['guide.lang_kk', 'guide.lang_en', 'guide.lang_ru', 'guide.lang_ko'] },
   { re: /guide\.budget_level\..*\$\{[^}]*\}/, keys: ['guide.budget_level.economy', 'guide.budget_level.medium', 'guide.budget_level.high'] },
   { re: /city\.sights\.results_.*\$\{[^}]*\}/, keys: ['city.sights.results_one', 'city.sights.results_few', 'city.sights.results_many'] },
   { re: /city\.hotels\.results_.*\$\{[^}]*\}/, keys: ['city.hotels.results_one', 'city.hotels.results_few', 'city.hotels.results_many'] },
@@ -63,7 +63,7 @@ function getPath(dict, key) {
 
 let missing = 0;
 for (const key of [...usedKeys].sort()) {
-  for (const lang of ['kk', 'en', 'ru']) {
+  for (const lang of ['kk', 'en', 'ru', 'ko']) {
     if (getPath(dicts[lang], key) === undefined) {
       console.error(`MISSING [${lang}] ${key}`);
       missing++;
@@ -76,4 +76,4 @@ if (missing > 0) {
   console.error(`Не хватает: ${missing}`);
   process.exit(1);
 }
-console.log('OK: все i18n-ключи на месте (kk/en/ru)');
+console.log('OK: все i18n-ключи на месте (kk/en/ru/ko)');

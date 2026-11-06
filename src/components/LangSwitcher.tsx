@@ -4,7 +4,7 @@ import type { Lang } from '../data/types';
 import { cn } from '../lib/utils';
 import { LANGS, setAppLanguage } from '../i18n';
 
-const LABELS: Record<Lang, string> = { kk: 'KZ', en: 'EN', ru: 'RU' };
+const LABELS: Record<Lang, string> = { kk: 'KZ', en: 'EN', ru: 'RU', ko: 'KO' };
 
 export default function LangSwitcher({ compact = false }: { compact?: boolean }) {
   const { i18n, t } = useTranslation();
@@ -32,7 +32,7 @@ export default function LangSwitcher({ compact = false }: { compact?: boolean })
             aria-pressed={active}
             className={cn(
               'rounded-full font-bold transition-all duration-200',
-              compact ? 'min-h-11 px-3 text-xs' : 'min-h-11 px-3.5 text-xs',
+              compact ? 'min-h-11 px-2.5 text-[11px]' : 'min-h-11 px-3.5 text-xs',
               active
                 ? 'bg-navy-800 text-cream-100 shadow'
                 : 'text-navy-400 hover:text-teal-700',

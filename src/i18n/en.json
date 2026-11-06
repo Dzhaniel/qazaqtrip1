@@ -313,7 +313,8 @@
     "preset2": "Demo: 3 days · 2 people",
     "preset3": "Demo: 4 days · 4 people (Baikonur)",
     "demo_hint": "Ready-made demo scenario — one click",
-    "demo_fallback_note": "The AI did not respond. Here is a demo itinerary built from the data:"
+    "demo_fallback_note": "The AI did not respond. Here is a demo itinerary built from the data:",
+    "lang_ko": "English"
   },
   "about": {
     "title": "About QazaqTrip",

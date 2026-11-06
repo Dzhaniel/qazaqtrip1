@@ -23,12 +23,23 @@ export interface GuideServerResult {
 
 function buildSystemPrompt(data: CityData, lang: Lang, kzMode: boolean): string {
   const langName =
-    lang === 'kk' ? 'Kazakh (keep it natural, use Kazakh Cyrillic with ә ғ қ ң ө ұ ү һ і)' : lang === 'ru' ? 'Russian' : 'English';
+    lang === 'kk'
+      ? 'Kazakh (keep it natural, use Kazakh Cyrillic with ә ғ қ ң ө ұ ү һ і)'
+      : lang === 'ru'
+        ? 'Russian'
+        : lang === 'ko'
+          ? 'Korean (natural, polite 합니다체; write in Hangul)'
+          : 'English';
 
   const parts: string[] = [];
   parts.push(
     'You are a friendly Kazakhstan travel guide for Kyzylorda. Use ONLY the places, hotels, prices, hours and phrases in the provided JSON. If a value is null or missing, say it is not specified and advise checking officially, never guess. Respect opening hours (for example museum closed on Monday, lunch break). Mention the Baikonur permit warning and the distance of day trips before suggesting them. Answer in Kazakh by default or in the user\'s selected language, keep Kazakh natural, add 1-2 short Kazakh phrases from the data with translation. Give a day-by-day timeline with time, place, how to get there and cost only where the data has a price; finish with a budget summary listing which items have unknown prices. Prices must be in KZT as in the data (RUB for Baikonur).',
   );
+  if (lang === 'ko') {
+    parts.push(
+      'Korean mode: answer in natural Korean. Keep Kazakh place names in Kazakh Cyrillic (do NOT translate or transliterate proper names). When helpful, include 1-2 short Kazakh phrases in the format «қазақша сөз» [hangul pronunciation] — 뜻 (Korean meaning).',
+    );
+  }
   parts.push(`Answer language for this conversation: ${kzMode ? 'SIMPLE KAZAKH (see Kazakh practice mode below) — user\'s language is ' + langName + ' only for word meanings' : langName}.`);
   if (kzMode) {
     parts.push('');
@@ -64,7 +75,10 @@ export async function runGuide(
   data: CityData,
   onDelta: (t: string) => void,
 ): Promise<GuideServerResult> {
-  const lang: Lang = payload.form?.language === 'en' || payload.form?.language === 'ru' ? payload.form.language : 'kk';
+  const lang: Lang =
+    payload.form?.language === 'en' || payload.form?.language === 'ru' || payload.form?.language === 'ko'
+      ? payload.form.language
+      : 'kk';
   const kzMode = payload.form?.kz_mode === true;
 
   const apiKey = process.env.OPENAI_API_KEY;

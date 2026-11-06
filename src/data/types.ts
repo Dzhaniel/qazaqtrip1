@@ -3,9 +3,11 @@ export interface L10n {
   kk: string;
   en: string;
   ru: string;
+  /** Korean UI-да optional; болмаса kk-ға fallback (L()). */
+  ko?: string;
 }
 
-export type Lang = 'kk' | 'en' | 'ru';
+export type Lang = 'kk' | 'en' | 'ru' | 'ko';
 
 export interface Meta {
   schema_version: string;
@@ -157,6 +159,12 @@ export interface KazakhPhrase {
   easy_pron?: string;
   /** native-speaker review pending */
   easy_pron_reviewed?: boolean;
+  /** Korean translation of the phrase */
+  ko?: string;
+  /** Kazakh pronounced in Hangul (for Korean speakers) */
+  pron_ko?: string;
+  /** Korean fields pending native review */
+  ko_reviewed?: boolean;
   en: string;
   ru: string;
   /** greetings | hotel | transport | food | museum | shopping | emergency | numbers */

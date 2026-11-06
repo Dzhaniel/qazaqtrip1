@@ -28,7 +28,8 @@ function buildQuestions(phrases: KazakhPhrase[], mode: QuizMode, lang: Lang) {
     [pool[i], pool[j]] = [pool[j], pool[i]];
   }
   const chosen = pool.slice(0, Math.min(QUESTION_COUNT, pool.length));
-  const meaningOf = (p: KazakhPhrase) => (lang === 'en' ? p.ru : p.en);
+  const meaningOf = (p: KazakhPhrase) =>
+    lang === 'ko' ? p.ko ?? p.en : lang === 'en' ? p.ru : p.en;
 
   return chosen.map((correct) => {
     const distractorPool = pool.filter((p) => p.id !== correct.id);

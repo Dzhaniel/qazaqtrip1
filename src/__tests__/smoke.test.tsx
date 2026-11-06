@@ -231,6 +231,47 @@ describe('страницы рендерятся (по умолчанию — к�
     expect(html).toContain('қала');
   });
 
+  it('Korean (KO): i18n + fallback жұмыс істейді (home)', async () => {
+    const i18n = (await import('../i18n')).default;
+    await i18n.changeLanguage('ko');
+    try {
+      const html = await renderClient('/', 150);
+      expect(html).toContain('카자흐스탄을');
+      expect(html).toContain('발견하세요');
+      expect(html).toContain('일정 만들기');
+    } finally {
+      await i18n.changeLanguage('kk');
+    }
+  });
+
+  it('Korean (KO): сөздер беті — ko аударма + hangul', async () => {
+    const i18n = (await import('../i18n')).default;
+    await i18n.changeLanguage('ko');
+    try {
+      const html = await renderClient('/city/kyzylorda/phrases', 150);
+      expect(html).toContain('카자흐어 표현');
+      expect(html).toContain('전체 듣기');
+      expect(html).toContain('안녕하세요!'); // p1 ko-аудармасы
+      expect(html).not.toContain('undefined');
+    } finally {
+      await i18n.changeLanguage('kk');
+    }
+  });
+
+  it('Korean (KO): ЖИ-гид форма + lang опциялар', async () => {
+    const i18n = (await import('../i18n')).default;
+    await i18n.changeLanguage('ko');
+    try {
+      const html = await renderClient('/guide', 150);
+      expect(html).toContain('AI 가이드');
+      expect(html).toContain('한국어'); // guide.lang_ko
+      expect(html).toContain('일정 만들기');
+      expect(html).not.toContain('undefined');
+    } finally {
+      await i18n.changeLanguage('kk');
+    }
+  });
+
   it('404', async () => {
     const html = await renderClient('/no-such-page', 100);
     expect(html).toContain('404');

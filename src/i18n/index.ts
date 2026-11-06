@@ -4,15 +4,20 @@ import type { Lang } from '../data/types';
 import kk from './kk.json';
 import en from './en.json';
 import ru from './ru.json';
+import ko from './ko.json';
 
-export const LANGS: Lang[] = ['kk', 'en', 'ru'];
+export const LANGS: Lang[] = ['kk', 'en', 'ru', 'ko'];
 
 const STORAGE_KEY = 'qazaqtrip-lang';
 
 function detectInitialLang(): Lang {
-  if (typeof localStorage !== 'undefined') {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored && (LANGS as string[]).includes(stored)) return stored as Lang;
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored && (LANGS as string[]).includes(stored)) return stored as Lang;
+    }
+  } catch {
+    /* private mode — default */
   }
   return 'kk'; // основной язык приложения — казахский
 }
@@ -24,9 +29,11 @@ i18n.use(initReactI18next).init({
     kk: { translation: kk },
     en: { translation: en },
     ru: { translation: ru },
+    ko: { translation: ko },
   },
   lng: initialLang,
-  fallbackLng: 'kk',
+  // ko-да жоқ кілт — en-нан алынады (кажық key болмауы мүмкін емес, crash жоқ)
+  fallbackLng: { ko: ['en'], default: ['kk'] },
   supportedLngs: LANGS,
   interpolation: { escapeValue: false },
   returnNull: false,
@@ -35,7 +42,11 @@ i18n.use(initReactI18next).init({
 document.documentElement.lang = initialLang;
 
 export function setAppLanguage(lang: Lang): void {
-  localStorage.setItem(STORAGE_KEY, lang);
+  try {
+    localStorage.setItem(STORAGE_KEY, lang);
+  } catch {
+    /* private mode — in-memory only */
+  }
   document.documentElement.lang = lang;
   void i18n.changeLanguage(lang);
 }

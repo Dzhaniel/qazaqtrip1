@@ -47,8 +47,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Manrope', 'Inter', 'system-ui', 'Segoe UI', 'sans-serif'],
-        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        sans: ['Manrope', 'Inter', 'Noto Sans KR', 'system-ui', 'Segoe UI', 'sans-serif'],
+        display: ['"Playfair Display"', 'Georgia', '"Noto Sans KR"', 'serif'],
       },
       boxShadow: {
         card: '0 8px 28px -10px rgba(15, 42, 61, 0.16)',

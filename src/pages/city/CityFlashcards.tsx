@@ -19,6 +19,7 @@ interface FlashCard {
   translit: string;
   en: string;
   ru: string;
+  ko?: string;
   topic?: string;
 }
 
@@ -56,11 +57,11 @@ export default function CityFlashcards() {
     if (!city) return [];
     if (deck === 'route') return routeDeck;
     if (deck === 'all') {
-      return city.kazakh_phrases.map((p) => ({ id: p.id, kk: p.kk, translit: p.translit, en: p.en, ru: p.ru, topic: p.topic }));
+      return city.kazakh_phrases.map((p) => ({ id: p.id, kk: p.kk, translit: p.translit, en: p.en, ru: p.ru, ko: p.ko, topic: p.topic }));
     }
     return city.kazakh_phrases
       .filter((p) => p.topic === deck)
-      .map((p) => ({ id: p.id, kk: p.kk, translit: p.translit, en: p.en, ru: p.ru, topic: p.topic }));
+      .map((p) => ({ id: p.id, kk: p.kk, translit: p.translit, en: p.en, ru: p.ru, ko: p.ko, topic: p.topic }));
   }, [city, deck, routeDeck]);
 
   // Leitner: box 1 — алдымен (жиі), содан 2, 3
@@ -85,9 +86,9 @@ export default function CityFlashcards() {
   };
 
   function cardsFor(d: Deck): FlashCard[] {
-    if (d === 'all') return city!.kazakh_phrases.map((p) => ({ id: p.id, kk: p.kk, translit: p.translit, en: p.en, ru: p.ru, topic: p.topic }));
+    if (d === 'all') return city!.kazakh_phrases.map((p) => ({ id: p.id, kk: p.kk, translit: p.translit, en: p.en, ru: p.ru, ko: p.ko, topic: p.topic }));
     if (d === 'route') return routeDeck;
-    return city!.kazakh_phrases.filter((p) => p.topic === d).map((p) => ({ id: p.id, kk: p.kk, translit: p.translit, en: p.en, ru: p.ru, topic: p.topic }));
+    return city!.kazakh_phrases.filter((p) => p.topic === d).map((p) => ({ id: p.id, kk: p.kk, translit: p.translit, en: p.en, ru: p.ru, ko: p.ko, topic: p.topic }));
   }
 
   function answer(knows: boolean) {
@@ -115,7 +116,14 @@ export default function CityFlashcards() {
     setSpeaking(false);
   }
 
-  const meaning2 = lang === 'kk' ? [card?.en, card?.ru] : lang === 'en' ? [card?.ru] : [card?.en];
+  const meaning2 =
+    lang === 'kk'
+      ? [card?.en, card?.ru]
+      : lang === 'ko'
+        ? [card?.ko ?? card?.en, card?.en]
+        : lang === 'en'
+          ? [card?.ru]
+          : [card?.en];
 
   return (
     <div>

@@ -94,19 +94,19 @@ export default function AttractionCard({ attraction: a, lang, onShowOnMap, photo
       const parts: string[] = [];
       if (a.ticket.museum_audio_guide_rub != null)
         parts.push(
-          `${lang === 'kk' ? 'Музей (аудиогид)' : lang === 'en' ? 'Museum (audio guide)' : 'Музей (аудиогид)'}: ${formatRub(a.ticket.museum_audio_guide_rub)}`,
+          `${lang === 'kk' ? 'Музей (аудиогид)' : lang === 'ru' ? 'Музей (аудиогид)' : 'Museum (audio guide)'}: ${formatRub(a.ticket.museum_audio_guide_rub)}`,
         );
       if (a.ticket.cosmodrome_group_tour_rub != null)
         parts.push(
-          `${lang === 'kk' ? 'Ғарыш айлағы (топтық)' : lang === 'en' ? 'Cosmodrome (group)' : 'Космодром (группово)'}: ${formatRub(a.ticket.cosmodrome_group_tour_rub)}`,
+          `${lang === 'kk' ? 'Ғарыш айлағы (топтық)' : lang === 'ru' ? 'Космодром (группово)' : 'Cosmodrome (group)'}: ${formatRub(a.ticket.cosmodrome_group_tour_rub)}`,
         );
       return parts.join(' · ');
     }
     if (ticket.kind === 'free') return t('city.sights.free');
     if (ticket.kind === 'unknown') return t('common.price_unknown');
     let label = formatKzt(ticket.kzt ?? 0);
-    if (a.ticket.student_kzt != null) label += ` · ${lang === 'kk' ? 'студенттер' : lang === 'en' ? 'students' : 'студенты'} ${formatKzt(a.ticket.student_kzt)}`;
-    if (a.ticket.child_kzt != null) label += ` · ${lang === 'kk' ? 'балалар' : lang === 'en' ? 'children' : 'дети'} ${formatKzt(a.ticket.child_kzt)}`;
+    if (a.ticket.student_kzt != null) label += ` · ${lang === 'kk' ? 'студенттер' : lang === 'ru' ? 'студенты' : 'students'} ${formatKzt(a.ticket.student_kzt)}`;
+    if (a.ticket.child_kzt != null) label += ` · ${lang === 'kk' ? 'балалар' : lang === 'ru' ? 'дети' : 'children'} ${formatKzt(a.ticket.child_kzt)}`;
     return label;
   }
 
@@ -139,7 +139,7 @@ export default function AttractionCard({ attraction: a, lang, onShowOnMap, photo
             <p className="mt-1.5 text-[13px] leading-relaxed text-amber-900/90">{L(a.permit, lang)}</p>
             {a.permit.recommendation && (
               <p className="mt-1.5 text-xs font-bold text-amber-800">
-                {lang === 'kk' ? 'Кеңес: ' : lang === 'en' ? 'Advice: ' : 'Совет: '}
+                {lang === 'kk' ? 'Кеңес: ' : lang === 'ru' ? 'Совет: ' : 'Advice: '}
                 {a.permit.recommendation}
               </p>
             )}

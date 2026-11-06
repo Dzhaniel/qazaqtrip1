@@ -215,7 +215,7 @@ export default function HomePage() {
                   ))}
                   {comingSoonCities.map((c) => (
                     <option key={c.id} value={c.id} disabled>
-                      {c.name[lang]} — {t('cities.soon')}
+                      {L(c.name, lang)} — {t('cities.soon')}
                     </option>
                   ))}
                 </select>

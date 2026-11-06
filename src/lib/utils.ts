@@ -65,7 +65,7 @@ export function daysBetween(a: Date, b: Date): number {
   return Math.round(ms / 86400000);
 }
 
-const LOCALES: Record<Lang, string> = { kk: 'kk-KZ', en: 'en-GB', ru: 'ru-RU' };
+const LOCALES: Record<Lang, string> = { kk: 'kk-KZ', en: 'en-GB', ru: 'ru-RU', ko: 'ko-KR' };
 
 /** "2026-10-17" -> "17 қазан" / "17 Oct" / "17 октября". */
 export function formatDateLabel(s: string, lang: Lang): string {
@@ -86,8 +86,8 @@ export function dateStr(d: Date): string {
 
 /** 90 -> "90 мин", 480 -> "8 сағат" (локальные единицы). */
 export function visitLabel(min: number, lang: Lang): string {
-  const minUnit = { kk: 'мин', en: 'min', ru: 'мин' }[lang];
-  const hourUnit = { kk: 'сағат', en: 'h', ru: 'ч' }[lang];
+  const minUnit = { kk: 'мин', en: 'min', ru: 'мин', ko: '분' }[lang];
+  const hourUnit = { kk: 'сағат', en: 'h', ru: 'ч', ko: '시간' }[lang];
   if (min >= 60 && min % 60 === 0) return `${min / 60} ${hourUnit}`;
   return `${min} ${minUnit}`;
 }

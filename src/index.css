@@ -18,6 +18,12 @@
     @apply bg-teal-500/20 text-navy-900;
   }
 
+  /* Korean: Hangul should wrap on word boundaries, not mid-word */
+  html[lang="ko"],
+  html[lang="ko"] * {
+    word-break: keep-all;
+  }
+
   h1,
   h2,
   h3 {
