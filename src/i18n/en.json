@@ -201,7 +201,7 @@
       "food_title": "What to taste",
       "food_note": "No specific venues verified — these are just traditional dishes.",
       "progress_label": "Learning progress",
-      "translit_note": "Transliteration follows the 2021 official Kazakh Latin alphabet (adopted practical form: ә→ä, ғ→ğ, қ→q, ң→ng, ө→ö, ұ→u, ү→ü, ы→y, і→i).",
+      "translit_note": "Latin transliteration is shown to make reading easier.",
       "topics_label": "Filter by topic",
       "filter_all": "All",
       "search_placeholder": "Search phrases…",
@@ -234,7 +234,13 @@
       "save": "Save to phrasebook",
       "slow": "Slow",
       "saved_only": "Saved",
-      "topic_directions": "Directions"
+      "topic_directions": "Directions",
+      "translit_about_title": "About the transliteration",
+      "translit_about": "Transliteration shows how Kazakh letters are written in Latin script: ә→ä, ғ→ğ, қ→q, ң→ng, ө→ö, ұ→u, ү→ü, ы→y, і→i, ж→j, ш→sh, ч→ch, х→h. This is a simplified version — use the 🔊 button for the exact pronunciation.",
+      "easy_pron_label": "Easy pronunciation",
+      "play_all": "Play all",
+      "play_stop": "Stop",
+      "kicker": "Kazakhstan"
     }
   },
   "guide": {

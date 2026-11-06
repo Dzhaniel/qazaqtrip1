@@ -153,6 +153,10 @@ export interface KazakhPhrase {
   id: string;
   kk: string;
   translit: string;
+  /** English-speaker friendly pronunciation (stress in CAPS) */
+  easy_pron?: string;
+  /** native-speaker review pending */
+  easy_pron_reviewed?: boolean;
   en: string;
   ru: string;
   /** greetings | hotel | transport | food | museum | shopping | emergency | numbers */

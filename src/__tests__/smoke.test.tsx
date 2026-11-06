@@ -160,6 +160,14 @@ describe('страницы рендерятся (по умолчанию — к�
     expect(html).toContain('Сәлеметсіз бе!');
     expect(html).toContain('Sälemetsiz be!');
     expect(html).toContain('Рақмет!');
+    // typo-фикс: Санлар → Сандар
+    expect(html).toContain('Сандар');
+    expect(html).not.toContain('Санлар');
+    // «Барлығын тыңдау» түймесі + жеңіл оқылу toggle
+    expect(html).toContain('Барлығын тыңдау');
+    expect(html).toContain('Жеңіл оқылу');
+    // Қазақстан кіккеры (облыс емес)
+    expect(html).toContain('Қазақстан');
     expect(html).toContain('Не татып көруге болады');
     expect(html).toContain('Бесбармақ');
   });

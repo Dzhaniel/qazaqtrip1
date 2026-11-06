@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Ear, Search, Star, Volume2 } from 'lucide-react';
+import { Ear, Search, Square, Star, Volume2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { getCity } from '../../data/cities';
 import type { Lang } from '../../data/types';
 import { cn, L } from '../../lib/utils';
 import { KEYS, loadJSON, unlockBadge } from '../../lib/learnStore';
+import { speakKazakh, stopSpeech } from '../../lib/speech';
 import PageHero from '../../components/PageHero';
 import CitySubNav from '../../components/CitySubNav';
 import PhraseCard from '../../components/PhraseCard';
@@ -27,6 +28,15 @@ const TOPICS = [
 
 const LEARNED_KEY = 'qazaqtrip_learned_phrases';
 const FAVORITES_KEY = 'qazaqtrip_favorites';
+const EASY_PRON_KEY = 'qazaqtrip_easy_pron';
+
+function loadEasyPron(): boolean {
+  try {
+    return localStorage.getItem(EASY_PRON_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
 
 function loadLearned(): string[] {
   try {
@@ -64,6 +74,9 @@ export default function CityPhrases() {
   const [favorites, setFavorites] = useState<string[]>(loadFavorites);
   const [favOnly, setFavOnly] = useState(false);
   const [quiz, setQuiz] = useState<QuizMode | null>(null);
+  const [showEasyPron, setShowEasyPron] = useState<boolean>(loadEasyPron);
+  const [playingAll, setPlayingAll] = useState(false);
+  const playSeqRef = useRef(0);
 
   const phrases = city?.kazakh_phrases ?? [];
 
@@ -73,7 +86,7 @@ export default function CityPhrases() {
       if (topic !== 'all' && p.topic !== topic) return false;
       if (favOnly && !favorites.includes(p.id)) return false;
       if (!q) return true;
-      const hay = [p.kk, p.translit, p.en, p.ru].join(' ').toLowerCase();
+      const hay = [p.kk, p.translit, p.easy_pron ?? '', p.en, p.ru].join(' ').toLowerCase();
       return hay.includes(q);
     });
   }, [phrases, topic, query, favOnly, favorites]);
@@ -81,6 +94,7 @@ export default function CityPhrases() {
   if (!city) return <NotFoundPage />;
 
   const learnedCount = learned.filter((id) => phrases.some((p) => p.id === id)).length;
+  const pct = phrases.length ? Math.round((learnedCount / phrases.length) * 100) : 0;
 
   function toggleLearned(id: string) {
     setLearned((prev) => {
@@ -106,6 +120,38 @@ export default function CityPhrases() {
     if (loadJSON<boolean>(KEYS.itineraryDone, false)) unlockBadge('city_master');
   }
 
+  function toggleEasy() {
+    setShowEasyPron((v) => {
+      const next = !v;
+      try {
+        localStorage.setItem(EASY_PRON_KEY, next ? '1' : '0');
+      } catch {
+        /* private mode — memory only */
+      }
+      return next;
+    });
+  }
+
+  /** «Барлығын тыңдау» — сүзгіленген сөздерді оқи түсі, ~1s үзіліспен; қайта басу — тоқтату. */
+  async function playAll() {
+    if (playingAll) {
+      playSeqRef.current += 1;
+      stopSpeech();
+      setPlayingAll(false);
+      return;
+    }
+    if (filtered.length === 0) return;
+    const mySeq = ++playSeqRef.current;
+    setPlayingAll(true);
+    for (const p of filtered) {
+      if (playSeqRef.current !== mySeq) break;
+      const res = await speakKazakh(p.kk, { audioSrc: `/audio/${p.id}.mp3` });
+      if (res === 'unsupported') break;
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+    if (playSeqRef.current === mySeq) setPlayingAll(false);
+  }
+
   function toggleFavorite(id: string) {
     setFavorites((prev) => {
       const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
@@ -126,30 +172,57 @@ export default function CityPhrases() {
         crumb={t('city.sections.phrases')}
         title={t('city.phrases.title')}
         subtitle={t('city.phrases.subtitle')}
-        Icon={Volume2}
+        kicker={t('city.phrases.kicker')}
+        homeOnly
+        action={
+          <button
+            type="button"
+            onClick={playAll}
+            aria-pressed={playingAll}
+            className={cn(
+              'inline-flex min-h-11 items-center gap-2 rounded-full border-2 px-4 text-xs font-bold transition-colors sm:text-sm',
+              playingAll
+                ? 'border-teal-600 bg-teal-600 text-white'
+                : 'border-teal-600 bg-white text-teal-700 hover:bg-teal-600 hover:text-white',
+            )}
+          >
+            {playingAll ? <Square size={15} fill="currentColor" aria-hidden="true" /> : <Volume2 size={17} aria-hidden="true" />}
+            {playingAll ? t('city.phrases.play_stop') : t('city.phrases.play_all')}
+          </button>
+        }
       />
       <CitySubNav city={city} />
 
-      <section className="container-page py-10 sm:py-12">
+      <section className="container-page py-8 sm:py-10">
         {/* Прогресс + транслит ескертпесі */}
-        <div className="card flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-navy-400">
+        <div className="card p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-xs font-bold uppercase tracking-wider text-navy-500">
               {t('city.phrases.progress_label')}
             </p>
-            <p className="mt-1 font-display text-2xl font-bold text-teal-700">
-              {learnedCount} / {phrases.length}
+            <p className="text-sm font-bold text-navy-600">
+              {learnedCount} / {phrases.length} · {pct}%
             </p>
           </div>
-          <div className="sm:max-w-xs">
-            <div className="h-2.5 overflow-hidden rounded-full bg-navy-100" role="progressbar" aria-valuenow={learnedCount} aria-valuemin={0} aria-valuemax={phrases.length}>
-              <div
-                className="h-full rounded-full bg-teal-600 transition-all duration-500"
-                style={{ width: phrases.length ? `${(learnedCount / phrases.length) * 100}%` : '0%' }}
-              />
-            </div>
-            <p className="mt-2 text-[11px] leading-snug text-navy-400">{t('city.phrases.translit_note')}</p>
+          <div
+            className="mt-3 h-3 overflow-hidden rounded-full bg-navy-100"
+            role="progressbar"
+            aria-valuenow={learnedCount}
+            aria-valuemin={0}
+            aria-valuemax={phrases.length}
+          >
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-teal-500 to-gold-500 transition-[width] duration-500 ease-out"
+              style={{ width: `${pct}%` }}
+            />
           </div>
+          <p className="mt-3 text-[13px] leading-snug text-navy-500">{t('city.phrases.translit_note')}</p>
+          <details className="mt-2">
+            <summary className="cursor-pointer select-none text-[13px] font-semibold text-teal-700 hover:text-teal-800">
+              {t('city.phrases.translit_about_title')}
+            </summary>
+            <p className="mt-1.5 text-[13px] leading-relaxed text-navy-500">{t('city.phrases.translit_about')}</p>
+          </details>
         </div>
 
         {/* Сүзгі + іздеу */}
@@ -192,6 +265,20 @@ export default function CityPhrases() {
               <Star size={13} fill={favOnly ? 'currentColor' : 'none'} aria-hidden="true" />
               {t('city.phrases.saved_only')} ({favorites.length})
             </button>
+            <button
+              type="button"
+              onClick={toggleEasy}
+              aria-pressed={showEasyPron}
+              className={cn(
+                'inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-xs font-bold transition-colors',
+                showEasyPron ? 'border-teal-600 bg-teal-600 text-white' : 'border-navy-200 bg-white text-navy-500 hover:border-teal-400 hover:text-teal-700',
+              )}
+            >
+              <span className={cn('relative h-4 w-7 rounded-full transition-colors', showEasyPron ? 'bg-white/40' : 'bg-navy-200')} aria-hidden="true">
+                <span className={cn('absolute top-0.5 h-3 w-3 rounded-full bg-white transition-all', showEasyPron ? 'left-3.5' : 'left-0.5')} />
+              </span>
+              {t('city.phrases.easy_pron_label')}
+            </button>
           </div>
           <label className="relative block sm:max-w-sm">
             <Search size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-navy-300" aria-hidden="true" />
@@ -217,6 +304,7 @@ export default function CityPhrases() {
               onToggleLearned={() => toggleLearned(p.id)}
               favorited={favorites.includes(p.id)}
               onToggleFavorite={() => toggleFavorite(p.id)}
+              showEasyPron={showEasyPron}
             />
           ))}
           {filtered.length === 0 && (

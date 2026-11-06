@@ -16,6 +16,8 @@ interface Props {
   /** ⭐ «Менің сөздік қорым» — favorites (localStorage). */
   favorited?: boolean;
   onToggleFavorite?: () => void;
+  /** «Жеңіл оқылу» қосымшасын (easy_pron) көрсету. */
+  showEasyPron?: boolean;
 }
 
 /** Аударма UI тіліне сай: KZ → EN+RU, EN → RU, RU → EN (өз тілін көрсетпейміз). */
@@ -37,6 +39,7 @@ export default function PhraseCard({
   onToggleLearned,
   favorited = false,
   onToggleFavorite,
+  showEasyPron = false,
 }: Props) {
   const { t } = useTranslation();
   const [speaking, setSpeaking] = useState(false);
@@ -124,9 +127,14 @@ export default function PhraseCard({
         </div>
       </div>
 
-      <p className="text-sm italic text-navy-400">
-        {phrase.translit} <span className="not-italic text-navy-300">· {t('city.phrases.translit')}</span>
-      </p>
+      <div className="space-y-1">
+        <p className="text-[15px] font-medium italic leading-snug text-navy-500">
+          {phrase.translit} <span className="not-italic text-navy-400">· {t('city.phrases.translit')}</span>
+        </p>
+        {showEasyPron && phrase.easy_pron && (
+          <p className="text-[15px] font-semibold leading-snug text-teal-700">{phrase.easy_pron}</p>
+        )}
+      </div>
       <div>
         <p className={cn('font-bold text-teal-800', compact ? 'text-sm' : 'text-base')}>{meanings[0]}</p>
         {meanings[1] && <p className="mt-0.5 text-sm text-navy-400">{meanings[1]}</p>}

@@ -23,7 +23,7 @@ export default function CitySubNav({ city }: { city: CityData }) {
 
   return (
     <div className="sticky top-16 z-40 border-b border-navy-100 bg-cream-50/92 backdrop-blur-md">
-      <nav className="container-page thin-scroll flex gap-6 overflow-x-auto" aria-label="city sections">
+      <nav className="container-page no-scrollbar flex gap-6 overflow-x-auto overflow-y-hidden" aria-label="city sections">
         {items.map((item) => (
           <NavLink
             key={item.to}
@@ -42,7 +42,7 @@ export default function CitySubNav({ city }: { city: CityData }) {
                 <span
                   aria-hidden="true"
                   className={cn(
-                    'absolute inset-x-0 -bottom-px h-[2.5px] rounded-full bg-gradient-to-r from-gold-400 to-teal-500 transition-opacity duration-300',
+                    'absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-gradient-to-r from-gold-400 to-teal-500 transition-opacity duration-300',
                     isActive ? 'opacity-100' : 'opacity-0',
                   )}
                 />

@@ -876,6 +876,8 @@
       "id": "p1",
       "kk": "Сәлеметсіз бе!",
       "translit": "Sälemetsiz be!",
+      "easy_pron": "sa-le-met-SIZ be",
+      "easy_pron_reviewed": false,
       "en": "Hello! (formal)",
       "ru": "Здравствуйте!",
       "topic": "greetings"
@@ -884,6 +886,8 @@
       "id": "p2",
       "kk": "Қош келдіңіз!",
       "translit": "Qosh keldingiz!",
+      "easy_pron": "kosh kel-DEEN-iz",
+      "easy_pron_reviewed": false,
       "en": "Welcome!",
       "ru": "Добро пожаловать!",
       "topic": "greetings"
@@ -892,6 +896,8 @@
       "id": "p3",
       "kk": "Рақмет!",
       "translit": "Raqmet!",
+      "easy_pron": "RAK-met",
+      "easy_pron_reviewed": false,
       "en": "Thank you!",
       "ru": "Спасибо!",
       "topic": "greetings"
@@ -900,6 +906,8 @@
       "id": "p4",
       "kk": "Сау болыңыз!",
       "translit": "Sau bolungyz!",
+      "easy_pron": "SAW bo-LIN-yz",
+      "easy_pron_reviewed": false,
       "en": "Goodbye!",
       "ru": "До свидания!",
       "topic": "greetings"
@@ -908,6 +916,8 @@
       "id": "p5",
       "kk": "Иә.",
       "translit": "Iya.",
+      "easy_pron": "EE-eh",
+      "easy_pron_reviewed": false,
       "en": "Yes.",
       "ru": "Да.",
       "topic": "greetings"
@@ -916,6 +926,8 @@
       "id": "p6",
       "kk": "Жоқ, рақмет.",
       "translit": "Joq, raqmet.",
+      "easy_pron": "JOHK RAK-met",
+      "easy_pron_reviewed": false,
       "en": "No, thank you.",
       "ru": "Нет, спасибо.",
       "topic": "greetings"
@@ -924,6 +936,8 @@
       "id": "p7",
       "kk": "Кешіріңіз.",
       "translit": "Keshiringiz.",
+      "easy_pron": "ke-SHEE-ri-NEE-yz",
+      "easy_pron_reviewed": false,
       "en": "Excuse me / I am sorry.",
       "ru": "Извините / простите.",
       "topic": "greetings"
@@ -932,6 +946,8 @@
       "id": "p8",
       "kk": "Қонақүйде орын бар ма?",
       "translit": "Qonaquyde oryn bar ma?",
+      "easy_pron": "ko-NAK-oo-ee-deh OR-IN bar MA",
+      "easy_pron_reviewed": false,
       "en": "Is there a free room?",
       "ru": "Есть свободный номер?",
       "topic": "hotel"
@@ -940,6 +956,8 @@
       "id": "p9",
       "kk": "Тіркеле аламын ба?",
       "translit": "Tirkelen alayin ba?",
+      "easy_pron": "TEER-ke-leh a-LA-meen BA",
+      "easy_pron_reviewed": false,
       "en": "Can I check in?",
       "ru": "Можно оформить заселение?",
       "topic": "hotel"
@@ -948,6 +966,8 @@
       "id": "p10",
       "kk": "Таңғы ас қашан болады?",
       "translit": "Tangy as qashan bolady?",
+      "easy_pron": "TANG-ghy AS kash-an bo-LA-dee",
+      "easy_pron_reviewed": false,
       "en": "When is breakfast?",
       "ru": "Когда завтрак?",
       "topic": "hotel"
@@ -956,6 +976,8 @@
       "id": "p11",
       "kk": "Бөлме қанша тұрады?",
       "translit": "Bolme qansha turady?",
+      "easy_pron": "BOHL-meh kash-NA too-RA-dee",
+      "easy_pron_reviewed": false,
       "en": "How much is the room?",
       "ru": "Сколько стоит номер?",
       "topic": "hotel"
@@ -964,6 +986,8 @@
       "id": "p12",
       "kk": "Уай-фай бар ма?",
       "translit": "Uay-fai bar ma?",
+      "easy_pron": "WAY-fye BAR MA",
+      "easy_pron_reviewed": false,
       "en": "Is there Wi-Fi?",
       "ru": "Есть ли Wi-Fi?",
       "topic": "hotel"
@@ -972,6 +996,8 @@
       "id": "p13",
       "kk": "Бөлме таза ма?",
       "translit": "Bolme taza ma?",
+      "easy_pron": "BOHL-meh TA-zah MA",
+      "easy_pron_reviewed": false,
       "en": "Is the room clean?",
       "ru": "Номер чистый?",
       "topic": "hotel"
@@ -980,6 +1006,8 @@
       "id": "p14",
       "kk": "Автобус қашан келеді?",
       "translit": "Avtobus qashan keledi?",
+      "easy_pron": "AV-to-bus kash-an ke-LEH-dee",
+      "easy_pron_reviewed": false,
       "en": "When does the bus come?",
       "ru": "Когда приедет автобус?",
       "topic": "transport"
@@ -988,6 +1016,8 @@
       "id": "p15",
       "kk": "Такси шақыруға бола ма?",
       "translit": "Taksi shakyrǵa bola ma?",
+      "easy_pron": "TAK-see shah-KOO-ru-gha BO-lah MA",
+      "easy_pron_reviewed": false,
       "en": "Can I get a taxi?",
       "ru": "Можно вызвать такси?",
       "topic": "transport"
@@ -996,6 +1026,8 @@
       "id": "p16",
       "kk": "Қайда барады?",
       "translit": "Qayda barady?",
+      "easy_pron": "KYAH-dah BA-ra-dee",
+      "easy_pron_reviewed": false,
       "en": "Where does it go?",
       "ru": "Куда идёт (транспорт)?",
       "topic": "transport"
@@ -1004,6 +1036,8 @@
       "id": "p17",
       "kk": "Билет сатып ала аламын ба?",
       "translit": "Bilet satyp alayin ba?",
+      "easy_pron": "BI-let SA-teep a-LAH a-LA-meen BA",
+      "easy_pron_reviewed": false,
       "en": "Can I buy a ticket?",
       "ru": "Можно купить билет?",
       "topic": "transport"
@@ -1012,6 +1046,8 @@
       "id": "p18",
       "kk": "Қайда түсу керек?",
       "translit": "Qayda tüsü kerek?",
+      "easy_pron": "KYAH-dah TOO-soo KE-rek",
+      "easy_pron_reviewed": false,
       "en": "Where should I get off?",
       "ru": "Где мне выйти?",
       "topic": "transport"
@@ -1020,6 +1056,8 @@
       "id": "p19",
       "kk": "Шай беріңізші.",
       "translit": "Shai beringsizshi.",
+      "easy_pron": "SHYE be-REE-nee-yz-SHEE",
+      "easy_pron_reviewed": false,
       "en": "Tea, please.",
       "ru": "Чай, пожалуйста.",
       "topic": "food"
@@ -1028,6 +1066,8 @@
       "id": "p20",
       "kk": "Су беріңізші.",
       "translit": "Su beringsizshi.",
+      "easy_pron": "SOO be-REE-nee-yz-SHEE",
+      "easy_pron_reviewed": false,
       "en": "Water, please.",
       "ru": "Воды, пожалуйста.",
       "topic": "food"
@@ -1036,6 +1076,8 @@
       "id": "p21",
       "kk": "Етсіз тамақ бар ма?",
       "translit": "Etsiz tamak bar ma?",
+      "easy_pron": "ET-siz TAH-mak BAR MA",
+      "easy_pron_reviewed": false,
       "en": "Is there food without meat?",
       "ru": "Есть ли еда без мяса?",
       "topic": "food"
@@ -1044,6 +1086,8 @@
       "id": "p22",
       "kk": "Шотты беріңізші.",
       "translit": "Shottı beringsizshi.",
+      "easy_pron": "SHOT-tee be-REE-nee-yz-SHEE",
+      "easy_pron_reviewed": false,
       "en": "The bill, please.",
       "ru": "Счёт, пожалуйста.",
       "topic": "food"
@@ -1052,6 +1096,8 @@
       "id": "p23",
       "kk": "Мен ішкілік ішпеймін.",
       "translit": "Men ishiklik ishpemin.",
+      "easy_pron": "MEN eesh-kee-LEEK eesh-pay-MEEN",
+      "easy_pron_reviewed": false,
       "en": "I do not drink alcohol.",
       "ru": "Я не пью алкоголь.",
       "topic": "food"
@@ -1060,6 +1106,8 @@
       "id": "p24",
       "kk": "Бұл не?",
       "translit": "Bul ne?",
+      "easy_pron": "BOOL ne",
+      "easy_pron_reviewed": false,
       "en": "What is this?",
       "ru": "Что это?",
       "topic": "food"
@@ -1068,6 +1116,8 @@
       "id": "p25",
       "kk": "Мұражай қайда?",
       "translit": "Murazhaj qayda?",
+      "easy_pron": "MOO-ra-jay KYAH-dah",
+      "easy_pron_reviewed": false,
       "en": "Where is the museum?",
       "ru": "Где музей?",
       "topic": "museum"
@@ -1076,6 +1126,8 @@
       "id": "p26",
       "kk": "Билет қанша тұрады?",
       "translit": "Bilet qansha turady?",
+      "easy_pron": "BI-let kash-NA too-RA-dee",
+      "easy_pron_reviewed": false,
       "en": "How much is a ticket?",
       "ru": "Сколько стоит билет?",
       "topic": "museum"
@@ -1084,6 +1136,8 @@
       "id": "p27",
       "kk": "Суретке түсіп болмай ма?",
       "translit": "Suretke tüsip bolmay ma?",
+      "easy_pron": "soo-RET-kee TOO-sheep BOL-mye MA",
+      "easy_pron_reviewed": false,
       "en": "Can I take photos?",
       "ru": "Можно ли фотографировать?",
       "topic": "museum"
@@ -1092,6 +1146,8 @@
       "id": "p28",
       "kk": "Мұражай қашан жабылады?",
       "translit": "Murazhaj qashan jabylady?",
+      "easy_pron": "MOO-ra-jay kash-an ja-by-LA-dee",
+      "easy_pron_reviewed": false,
       "en": "When does the museum close?",
       "ru": "Когда музей закрывается?",
       "topic": "museum"
@@ -1100,6 +1156,8 @@
       "id": "p29",
       "kk": "Дауыстық гид бар ма?",
       "translit": "Dauystyq gide bar ma?",
+      "easy_pron": "DAW-ys-tek GHED bar MA",
+      "easy_pron_reviewed": false,
       "en": "Is there an audio guide?",
       "ru": "Есть ли аудиогид?",
       "topic": "museum"
@@ -1108,6 +1166,8 @@
       "id": "p30",
       "kk": "Өте әдемі!",
       "translit": "Öte ädemi!",
+      "easy_pron": "OH-teh eh-DEE-mee",
+      "easy_pron_reviewed": false,
       "en": "Very beautiful!",
       "ru": "Очень красиво!",
       "topic": "museum"
@@ -1116,6 +1176,8 @@
       "id": "p31",
       "kk": "Бұл қанша тұрады?",
       "translit": "Bul qansha turady?",
+      "easy_pron": "BOOL kash-NA too-RA-dee",
+      "easy_pron_reviewed": false,
       "en": "How much is this?",
       "ru": "Сколько это стоит?",
       "topic": "shopping"
@@ -1124,6 +1186,8 @@
       "id": "p32",
       "kk": "Қымбат!",
       "translit": "Qymbat!",
+      "easy_pron": "KIM-bat",
+      "easy_pron_reviewed": false,
       "en": "Expensive!",
       "ru": "Дорого!",
       "topic": "shopping"
@@ -1132,6 +1196,8 @@
       "id": "p33",
       "kk": "Арзандай аласыз ба?",
       "translit": "Arzanday lasiz ba?",
+      "easy_pron": "AR-zan-dye a-LAS-yz BA",
+      "easy_pron_reviewed": false,
       "en": "Can you make it cheaper?",
       "ru": "Невозможно подешевле?",
       "topic": "shopping"
@@ -1140,6 +1206,8 @@
       "id": "p34",
       "kk": "Бұны сатып аламын.",
       "translit": "Buny satyp alayin.",
+      "easy_pron": "BOO-ny SA-teep a-LA-meen",
+      "easy_pron_reviewed": false,
       "en": "I will take this.",
       "ru": "Возьму это.",
       "topic": "shopping"
@@ -1148,6 +1216,8 @@
       "id": "p35",
       "kk": "Қайыруға бола ма?",
       "translit": "Qayyrǵa bola ma?",
+      "easy_pron": "KAH-ee-ru-gha BO-lah MA",
+      "easy_pron_reviewed": false,
       "en": "Can I return it?",
       "ru": "Можно ли вернуть (товар)?",
       "topic": "shopping"
@@ -1156,6 +1226,8 @@
       "id": "p36",
       "kk": "Көмектесіңізші!",
       "translit": "Kömektesingizhi!",
+      "easy_pron": "koh-MEK-te-SHEE-nee-yz-SHEE",
+      "easy_pron_reviewed": false,
       "en": "Please help me!",
       "ru": "Помогите, пожалуйста!",
       "topic": "emergency"
@@ -1164,6 +1236,8 @@
       "id": "p37",
       "kk": "Жедел жәрдем шақырыңыз!",
       "translit": "Jedel jar-dem shakırınız!",
+      "easy_pron": "JE-del jar-DEM shah-KIR-ee-nee-yz",
+      "easy_pron_reviewed": false,
       "en": "Call an ambulance!",
       "ru": "Позвоните в скорую!",
       "topic": "emergency"
@@ -1172,6 +1246,8 @@
       "id": "p38",
       "kk": "Полиция қайда?",
       "translit": "Politsiya qayda?",
+      "easy_pron": "po-LIT-see-ya KYAH-dah",
+      "easy_pron_reviewed": false,
       "en": "Where is the police?",
       "ru": "Где полиция?",
       "topic": "emergency"
@@ -1180,6 +1256,8 @@
       "id": "p39",
       "kk": "Дәріхана қайда?",
       "translit": "Darikana qayda?",
+      "easy_pron": "DA-ree-ka-na KYAH-dah",
+      "easy_pron_reviewed": false,
       "en": "Where is the pharmacy?",
       "ru": "Где аптека?",
       "topic": "emergency"
@@ -1188,6 +1266,8 @@
       "id": "p40",
       "kk": "Менің құжатым жоғалды.",
       "translit": "Menıng qūjatım jogaladı.",
+      "easy_pron": "ME-nee KWOO-da-tym jo-GA-la-dee",
+      "easy_pron_reviewed": false,
       "en": "I lost my documents.",
       "ru": "Я потерял(а) документы.",
       "topic": "emergency"
@@ -1196,6 +1276,8 @@
       "id": "p41",
       "kk": "Бір",
       "translit": "Bir",
+      "easy_pron": "BEE-er",
+      "easy_pron_reviewed": false,
       "en": "One (1)",
       "ru": "Один (1)",
       "topic": "numbers"
@@ -1204,6 +1286,8 @@
       "id": "p42",
       "kk": "Екі",
       "translit": "Eki",
+      "easy_pron": "EH-kee",
+      "easy_pron_reviewed": false,
       "en": "Two (2)",
       "ru": "Два (2)",
       "topic": "numbers"
@@ -1212,6 +1296,8 @@
       "id": "p43",
       "kk": "Үш",
       "translit": "Üsh",
+      "easy_pron": "OOSH",
+      "easy_pron_reviewed": false,
       "en": "Three (3)",
       "ru": "Три (3)",
       "topic": "numbers"
@@ -1220,6 +1306,8 @@
       "id": "p44",
       "kk": "Төрт",
       "translit": "Tört",
+      "easy_pron": "TOHRT",
+      "easy_pron_reviewed": false,
       "en": "Four (4)",
       "ru": "Четыре (4)",
       "topic": "numbers"
@@ -1228,6 +1316,8 @@
       "id": "p45",
       "kk": "Бес",
       "translit": "Bes",
+      "easy_pron": "BESS",
+      "easy_pron_reviewed": false,
       "en": "Five (5)",
       "ru": "Пять (5)",
       "topic": "numbers"
@@ -1236,6 +1326,8 @@
       "id": "p46",
       "kk": "Алты",
       "translit": "Altı",
+      "easy_pron": "AL-tee",
+      "easy_pron_reviewed": false,
       "en": "Six (6)",
       "ru": "Шесть (6)",
       "topic": "numbers"
@@ -1244,6 +1336,8 @@
       "id": "p47",
       "kk": "Жеті",
       "translit": "Jeti",
+      "easy_pron": "JET-tee",
+      "easy_pron_reviewed": false,
       "en": "Seven (7)",
       "ru": "Семь (7)",
       "topic": "numbers"
@@ -1252,6 +1346,8 @@
       "id": "p48",
       "kk": "Сегіз",
       "translit": "Segiz",
+      "easy_pron": "SEH-geez",
+      "easy_pron_reviewed": false,
       "en": "Eight (8)",
       "ru": "Восемь (8)",
       "topic": "numbers"
@@ -1260,6 +1356,8 @@
       "id": "p49",
       "kk": "Тоғыз",
       "translit": "Toǵyz",
+      "easy_pron": "TOH-gyz",
+      "easy_pron_reviewed": false,
       "en": "Nine (9)",
       "ru": "Девять (9)",
       "topic": "numbers"
@@ -1268,6 +1366,8 @@
       "id": "p50",
       "kk": "Он",
       "translit": "On",
+      "easy_pron": "ON",
+      "easy_pron_reviewed": false,
       "en": "Ten (10)",
       "ru": "Десять (10)",
       "topic": "numbers"
@@ -1276,6 +1376,8 @@
       "id": "p101",
       "kk": "Оңға",
       "translit": "Oŋğa",
+      "easy_pron": "ONG-gha",
+      "easy_pron_reviewed": false,
       "en": "To the right",
       "ru": "Вправо",
       "topic": "directions"
@@ -1284,6 +1386,8 @@
       "id": "p102",
       "kk": "Солға",
       "translit": "Solğa",
+      "easy_pron": "SOL-gha",
+      "easy_pron_reviewed": false,
       "en": "To the left",
       "ru": "Влево",
       "topic": "directions"
@@ -1292,6 +1396,8 @@
       "id": "p103",
       "kk": "Тура",
       "translit": "Tura",
+      "easy_pron": "TOO-rah",
+      "easy_pron_reviewed": false,
       "en": "Straight ahead",
       "ru": "Прямо",
       "topic": "directions"
@@ -1300,6 +1406,8 @@
       "id": "p104",
       "kk": "Жақын",
       "translit": "Jaqın",
+      "easy_pron": "JAK-yeen",
+      "easy_pron_reviewed": false,
       "en": "Near / close",
       "ru": "Близко",
       "topic": "directions"
@@ -1308,6 +1416,8 @@
       "id": "p105",
       "kk": "Алыс",
       "translit": "Alys",
+      "easy_pron": "AL-iss",
+      "easy_pron_reviewed": false,
       "en": "Far",
       "ru": "Далеко",
       "topic": "directions"
@@ -1316,6 +1426,8 @@
       "id": "p106",
       "kk": "Жиырма",
       "translit": "Jıyrma",
+      "easy_pron": "ZHEE-r-ma",
+      "easy_pron_reviewed": false,
       "en": "Twenty (20)",
       "ru": "Двадцать (20)",
       "topic": "numbers"
@@ -1324,6 +1436,8 @@
       "id": "p107",
       "kk": "Елу",
       "translit": "Elu",
+      "easy_pron": "EH-loo",
+      "easy_pron_reviewed": false,
       "en": "Fifty (50)",
       "ru": "Пятьдесят (50)",
       "topic": "numbers"
@@ -1332,6 +1446,8 @@
       "id": "p108",
       "kk": "Жүз",
       "translit": "Jüz",
+      "easy_pron": "JOOS",
+      "easy_pron_reviewed": false,
       "en": "One hundred (100)",
       "ru": "Сто (100)",
       "topic": "numbers"
@@ -1340,6 +1456,8 @@
       "id": "p109",
       "kk": "Мың",
       "translit": "Mıń",
+      "easy_pron": "MEEN",
+      "easy_pron_reviewed": false,
       "en": "One thousand (1000)",
       "ru": "Тысяча (1000)",
       "topic": "numbers"
